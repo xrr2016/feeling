@@ -67,7 +67,7 @@ class _IndexScreenState extends State<IndexScreen>
                   color: Colors.white,
                 ),
                 child: ListTile(
-                  title: Text('Setting'),
+                  title: Text('Settings'),
                   trailing: Icon(Icons.arrow_forward_ios),
                   onTap: () => Navigator.pushNamed(
                     context,
