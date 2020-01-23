@@ -63,9 +63,10 @@ class _IndexScreenState extends State<IndexScreen> {
         );
       },
       child: PageView(
+        children: _contents,
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: _contents,
+        physics: NeverScrollableScrollPhysics(),
       ),
     );
   }

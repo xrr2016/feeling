@@ -30,6 +30,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_translate: ^1.5.7
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   flutter_test:

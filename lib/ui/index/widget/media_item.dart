@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../model/tv.dart';
 import '../../../model/person.dart';
 import '../../../model/movie.dart';
-import '../../../const/place_holder.dart';
+import '../../../widget/place_holder.dart';
 import '../../../data/network/api_client.dart';
 
 class MediaItem extends StatefulWidget {
