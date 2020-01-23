@@ -6,7 +6,9 @@ import './ui/index/index_screen.dart';
 import './provider/theme_provider.dart';
 import './provider/locale_provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -19,14 +21,15 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, theme, child) {
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Flin',
             theme: ThemeData(
               primarySwatch: theme.color,
             ),
-            home: IndexScreen(),
+            home: child,
             routes: routes,
           );
         },
+        child: IndexScreen(),
       ),
     );
   }

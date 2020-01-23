@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/local/theme_preferences.dart';
+
 class ThemeProvider extends ChangeNotifier {
   static List<Color> _colors = [
     Colors.blue,
@@ -7,7 +9,16 @@ class ThemeProvider extends ChangeNotifier {
     Colors.teal,
     Colors.green,
     Colors.red,
+    Colors.purple,
+    Colors.amber,
+    Colors.cyan,
+    Colors.teal,
+    Colors.indigo,
+    Colors.orange,
+    Colors.brown,
   ];
+
+  static ThemePreferences _themePreferences = ThemePreferences();
 
   int _selectedIndex = 0;
 
@@ -27,19 +38,20 @@ class ThemeProvider extends ChangeNotifier {
   void changeTheme(int index) async {
     _selectedIndex = index;
     _color = _colors[_selectedIndex];
+    await _themePreferences.savePreferredThemeIndex(index);
     notifyListeners();
   }
 
-//  _initThemeColor() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    bool hasColor = prefs.containsKey('theme_color');
-//
-//    if (hasColor) {
-//      int colorInt = prefs.getInt('theme_color');
-//      print(colorInt);
-//      _color = Color(colorInt);
-//    } else {
-//      prefs.setInt('theme_color', _color.value);
-//    }
-//  }
+  initThemeColor() async {
+    int index = await _themePreferences.getPreferredThemeIndex();
+
+    if (index != null) {
+      _selectedIndex = index;
+      _color = _colors[_selectedIndex];
+    } else {
+      _selectedIndex = 0;
+      _color = _colors[_selectedIndex];
+      _themePreferences.savePreferredThemeIndex(_selectedIndex);
+    }
+  }
 }
