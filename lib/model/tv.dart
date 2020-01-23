@@ -1,78 +1,75 @@
 // To parse this JSON data, do
-// final media = mediaFromJson(jsonString);
+// final tv = tvFromJson(jsonString);
+
 import 'dart:convert';
 
-class Media {
+class Tv {
+  final String originalName;
   final int id;
-  final bool video;
+  final String name;
   final int voteCount;
   final int voteAverage;
-  final String title;
-  final String releaseDate;
-  final String originalLanguage;
-  final String originalTitle;
-  final List<int> genreIds;
-  final String backdropPath;
-  final bool adult;
-  final String overview;
+  final String firstAirDate;
   final String posterPath;
+  final List<int> genreIds;
+  final String originalLanguage;
+  final String backdropPath;
+  final String overview;
+  final List<String> originCountry;
   final double popularity;
   final String mediaType;
 
-  Media({
+  Tv({
+    this.originalName,
     this.id,
-    this.video,
+    this.name,
     this.voteCount,
     this.voteAverage,
-    this.title,
-    this.releaseDate,
-    this.originalLanguage,
-    this.originalTitle,
-    this.genreIds,
-    this.backdropPath,
-    this.adult,
-    this.overview,
+    this.firstAirDate,
     this.posterPath,
+    this.genreIds,
+    this.originalLanguage,
+    this.backdropPath,
+    this.overview,
+    this.originCountry,
     this.popularity,
     this.mediaType,
   });
 
-  factory Media.fromRawJson(String str) => Media.fromJson(json.decode(str));
+  factory Tv.fromRawJson(String str) => Tv.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Media.fromJson(Map<String, dynamic> json) => Media(
+  factory Tv.fromJson(Map<String, dynamic> json) => Tv(
+        originalName: json["original_name"],
         id: json["id"],
-        video: json["video"],
+        name: json["name"],
         voteCount: json["vote_count"],
         voteAverage: json["vote_average"],
-        title: json["title"],
-        releaseDate: json["release_date"],
-        originalLanguage: json["original_language"],
-        originalTitle: json["original_title"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
-        backdropPath: json["backdrop_path"],
-        adult: json["adult"],
-        overview: json["overview"],
+        firstAirDate: json["first_air_date"],
         posterPath: json["poster_path"],
+        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+        originalLanguage: json["original_language"],
+        backdropPath: json["backdrop_path"],
+        overview: json["overview"],
+        originCountry: List<String>.from(json["origin_country"].map((x) => x)),
         popularity: json["popularity"].toDouble(),
         mediaType: json["media_type"],
       );
 
   Map<String, dynamic> toJson() => {
+        "original_name": originalName,
         "id": id,
-        "video": video,
+        "name": name,
         "vote_count": voteCount,
         "vote_average": voteAverage,
-        "title": title,
-        "release_date": this.releaseDate,
-        "original_language": originalLanguage,
-        "original_title": originalTitle,
-        "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
-        "backdrop_path": backdropPath,
-        "adult": adult,
-        "overview": overview,
+        "first_air_date": firstAirDate,
         "poster_path": posterPath,
+        "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
+        "original_language": originalLanguage,
+        "backdrop_path": backdropPath,
+        "overview": overview,
+        "origin_country": List<dynamic>.from(originCountry.map((x) => x)),
         "popularity": popularity,
         "media_type": mediaType,
       };
