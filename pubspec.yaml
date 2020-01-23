@@ -25,6 +25,11 @@ dependencies:
   cupertino_icons: ^0.1.2
   provider: ^4.0.2
   shared_preferences: ^0.5.6
+  dio: ^3.0.8
+  flutter_dotenv: ^2.1.0
+  flutter_localizations:
+    sdk: flutter
+  flutter_translate: ^1.5.7
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +52,10 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
+    - assets/i18n/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

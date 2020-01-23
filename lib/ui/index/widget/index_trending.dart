@@ -6,6 +6,8 @@ class IndexTrending extends StatefulWidget {
 }
 
 class _IndexTrendingState extends State<IndexTrending> {
+  _getTrending() {}
+
   @override
   Widget build(BuildContext context) {
     return Center(
