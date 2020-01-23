@@ -22,7 +22,7 @@ Dio _createClient() {
     request: false,
     responseBody: false,
     responseHeader: false,
-    requestHeader: true,
+    requestHeader: false,
     compact: true,
   ));
 

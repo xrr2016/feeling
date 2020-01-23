@@ -8,7 +8,7 @@ class Tv {
   final int id;
   final String name;
   final int voteCount;
-  final int voteAverage;
+  final double voteAverage;
   final String firstAirDate;
   final String posterPath;
   final List<int> genreIds;

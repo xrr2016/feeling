@@ -10,10 +10,16 @@ class IndexScreen extends StatefulWidget {
   _IndexScreenState createState() => _IndexScreenState();
 }
 
-class _IndexScreenState extends State<IndexScreen>
-    with SingleTickerProviderStateMixin {
+class _IndexScreenState extends State<IndexScreen> {
   int _currentTabIndex = 0;
   List<Widget> _contents = [IndexTrending(), IndexMine()];
+  final pageController = PageController();
+
+  void onPageChanged(int index) {
+    setState(() {
+      _currentTabIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +43,7 @@ class _IndexScreenState extends State<IndexScreen>
             onTap: (int index) {
               setState(() {
                 _currentTabIndex = index;
+                pageController.jumpToPage(index);
               });
             },
             currentIndex: _currentTabIndex,
@@ -55,7 +62,11 @@ class _IndexScreenState extends State<IndexScreen>
           ),
         );
       },
-      child: _contents[_currentTabIndex],
+      child: PageView(
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        children: _contents,
+      ),
     );
   }
 }

@@ -1,21 +1,60 @@
 import 'package:flutter/material.dart';
 
-class MediaItem extends StatefulWidget {
-  final media;
+import '../../../model/tv.dart';
+import '../../../model/person.dart';
+import '../../../model/movie.dart';
+import '../../../const/place_holder.dart';
+import '../../../data/network/api_client.dart';
 
-  const MediaItem({this.media});
+class MediaItem extends StatefulWidget {
+  final item;
+
+  const MediaItem({this.item});
 
   @override
   _MediaItemState createState() => _MediaItemState();
 }
 
 class _MediaItemState extends State<MediaItem> {
+  var _media;
+
   @override
   Widget build(BuildContext context) {
-    final media = widget.media;
+    final item = widget.item;
+    final mediaType = item['media_type'];
+
+    switch (mediaType) {
+      case 'movie':
+        _media = Movie.fromJson(item);
+        break;
+      case 'tv':
+        _media = Tv.fromJson(item);
+        break;
+      case 'person':
+        _media = Person.fromJson(item);
+        break;
+    }
+
+    final img = _media.posterPath ?? _media.backdropPath;
 
     return Card(
-      child: Text(media.title),
+      child: Column(
+        children: <Widget>[
+          Hero(
+            tag: _media.id,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              child: FadeInImage(
+                fit: BoxFit.cover,
+                fadeInCurve: Curves.ease,
+                image: NetworkImage(IMG_PREFIX + img),
+                placeholder: placeholder,
+              ),
+            ),
+          ),
+          Text(mediaType),
+        ],
+      ),
     );
 //    final img = widget.movie.posterPath ?? widget.movie.backdropPath;
 //

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-import '../../../model/tv.dart';
-import '../../../model/person.dart';
-import '../../../model/movie.dart';
 import '../widget/media_item.dart';
 import '../../../widget/loading.dart';
 import '../../../data/network/api_client.dart';
@@ -13,7 +10,8 @@ class IndexTrending extends StatefulWidget {
   _IndexTrendingState createState() => _IndexTrendingState();
 }
 
-class _IndexTrendingState extends State<IndexTrending> {
+class _IndexTrendingState extends State<IndexTrending>
+    with AutomaticKeepAliveClientMixin {
   bool _isLoadingData = false;
   int _currentPage = 1;
   int _totalPage = 1;
@@ -36,17 +34,21 @@ class _IndexTrendingState extends State<IndexTrending> {
       _totalPage = data["total_pages"];
 
       results.forEach((item) {
-        print(item['media_type']);
+        _medias.add(item);
       });
 
-//    _medias.add(Media.fromJson(item))
-      setState(() => _medias = _medias);
+      setState(() {
+        _medias = _medias;
+      });
     } on DioError catch (err) {
       throw err;
     } finally {
       _isLoadingData = false;
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -56,6 +58,8 @@ class _IndexTrendingState extends State<IndexTrending> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return RefreshIndicator(
       onRefresh: () {
         _currentPage = 1;
@@ -78,21 +82,18 @@ class _IndexTrendingState extends State<IndexTrending> {
           return;
         },
         child: _medias.isNotEmpty
-            ? Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Scrollbar(
-                      child: ListView.builder(
-                        itemExtent: _itemExtent,
-                        itemCount: _medias.length,
-                        itemBuilder: (_, int index) {
-                          return MediaItem(media: _medias[index]);
-                        },
-                        physics: AlwaysScrollableScrollPhysics(),
-                      ),
-                    ),
+            ? Scrollbar(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: ListView.builder(
+                    itemExtent: _itemExtent,
+                    itemCount: _medias.length,
+                    itemBuilder: (_, int index) {
+                      return MediaItem(item: _medias[index]);
+                    },
+                    physics: AlwaysScrollableScrollPhysics(),
                   ),
-                ],
+                ),
               )
             : Loading(),
       ),
