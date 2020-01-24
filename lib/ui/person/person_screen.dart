@@ -12,8 +12,6 @@ import '../../data/network/api_client.dart';
 class PersonScreen extends StatefulWidget {
   final Person person;
 
-  static String routeName = '/person-detail';
-
   const PersonScreen(this.person);
 
   @override

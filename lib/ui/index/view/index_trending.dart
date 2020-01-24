@@ -1,4 +1,6 @@
+import 'package:flin/ui/index/widget/movie_item.dart';
 import 'package:flin/ui/index/widget/person_item.dart';
+import 'package:flin/ui/index/widget/tv_item.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -22,7 +24,7 @@ class _IndexTrendingState extends State<IndexTrending>
 
   List _medias = [];
 
-  Future _getTrendingList(String type, String time) async {
+  Future _getTrendingList({String type = 'all', String time = 'day'}) async {
     _isLoadingData = true;
     try {
       Response response = await ApiClient.get(
@@ -37,21 +39,19 @@ class _IndexTrendingState extends State<IndexTrending>
       _totalPage = data["total_pages"];
 
       results.forEach((item) {
-        var media;
         final String mediaType = item['media_type'];
 
         switch (mediaType) {
           case 'movie':
-            media = Movie.fromJson(item);
+            _medias.add(Movie.fromJson(item));
             break;
           case 'tv':
-            media = Tv.fromJson(item);
+            _medias.add(Tv.fromJson(item));
             break;
           case 'person':
-            media = Person.fromJson(item);
+            _medias.add(Person.fromJson(item));
             break;
         }
-        _medias.add(media);
       });
 
       setState(() {
@@ -70,7 +70,7 @@ class _IndexTrendingState extends State<IndexTrending>
   @override
   void initState() {
     super.initState();
-    _getTrendingList('person', 'week');
+    _getTrendingList();
   }
 
   @override
@@ -87,7 +87,7 @@ class _IndexTrendingState extends State<IndexTrending>
           _medias = [];
         });
 
-        return _getTrendingList('person', 'week');
+        return _getTrendingList();
       },
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -96,7 +96,7 @@ class _IndexTrendingState extends State<IndexTrending>
           if (metrics.pixels >= metrics.maxScrollExtent) {
             if (_currentPage < _totalPage && !_isLoadingData) {
               _currentPage++;
-              _getTrendingList('person', 'week');
+              _getTrendingList();
             }
           }
           return;
@@ -107,15 +107,15 @@ class _IndexTrendingState extends State<IndexTrending>
                   child: ListView.builder(
                     itemCount: _medias.length,
                     itemBuilder: (_, int index) {
-                      var media = _medias[index];
+                      var item = _medias[index];
 
-                      switch (media.mediaType) {
+                      switch (item.mediaType) {
                         case 'movie':
-                          return MediaItem(item: _medias[index]);
+                          return MovieItem(item);
                         case 'tv':
-                          return MediaItem(item: _medias[index]);
+                          return TvItem(item);
                         case 'person':
-                          return PersonItem(media);
+                          return PersonItem(item);
                           break;
                         default:
                           return null;

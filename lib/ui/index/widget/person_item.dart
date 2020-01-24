@@ -4,7 +4,7 @@ import '../../../model/person.dart';
 import '../../../const/api_const.dart';
 import '../../../styles.dart';
 import '../../../widget/place_holder.dart';
-import '../../../ui/person_screen/person_screen.dart';
+import '../../../ui/person/person_screen.dart';
 
 class PersonItem extends StatelessWidget {
   final Person person;

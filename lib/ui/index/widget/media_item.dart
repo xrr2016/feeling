@@ -21,7 +21,7 @@ class _MediaItemState extends State<MediaItem> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
-    final mediaType = item['media_type'];
+    final mediaType = item;
 
     print(mediaType);
 
@@ -32,14 +32,9 @@ class _MediaItemState extends State<MediaItem> {
       case 'tv':
         _media = Tv.fromJson(item);
         break;
-      case 'person':
-        _media = Person.fromJson(item);
-        break;
     }
 
-    final img = _media is Tv
-        ? _media.profilePath
-        : _media.posterPath ?? _media.backdropPath;
+    final img = _media.posterPath ?? _media.backdropPath;
 
     return Card(
       child: Column(
