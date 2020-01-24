@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
               title: 'Flin',
               theme: ThemeData(
                 primarySwatch: theme.color,
-                textTheme: GoogleFonts.robotoMonoTextTheme(),
+                textTheme: GoogleFonts.robotoTextTheme(),
               ),
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,

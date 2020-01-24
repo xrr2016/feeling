@@ -18,10 +18,10 @@ class MovieItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-//        Navigator.push(
-//          context,
-//          MaterialPageRoute(builder: (_) => MovieScreen(movie)),
-//        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => MovieScreen(movie)),
+        );
       },
       child: Container(
         height: 180.0,

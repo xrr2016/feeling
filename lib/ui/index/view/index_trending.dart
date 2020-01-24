@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import '../../../model/tv.dart';
 import '../../../model/person.dart';
 import '../../../model/movie.dart';
-import '../widget/media_item.dart';
 import '../../../widget/loading.dart';
 import '../../../data/network/api_client.dart';
 
