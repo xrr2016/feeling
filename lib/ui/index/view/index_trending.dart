@@ -131,3 +131,19 @@ class _IndexTrendingState extends State<IndexTrending>
     );
   }
 }
+
+//DropdownButton<String>(
+//value: dropdownValue,
+//onChanged: (String val) {
+//setState(() {
+//dropdownValue = newValue;
+//});
+//},
+//items: <String>['One', 'Two', 'Free', 'Four']
+//.map<DropdownMenuItem<String>>((String value) {
+//return DropdownMenuItem<String>(
+//value: value,
+//child: Text(value),
+//);
+//}).toList(),
+//),

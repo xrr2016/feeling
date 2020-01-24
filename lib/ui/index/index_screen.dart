@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../styles.dart';
 import './view/index_mine.dart';
 import './view/index_trending.dart';
 import '../../provider/theme_provider.dart';
@@ -26,17 +27,21 @@ class _IndexScreenState extends State<IndexScreen> {
     return Consumer<ThemeProvider>(
       builder: (_, theme, child) {
         return Scaffold(
-          backgroundColor: theme.backgroundColor,
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
-            backgroundColor: theme.backgroundColor,
             elevation: 0.0,
+            leading: Text(
+              'All',
+              style: Styles.title.copyWith(color: Colors.black87),
+            ),
             actions: <Widget>[
               IconButton(
-                color: Colors.grey,
+                color: Colors.black87,
                 icon: Icon(Icons.search),
                 onPressed: () {},
               ),
             ],
+            backgroundColor: Colors.white70,
           ),
           body: child,
           bottomNavigationBar: BottomNavigationBar(
