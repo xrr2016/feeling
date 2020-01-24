@@ -1,6 +1,10 @@
+import 'package:flin/ui/index/widget/person_item.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
+import '../../../model/tv.dart';
+import '../../../model/person.dart';
+import '../../../model/movie.dart';
 import '../widget/media_item.dart';
 import '../../../widget/loading.dart';
 import '../../../data/network/api_client.dart';
@@ -15,15 +19,14 @@ class _IndexTrendingState extends State<IndexTrending>
   bool _isLoadingData = false;
   int _currentPage = 1;
   int _totalPage = 1;
-  double _itemExtent = 600.0;
 
   List _medias = [];
 
-  Future _getTrendingList() async {
+  Future _getTrendingList(String type, String time) async {
     _isLoadingData = true;
     try {
-      Response response = await apiClient.get(
-        '/3/trending/all/day',
+      Response response = await ApiClient.get(
+        '/3/trending/$type/$time',
         queryParameters: {
           "page": _currentPage,
         },
@@ -34,7 +37,21 @@ class _IndexTrendingState extends State<IndexTrending>
       _totalPage = data["total_pages"];
 
       results.forEach((item) {
-        _medias.add(item);
+        var media;
+        final String mediaType = item['media_type'];
+
+        switch (mediaType) {
+          case 'movie':
+            media = Movie.fromJson(item);
+            break;
+          case 'tv':
+            media = Tv.fromJson(item);
+            break;
+          case 'person':
+            media = Person.fromJson(item);
+            break;
+        }
+        _medias.add(media);
       });
 
       setState(() {
@@ -53,7 +70,7 @@ class _IndexTrendingState extends State<IndexTrending>
   @override
   void initState() {
     super.initState();
-    _getTrendingList();
+    _getTrendingList('person', 'week');
   }
 
   @override
@@ -61,13 +78,16 @@ class _IndexTrendingState extends State<IndexTrending>
     super.build(context);
 
     return RefreshIndicator(
+      backgroundColor: Colors.transparent,
       onRefresh: () {
         _currentPage = 1;
+        _totalPage = 1;
+
         setState(() {
           _medias = [];
         });
 
-        return _getTrendingList();
+        return _getTrendingList('person', 'week');
       },
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -76,7 +96,7 @@ class _IndexTrendingState extends State<IndexTrending>
           if (metrics.pixels >= metrics.maxScrollExtent) {
             if (_currentPage < _totalPage && !_isLoadingData) {
               _currentPage++;
-              _getTrendingList();
+              _getTrendingList('person', 'week');
             }
           }
           return;
@@ -84,15 +104,26 @@ class _IndexTrendingState extends State<IndexTrending>
         child: _medias.isNotEmpty
             ? Scrollbar(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: ListView.builder(
-                    itemExtent: _itemExtent,
                     itemCount: _medias.length,
                     itemBuilder: (_, int index) {
-                      return MediaItem(item: _medias[index]);
+                      var media = _medias[index];
+
+                      switch (media.mediaType) {
+                        case 'movie':
+                          return MediaItem(item: _medias[index]);
+                        case 'tv':
+                          return MediaItem(item: _medias[index]);
+                        case 'person':
+                          return PersonItem(media);
+                          break;
+                        default:
+                          return null;
+                      }
                     },
                     physics: AlwaysScrollableScrollPhysics(),
                   ),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 ),
               )
             : Loading(),

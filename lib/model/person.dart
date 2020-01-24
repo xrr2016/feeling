@@ -4,10 +4,10 @@
 import 'dart:convert';
 
 class Person {
+  final int id;
   final bool adult;
   final int gender;
   final String name;
-  final int id;
   final List<KnownFor> knownFor;
   final String knownForDepartment;
   final String profilePath;
@@ -57,15 +57,15 @@ class Person {
 }
 
 class KnownFor {
-  final int id;
+  final num id;
   final bool video;
-  final int voteCount;
+  final num voteCount;
   final double voteAverage;
   final String title;
-  final DateTime releaseDate;
+  final String releaseDate;
   final String originalLanguage;
   final String originalTitle;
-  final List<int> genreIds;
+  final List<num> genreIds;
   final String backdropPath;
   final bool adult;
   final String overview;
@@ -100,12 +100,12 @@ class KnownFor {
         id: json["id"],
         video: json["video"],
         voteCount: json["vote_count"],
-        voteAverage: json["vote_average"].toDouble(),
+        voteAverage: json["vote_average"],
         title: json["title"],
-        releaseDate: DateTime.parse(json["release_date"]),
+        releaseDate: json["release_date"],
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+        genreIds: List<num>.from(json["genre_ids"].map((x) => x)),
         backdropPath: json["backdrop_path"],
         adult: json["adult"],
         overview: json["overview"],
@@ -120,8 +120,7 @@ class KnownFor {
         "vote_count": voteCount,
         "vote_average": voteAverage,
         "title": title,
-        "release_date":
-            "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
+        "release_date": releaseDate,
         "original_language": originalLanguage,
         "original_title": originalTitle,
         "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),

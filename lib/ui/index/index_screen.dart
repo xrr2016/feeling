@@ -28,7 +28,7 @@ class _IndexScreenState extends State<IndexScreen> {
         return Scaffold(
           backgroundColor: theme.backgroundColor,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: theme.backgroundColor,
             elevation: 0.0,
             actions: <Widget>[
               IconButton(

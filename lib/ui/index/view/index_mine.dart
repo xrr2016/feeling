@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-import '../../../widget/place_holder.dart';
-
 class IndexMine extends StatefulWidget {
   @override
   _IndexMineState createState() => _IndexMineState();

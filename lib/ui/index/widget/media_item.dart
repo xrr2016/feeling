@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../model/tv.dart';
 import '../../../model/person.dart';
 import '../../../model/movie.dart';
+import '../../../const/api_const.dart';
 import '../../../widget/place_holder.dart';
-import '../../../data/network/api_client.dart';
 
 class MediaItem extends StatefulWidget {
   final item;
@@ -23,6 +23,8 @@ class _MediaItemState extends State<MediaItem> {
     final item = widget.item;
     final mediaType = item['media_type'];
 
+    print(mediaType);
+
     switch (mediaType) {
       case 'movie':
         _media = Movie.fromJson(item);
@@ -35,7 +37,9 @@ class _MediaItemState extends State<MediaItem> {
         break;
     }
 
-    final img = _media.posterPath ?? _media.backdropPath;
+    final img = _media is Tv
+        ? _media.profilePath
+        : _media.posterPath ?? _media.backdropPath;
 
     return Card(
       child: Column(
