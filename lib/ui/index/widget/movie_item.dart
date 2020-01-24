@@ -16,47 +16,53 @@ class MovieItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final img = movie.posterPath ?? movie.backdropPath;
 
-    double _maxWidth = MediaQuery.of(context).size.width * 0.5;
-
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => MovieScreen(movie)),
-        );
+//        Navigator.push(
+//          context,
+//          MaterialPageRoute(builder: (_) => MovieScreen(movie)),
+//        );
       },
       child: Container(
         height: 180.0,
-        margin: EdgeInsets.only(
-          bottom: 12.0,
-          top: 12.0,
-        ),
+        margin: EdgeInsets.only(top: 24.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Hero(
-              tag: movie.id,
-              child: ClipRRect(
+            Container(
+              width: 120.0,
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                child: FadeInImage(
-                  fit: BoxFit.cover,
-                  fadeInCurve: Curves.ease,
-                  image: NetworkImage(IMG_PREFIX + img),
-                  placeholder: placeholder,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 0),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: Hero(
+                tag: movie.id,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    fadeInCurve: Curves.ease,
+                    image: NetworkImage(IMG_PREFIX + img),
+                    placeholder: placeholder,
+                  ),
                 ),
               ),
             ),
-            SizedBox(width: 12.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: _maxWidth,
-                  ),
-                  child: Text(
+            SizedBox(width: 24.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Text(
                     movie.title,
                     style: Styles.subTitle.copyWith(
                       fontWeight: FontWeight.bold,
@@ -64,24 +70,19 @@ class MovieItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                SizedBox(height: 6.0),
-                Row(
-                  children: <Widget>[
-                    StarRating(movie.voteAverage),
-                    SizedBox(width: 12.0),
-                    Text(
-                      movie.voteAverage.toString(),
-                      style: Styles.info.copyWith(color: Colors.amber),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: _maxWidth,
+                  SizedBox(height: 12.0),
+                  Row(
+                    children: <Widget>[
+                      StarRating(movie.voteAverage),
+                      SizedBox(width: 12.0),
+                      Text(
+                        movie.voteAverage.toString(),
+                        style: Styles.info.copyWith(color: Colors.amber),
+                      ),
+                    ],
                   ),
-                  child: Text(
+                  Spacer(),
+                  Text(
                     movie.overview,
                     style: Styles.info.copyWith(
                       fontWeight: FontWeight.bold,
@@ -89,8 +90,8 @@ class MovieItem extends StatelessWidget {
                     maxLines: 4,
                     overflow: TextOverflow.fade,
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),

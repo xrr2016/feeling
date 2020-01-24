@@ -127,21 +127,19 @@ class _EditScreenState extends State<EditScreen> {
                     children: <Widget>[
                       Text('Rate'),
                       SmoothStarRating(
-                        allowHalfRating: true,
                         onRatingChanged: (val) {
                           setState(() {
                             _story.rate = val;
-                            print(val);
                           });
                         },
+                        allowHalfRating: true,
+                        size: 30.0,
                         starCount: 10,
                         rating: _story.rate,
-                        size: 40.0,
                         filledIconData: Icons.star,
                         halfFilledIconData: Icons.star_half,
-                        color: Colors.orange,
-                        borderColor: Colors.orange,
-                        spacing: 1.0,
+                        color: Colors.amber,
+                        borderColor: Colors.amber,
                       )
                     ],
                   ),

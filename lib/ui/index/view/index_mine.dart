@@ -23,9 +23,11 @@ class _IndexMineState extends State<IndexMine> {
             itemCount: 3,
             itemWidth: 300.0,
             itemHeight: 400.0,
+            scale: 0.9,
+            viewportFraction: .8,
             containerWidth: double.infinity,
             containerHeight: 400.0,
-            layout: SwiperLayout.STACK,
+//            layout: SwiperLayout.TINDER,
           ),
         ),
         Text('test')
