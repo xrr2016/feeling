@@ -1,18 +1,18 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:photo_view/photo_view.dart';
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../styles.dart';
+import '../../widget/text_tag.dart';
 import '../../model/cast.dart';
 import '../../model/movie.dart';
 import '../../widget/star_rating.dart';
 import '../../const/api_const.dart';
 import '../../utils/screen_size.dart';
 import '../../ui/edit/edit_screen.dart';
+import '../../model/movie_detail.dart';
 import '../../data/network/api_client.dart';
 
 class MovieScreen extends StatefulWidget {
@@ -27,9 +27,8 @@ class MovieScreen extends StatefulWidget {
 
 class _MovieScreenState extends State<MovieScreen> {
   List _gallery = [];
-  bool _isLoadingImages = false;
-
   List _casts = [];
+  MovieDetail _movieDetail;
 
 //  List _videos = [];
 //  bool _isLoadingVideos = false;
@@ -60,8 +59,22 @@ class _MovieScreenState extends State<MovieScreen> {
 //    }
 //  }
 
+  Future _getMovieDetail(int id) async {
+    try {
+      Response response = await ApiClient.get('/3/movie/$id');
+
+      final data = response.data;
+
+      if (!mounted) return;
+      setState(() {
+        _movieDetail = MovieDetail.fromJson(data);
+      });
+    } on DioError catch (err) {
+      throw err;
+    }
+  }
+
   Future _getMovieImages(int id) async {
-    _isLoadingImages = true;
     try {
       Response response = await ApiClient.get('/3/movie/$id/images');
 
@@ -76,8 +89,6 @@ class _MovieScreenState extends State<MovieScreen> {
       });
     } on DioError catch (err) {
       throw err;
-    } finally {
-      _isLoadingImages = false;
     }
   }
 
@@ -115,6 +126,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
     _getMovieImages(movie.id);
     _getMovieCast(movie.id);
+    _getMovieDetail(movie.id);
 //    _getMovieVideos(movie.id);
   }
 
@@ -124,17 +136,16 @@ class _MovieScreenState extends State<MovieScreen> {
     String poster = movie.posterPath ?? movie.backdropPath;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
 //            actions: <Widget>[
 //              IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
 //            ],
-            snap: true,
-            floating: true,
-            expandedHeight: screenHeight(context, reducedBy: 300),
+            expandedHeight: screenHeight(context, dividedBy: 2),
             flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
+              collapseMode: CollapseMode.pin,
               background: ExtendedImage.network(
                 IMG_PREFIX + poster,
                 cache: true,
@@ -145,35 +156,42 @@ class _MovieScreenState extends State<MovieScreen> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(
-                top: 12.0,
-                left: 12.0,
-                right: 12.0,
-                bottom: 60.0,
-              ),
+                  left: 12.0, right: 12.0, top: 12.0, bottom: 60.0),
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 12.0),
                   Row(
                     children: <Widget>[
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            SizedBox(height: 12.0),
                             Text(movie.title, style: Styles.title),
                             SizedBox(height: 6.0),
-                            Row(
-                              children: <Widget>[
-                                StarRating(movie.voteAverage),
-                                SizedBox(width: 12.0),
-                                Text(
-                                  movie.voteAverage.toString(),
-                                  style:
-                                      Styles.info.copyWith(color: Colors.amber),
-                                ),
-                              ],
-                            ),
+                            Text(movie.releaseDate, style: Styles.info),
+                            SizedBox(height: 12.0),
+                            _movieDetail == null
+                                ? Container(height: 24.0)
+                                : Wrap(
+                                    spacing: 12.0,
+                                    direction: Axis.horizontal,
+                                    children: _movieDetail.genres
+                                        .map((g) => TextTag(g.name))
+                                        .toList(),
+                                  ),
                           ],
                         ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            movie.voteAverage.toString(),
+                            style:
+                                Styles.subTitle.copyWith(color: Colors.amber),
+                          ),
+                          SizedBox(height: 12.0),
+                          StarRating(movie.voteAverage),
+                        ],
                       ),
 //                      IconButton(
 //                        iconSize: 60.0,
@@ -189,18 +207,21 @@ class _MovieScreenState extends State<MovieScreen> {
 //                      )
                     ],
                   ),
-                  SizedBox(height: 24.0),
-                  Row(
+                  SizedBox(height: 12.0),
+                  Column(
                     children: <Widget>[
-                      Text('Overview', style: Styles.subTitle),
+                      SizedBox(height: 12.0),
+                      Row(
+                        children: <Widget>[
+                          Text('Overview', style: Styles.subTitle),
+                        ],
+                      ),
+                      SizedBox(height: 12.0),
+                      Text(movie.overview, style: Styles.normal),
+                      SizedBox(height: 12.0),
                     ],
                   ),
                   SizedBox(height: 12.0),
-                  Text(
-                    movie.overview,
-                    style: Styles.normal,
-                  ),
-                  SizedBox(height: 24.0),
                   Row(
                     children: <Widget>[
                       Text('Gallery', style: Styles.subTitle),
@@ -219,7 +240,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
