@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flin/styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
+import '../../search/search_screen.dart';
 import '../../../const/movie_types.dart';
 import '../widget/movie_list_trending.dart';
 import '../widget/movie_list_horiziontal.dart';
@@ -113,7 +113,8 @@ class _IndexHomeState extends State<IndexHome>
           elevation: 0.0,
           centerTitle: false,
           leading: PopupMenuButton<String>(
-            icon: Icon(Icons.filter_list, color: Colors.black87),
+            initialValue: _selection,
+            icon: Icon(Icons.filter_list),
             onSelected: (result) {
               setState(() {
                 _movies = [];
@@ -142,12 +143,12 @@ class _IndexHomeState extends State<IndexHome>
               ),
             ],
           ),
-          backgroundColor: Colors.transparent,
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
-              color: Colors.black87,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, SearchScreen.routeName);
+              },
             ),
           ],
         ),

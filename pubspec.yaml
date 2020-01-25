@@ -31,6 +31,10 @@ dependencies:
   flutter_swiper: ^1.1.6
   flutter_webview_plugin: ^0.3.10+1
   smooth_star_rating: ^1.0.4+2
+  transparent_image: ^1.0.0
+  extended_image: ^0.6.9
+  youtube_player_flutter: ^6.0.3+2
+  photo_view: ^0.9.1
   google_fonts:
 
 dev_dependencies:

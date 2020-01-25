@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../styles.dart';
@@ -16,13 +17,18 @@ class MovieItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final img = movie.posterPath ?? movie.backdropPath;
+    final poster = movie.posterPath ?? movie.backdropPath;
 
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => MovieScreen(movie)),
+          MaterialPageRoute(
+            builder: (_) => MovieScreen(
+              movie,
+              movie.id.toString(),
+            ),
+          ),
         );
       },
       child: Container(
@@ -33,23 +39,16 @@ class MovieItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Container(
-              width: 120.0,
-              height: 132.0,
-              decoration: BoxDecoration(
+            Hero(
+              tag: movie.id.toString(),
+              child: ExtendedImage.network(
+                IMG_PREFIX + poster,
+                cache: true,
+                width: 120.0,
+                height: 132.0,
+                fit: BoxFit.cover,
+                shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: Hero(
-                tag: movie.id + Random().nextInt(100),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    fadeInCurve: Curves.ease,
-                    image: NetworkImage(IMG_PREFIX + img),
-                    placeholder: placeholder,
-                  ),
-                ),
               ),
             ),
             SizedBox(width: 24.0),

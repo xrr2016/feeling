@@ -1,12 +1,10 @@
-import 'dart:math';
-
-import 'package:flin/const/api_const.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../styles.dart';
 import '../../../model/movie.dart';
 import '../../movie/movie_screen.dart';
-import '../../../widget/place_holder.dart';
+import '../../../const/api_const.dart';
 import '../../../widget/star_rating.dart';
 
 class MovieItemVertical extends StatelessWidget {
@@ -22,7 +20,7 @@ class MovieItemVertical extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => MovieScreen(movie)),
+          MaterialPageRoute(builder: (_) => MovieScreen(movie, poster)),
         );
       },
       child: Container(
@@ -30,25 +28,18 @@ class MovieItemVertical extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              height: 250.0,
-              margin: EdgeInsets.only(bottom: 12.0),
-              decoration: BoxDecoration(
+            Hero(
+              tag: poster,
+              child: ExtendedImage.network(
+                IMG_PREFIX + poster,
+                fit: BoxFit.cover,
+                cache: true,
+                height: 250.0,
+                shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
-              child: Hero(
-                tag: movie.id + Random().nextInt(100),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    fadeInCurve: Curves.ease,
-                    image: NetworkImage(IMG_PREFIX + poster),
-                    placeholder: placeholder,
-                  ),
-                ),
-              ),
             ),
+            SizedBox(height: 12.0),
             Text(
               movie.title,
               maxLines: 1,

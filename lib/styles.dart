@@ -13,12 +13,10 @@ class Styles {
 
   static TextStyle normal = TextStyle(
     fontSize: 20.0,
-    fontWeight: FontWeight.bold,
   );
 
   static TextStyle info = TextStyle(
     fontSize: 18.0,
     color: Colors.grey,
-    fontWeight: FontWeight.bold,
   );
 }
