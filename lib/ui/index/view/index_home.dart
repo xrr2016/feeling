@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flin/utils/screen_size.dart';
+import 'package:flin/styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
@@ -108,7 +108,10 @@ class _IndexHomeState extends State<IndexHome>
       children: <Widget>[
         AppBar(
           elevation: 0.0,
-          backgroundColor: Colors.white70,
+          backgroundColor: Colors.transparent,
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          ],
         ),
         Expanded(
           child: _isLoadingData

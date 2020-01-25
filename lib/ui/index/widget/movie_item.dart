@@ -26,7 +26,7 @@ class MovieItem extends StatelessWidget {
         );
       },
       child: Container(
-        height: 180.0,
+        height: 160.0,
         margin: EdgeInsets.only(top: 24.0, bottom: 24.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

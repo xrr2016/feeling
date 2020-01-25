@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Styles {
+  static Color background = Color(0xFFF6F6F8);
+
   static TextStyle title = TextStyle(
     fontSize: 28.0,
   );

@@ -1,9 +1,8 @@
+import 'package:flin/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import './view/index_mine.dart';
 import './view/index_home.dart';
-import '../../provider/theme_provider.dart';
 
 class IndexScreen extends StatefulWidget {
   @override
@@ -24,13 +23,13 @@ class _IndexScreenState extends State<IndexScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       body: PageView(
         children: _contents,
         controller: _pageController,
         onPageChanged: _onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
+      backgroundColor: Styles.background,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index) {
           setState(() {

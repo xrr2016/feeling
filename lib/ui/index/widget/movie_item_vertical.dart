@@ -56,8 +56,17 @@ class MovieItemVertical extends StatelessWidget {
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
             ),
-            SizedBox(height: 4.0),
-            StarRating(movie.voteAverage),
+            SizedBox(height: 6.0),
+            Row(
+              children: <Widget>[
+                StarRating(movie.voteAverage),
+                SizedBox(width: 12.0),
+                Text(
+                  movie.voteAverage.toString(),
+                  style: Styles.info.copyWith(color: Colors.amber),
+                ),
+              ],
+            ),
           ],
         ),
       ),
