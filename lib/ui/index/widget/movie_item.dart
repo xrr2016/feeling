@@ -25,7 +25,7 @@ class MovieItem extends StatelessWidget {
       },
       child: Container(
         height: 180.0,
-        margin: EdgeInsets.only(top: 24.0),
+        margin: EdgeInsets.only(top: 24.0, bottom: 24.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -33,6 +33,7 @@ class MovieItem extends StatelessWidget {
           children: <Widget>[
             Container(
               width: 120.0,
+              height: 132.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 boxShadow: [
@@ -64,13 +65,11 @@ class MovieItem extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     movie.title,
-                    style: Styles.subTitle.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
                     maxLines: 1,
+                    style: Styles.normal,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 12.0),
+                  SizedBox(height: 6.0),
                   Row(
                     children: <Widget>[
                       StarRating(movie.voteAverage),
@@ -84,10 +83,8 @@ class MovieItem extends StatelessWidget {
                   Spacer(),
                   Text(
                     movie.overview,
-                    style: Styles.info.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
                     maxLines: 4,
+                    style: Styles.info,
                     overflow: TextOverflow.fade,
                   ),
                 ],

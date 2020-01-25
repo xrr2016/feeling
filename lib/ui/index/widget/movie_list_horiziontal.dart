@@ -50,16 +50,18 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
       height: 340.0,
       margin: EdgeInsets.only(bottom: 12.0, top: 12.0),
       child: _movies.isNotEmpty
-          ? ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-              itemExtent: 192.0,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, index) {
-                final Movie movie = _movies[index];
+          ? Scrollbar(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                itemExtent: 192.0,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, index) {
+                  final Movie movie = _movies[index];
 
-                return MovieItemVertical(movie);
-              },
-              itemCount: _movies.length,
+                  return MovieItemVertical(movie);
+                },
+                itemCount: _movies.length,
+              ),
             )
           : Loading(),
     );
