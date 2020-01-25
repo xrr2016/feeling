@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:photo_view/photo_view.dart';
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../styles.dart';
@@ -129,8 +130,11 @@ class _MovieScreenState extends State<MovieScreen> {
 //            actions: <Widget>[
 //              IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
 //            ],
+            snap: true,
+            floating: true,
             expandedHeight: screenHeight(context, reducedBy: 300),
             flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
               background: ExtendedImage.network(
                 IMG_PREFIX + poster,
                 cache: true,
@@ -203,31 +207,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     ],
                   ),
                   SizedBox(height: 12.0),
-                  SizedBox(
-                    height: 160.0,
-                    child: ListView.builder(
-                      itemExtent: 224.0,
-                      itemCount: _gallery.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        String path = _gallery[index];
-
-                        return Container(
-                          width: 200.0,
-                          height: 160.0,
-                          margin: EdgeInsets.only(right: 12.0),
-                          child: ExtendedImage.network(
-                            IMG_PREFIX + path,
-                            fit: BoxFit.cover,
-                            cache: true,
-                            shape: BoxShape.rectangle,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  GalleryList(gallery: _gallery),
                   SizedBox(height: 24.0),
                   Row(
                     children: <Widget>[
@@ -235,30 +215,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     ],
                   ),
                   SizedBox(height: 12.0),
-                  SizedBox(
-                    height: 80.0,
-                    child: ListView.builder(
-                      itemExtent: 92.0,
-                      itemCount: _casts.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        Cast cast = _casts[index];
-                        String profile = cast.profilePath ?? '';
-
-                        return Container(
-                          width: 80.0,
-                          height: 80.0,
-                          margin: EdgeInsets.only(right: 12.0),
-                          child: ExtendedImage.network(
-                            IMG_PREFIX + profile,
-                            fit: BoxFit.cover,
-                            cache: true,
-                            shape: BoxShape.circle,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  CastList(casts: _casts),
                 ],
               ),
             ),
@@ -273,6 +230,82 @@ class _MovieScreenState extends State<MovieScreen> {
           );
         },
         child: Icon(Icons.edit),
+      ),
+    );
+  }
+}
+
+class CastList extends StatelessWidget {
+  const CastList({
+    Key key,
+    @required List casts,
+  })  : _casts = casts,
+        super(key: key);
+
+  final List _casts;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 80.0,
+      child: ListView.builder(
+        itemExtent: 92.0,
+        itemCount: _casts.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, index) {
+          Cast cast = _casts[index];
+          String profile = cast.profilePath ?? '';
+
+          return Container(
+            width: 80.0,
+            height: 80.0,
+            margin: EdgeInsets.only(right: 12.0),
+            child: ExtendedImage.network(
+              IMG_PREFIX + profile,
+              fit: BoxFit.cover,
+              cache: true,
+              shape: BoxShape.circle,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class GalleryList extends StatelessWidget {
+  const GalleryList({
+    Key key,
+    @required List gallery,
+  })  : _gallery = gallery,
+        super(key: key);
+
+  final List _gallery;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 160.0,
+      child: ListView.builder(
+        itemExtent: 224.0,
+        itemCount: _gallery.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, index) {
+          String path = _gallery[index];
+
+          return Container(
+            margin: const EdgeInsets.only(right: 12.0),
+            child: ExtendedImage.network(
+              IMG_PREFIX + path,
+              cache: true,
+              fit: BoxFit.cover,
+              width: 200.0,
+              height: 160.0,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+          );
+        },
       ),
     );
   }
