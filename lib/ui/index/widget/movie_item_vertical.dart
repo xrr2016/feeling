@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flin/const/api_const.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +37,7 @@ class MovieItemVertical extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: Hero(
-                tag: movie.id,
+                tag: movie.id + Random().nextInt(100),
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   child: FadeInImage(

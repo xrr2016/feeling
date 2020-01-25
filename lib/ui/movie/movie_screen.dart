@@ -1,4 +1,5 @@
 import 'package:flin/ui/edit/edit_screen.dart';
+import 'package:flin/utils/screen_size.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/movie.dart';
@@ -19,17 +20,27 @@ class _MovieScreenState extends State<MovieScreen> {
     Movie movie = widget.movie;
 
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            snap: true,
+            floating: true,
+            actions: <Widget>[
+              IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+            ],
+            pinned: true,
+            expandedHeight: screenHeight(context, dividedBy: 2.0),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Hero(
+                tag: movie.id,
+                child: Image.network(
+                  IMG_PREFIX + movie.posterPath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
         ],
-      ),
-      body: Hero(
-        tag: movie.id,
-        child: Image.network(
-          IMG_PREFIX + movie.posterPath,
-          fit: BoxFit.cover,
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},

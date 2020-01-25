@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../../styles.dart';
@@ -36,16 +38,9 @@ class MovieItem extends StatelessWidget {
               height: 132.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 0),
-                    blurRadius: 10,
-                  ),
-                ],
               ),
               child: Hero(
-                tag: movie.id,
+                tag: movie.id + Random().nextInt(100),
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   child: FadeInImage(
