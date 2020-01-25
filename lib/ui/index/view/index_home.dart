@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
+import '../../../const/movie_types.dart';
 import '../widget/movie_list_trending.dart';
 import '../widget/movie_list_horiziontal.dart';
 import '../../../data/network/api_client.dart';
@@ -26,6 +27,8 @@ class _IndexHomeState extends State<IndexHome>
   int _totalMoviePage = 1;
   int _currentMoviePage = 1;
   List<Movie> _movies = [];
+
+  String _selection = movieTypes[0];
 
   Future _fetchMovieData() async {
     setState(() {
@@ -108,9 +111,44 @@ class _IndexHomeState extends State<IndexHome>
       children: <Widget>[
         AppBar(
           elevation: 0.0,
+          centerTitle: false,
+          leading: PopupMenuButton<String>(
+            icon: Icon(Icons.filter_list, color: Colors.black87),
+            onSelected: (result) {
+              setState(() {
+                _movies = [];
+                _totalMoviePage = 1;
+                _currentMoviePage = 1;
+                _selection = result;
+                _getMovies(type: result);
+              });
+            },
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: movieTypes[0],
+                child: Text('Popular'),
+              ),
+              PopupMenuItem(
+                value: movieTypes[1],
+                child: Text('Upcoming'),
+              ),
+              PopupMenuItem(
+                value: movieTypes[2],
+                child: Text('Top'),
+              ),
+              PopupMenuItem(
+                value: movieTypes[3],
+                child: Text('Now'),
+              ),
+            ],
+          ),
           backgroundColor: Colors.transparent,
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.search), onPressed: () {}),
+            IconButton(
+              icon: Icon(Icons.search),
+              color: Colors.black87,
+              onPressed: () {},
+            ),
           ],
         ),
         Expanded(
