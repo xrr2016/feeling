@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../styles.dart';
 import '../../../model/movie.dart';
 import '../../../const/api_const.dart';
-import '../../../widget/place_holder.dart';
 import '../../movie/movie_screen.dart';
 import '../../../widget/star_rating.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +20,13 @@ void main() async {
     preferences: TranslatePreferences(),
   );
 
-  runApp(LocalizedApp(delegate, MyApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+    (_) {
+      runApp(
+        LocalizedApp(delegate, MyApp()),
+      );
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {

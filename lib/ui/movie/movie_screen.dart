@@ -159,26 +159,21 @@ class _MovieScreenState extends State<MovieScreen> {
                   left: 12.0, right: 12.0, top: 12.0, bottom: 60.0),
               child: Column(
                 children: <Widget>[
+                  SizedBox(height: 12.0),
                   Row(
                     children: <Widget>[
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(height: 12.0),
-                            Text(movie.title, style: Styles.title),
+                            Text(
+                              movie.title,
+                              style: Styles.subTitle,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             SizedBox(height: 6.0),
                             Text(movie.releaseDate, style: Styles.info),
-                            SizedBox(height: 12.0),
-                            _movieDetail == null
-                                ? Container(height: 24.0)
-                                : Wrap(
-                                    spacing: 12.0,
-                                    direction: Axis.horizontal,
-                                    children: _movieDetail.genres
-                                        .map((g) => TextTag(g.name))
-                                        .toList(),
-                                  ),
                           ],
                         ),
                       ),
@@ -189,7 +184,7 @@ class _MovieScreenState extends State<MovieScreen> {
                             style:
                                 Styles.subTitle.copyWith(color: Colors.amber),
                           ),
-                          SizedBox(height: 12.0),
+                          SizedBox(height: 6.0),
                           StarRating(movie.voteAverage),
                         ],
                       ),
@@ -207,6 +202,21 @@ class _MovieScreenState extends State<MovieScreen> {
 //                      )
                     ],
                   ),
+                  SizedBox(height: 24.0),
+                  _movieDetail == null
+                      ? SizedBox(height: 36.0)
+                      : Row(
+                          children: <Widget>[
+                            Wrap(
+                              spacing: 12.0,
+                              verticalDirection: VerticalDirection.down,
+                              direction: Axis.horizontal,
+                              children: _movieDetail.genres
+                                  .map((g) => TextTag(g.name))
+                                  .toList(),
+                            ),
+                          ],
+                        ),
                   SizedBox(height: 12.0),
                   Column(
                     children: <Widget>[

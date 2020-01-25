@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flin/styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
+import '../../../const/app_info.dart';
 import '../../../widget/loading.dart';
 import '../../search/search_screen.dart';
 import '../../../const/movie_types.dart';
@@ -28,7 +30,7 @@ class _IndexHomeState extends State<IndexHome>
   int _currentMoviePage = 1;
   List<Movie> _movies = [];
 
-  String _selection = movieTypes[0];
+  int _selectionIndex = 0;
 
   Future _fetchMovieData() async {
     setState(() {
@@ -111,37 +113,64 @@ class _IndexHomeState extends State<IndexHome>
       children: <Widget>[
         AppBar(
           elevation: 0.0,
-          centerTitle: false,
-          leading: PopupMenuButton<String>(
-            initialValue: _selection,
+          leading: IconButton(
             icon: Icon(Icons.filter_list),
-            onSelected: (result) {
+            onPressed: () async {
+              final result = await showMenu(
+                context: context,
+                position: RelativeRect.fromLTRB(50.0, 64.0, 100.0, 1.0),
+                items: [
+                  PopupMenuItem(
+                    value: movieTypes[0],
+                    child: Text(
+                      'Popular',
+                      style: _selectionIndex == 0
+                          ? TextStyle(fontWeight: FontWeight.bold)
+                          : TextStyle(fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: movieTypes[1],
+                    child: Text(
+                      'Upcoming',
+                      style: _selectionIndex == 1
+                          ? TextStyle(fontWeight: FontWeight.bold)
+                          : TextStyle(fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: movieTypes[2],
+                    child: Text(
+                      'Top',
+                      style: _selectionIndex == 2
+                          ? TextStyle(fontWeight: FontWeight.bold)
+                          : TextStyle(fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: movieTypes[3],
+                    child: Text(
+                      'Now',
+                      style: _selectionIndex == 3
+                          ? TextStyle(fontWeight: FontWeight.bold)
+                          : TextStyle(fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                ],
+              );
+
               setState(() {
                 _movies = [];
                 _totalMoviePage = 1;
                 _currentMoviePage = 1;
-                _selection = result;
+                _selectionIndex = movieTypes.indexOf(result);
                 _getMovies(type: result);
               });
             },
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem(
-                value: movieTypes[0],
-                child: Text('Popular'),
-              ),
-              PopupMenuItem(
-                value: movieTypes[1],
-                child: Text('Upcoming'),
-              ),
-              PopupMenuItem(
-                value: movieTypes[2],
-                child: Text('Top'),
-              ),
-              PopupMenuItem(
-                value: movieTypes[3],
-                child: Text('Now'),
-              ),
-            ],
+          ),
+          title: Text(
+            AppInfo.name,
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           actions: <Widget>[
             IconButton(
