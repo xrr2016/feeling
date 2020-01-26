@@ -19,20 +19,17 @@ class _MovieListTrendingState extends State<MovieListTrending> {
 
     return Expanded(
       child: Scrollbar(
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: Colors.white),
-          child: ListView.builder(
-            itemCount: _movies.length,
-            physics: AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 12.0,
-            ),
-            itemBuilder: (_, int index) {
-              Movie movie = _movies[index];
-              return MovieItem(movie);
-            },
+        child: ListView.builder(
+          itemCount: _movies.length,
+          physics: AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 12.0,
           ),
+          itemBuilder: (_, int index) {
+            Movie movie = _movies[index];
+            return MovieItem(movie);
+          },
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flin/styles.dart';
+import 'package:flin/utils/screen_size.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
@@ -109,137 +110,81 @@ class _IndexHomeState extends State<IndexHome>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Column(
-      children: <Widget>[
-        AppBar(
-          elevation: 0.0,
-          leading: IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: () async {
-              final result = await showMenu(
-                context: context,
-                position: RelativeRect.fromLTRB(50.0, 64.0, 100.0, 1.0),
-                items: [
-                  PopupMenuItem(
-                    value: movieTypes[0],
-                    child: Text(
-                      'Popular',
-                      style: _selectionIndex == 0
-                          ? TextStyle(fontWeight: FontWeight.bold)
-                          : TextStyle(fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: movieTypes[1],
-                    child: Text(
-                      'Upcoming',
-                      style: _selectionIndex == 1
-                          ? TextStyle(fontWeight: FontWeight.bold)
-                          : TextStyle(fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: movieTypes[2],
-                    child: Text(
-                      'Top',
-                      style: _selectionIndex == 2
-                          ? TextStyle(fontWeight: FontWeight.bold)
-                          : TextStyle(fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: movieTypes[3],
-                    child: Text(
-                      'Now',
-                      style: _selectionIndex == 3
-                          ? TextStyle(fontWeight: FontWeight.bold)
-                          : TextStyle(fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ],
-              );
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: screenHeightExcludingToolbar(context),
+        child: _isLoadingData
+            ? Loading()
+            : RefreshIndicator(
+                onRefresh: () {
+                  _isLoadingData = false;
+                  _isLoadingMovies = false;
+                  _isLoadingTrending = false;
 
-              setState(() {
-                _movies = [];
-                _totalMoviePage = 1;
-                _currentMoviePage = 1;
-                _selectionIndex = movieTypes.indexOf(result);
-                _getMovies(type: result);
-              });
-            },
-          ),
-          title: Text(
-            AppInfo.name,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                Navigator.pushNamed(context, SearchScreen.routeName);
-              },
-            ),
-          ],
-        ),
-        Expanded(
-          child: _isLoadingData
-              ? Loading()
-              : RefreshIndicator(
-                  onRefresh: () {
-                    _isLoadingData = false;
-                    _isLoadingMovies = false;
-                    _isLoadingTrending = false;
+                  _totalTendingPage = 1;
+                  _currentTrendingPage = 1;
 
-                    _totalTendingPage = 1;
-                    _currentTrendingPage = 1;
+                  _totalMoviePage = 1;
+                  _currentMoviePage = 1;
 
-                    _totalMoviePage = 1;
-                    _currentMoviePage = 1;
+                  setState(() {
+                    _movies = [];
+                    _trendingMovies = [];
+                  });
 
-                    setState(() {
-                      _movies = [];
-                      _trendingMovies = [];
-                    });
+                  return _fetchMovieData();
+                },
+                child: Column(
+                  children: <Widget>[
+                    NotificationListener<ScrollNotification>(
+                      child: MovieListHorizontal(_movies),
+                      onNotification: (ScrollNotification scrollInfo) {
+                        final metrics = scrollInfo.metrics;
 
-                    return _fetchMovieData();
-                  },
-                  child: Column(
-                    children: <Widget>[
-                      NotificationListener<ScrollNotification>(
-                        child: MovieListHorizontal(_movies),
-                        onNotification: (ScrollNotification scrollInfo) {
-                          final metrics = scrollInfo.metrics;
-
-                          if (metrics.pixels >= metrics.maxScrollExtent) {
-                            if (_currentMoviePage < _totalMoviePage &&
-                                !_isLoadingMovies) {
-                              _currentMoviePage++;
-                              _getMovies();
-                            }
+                        if (metrics.pixels >= metrics.maxScrollExtent) {
+                          if (_currentMoviePage < _totalMoviePage &&
+                              !_isLoadingMovies) {
+                            _currentMoviePage++;
+                            _getMovies();
                           }
-                          return;
-                        },
-                      ),
-                      NotificationListener<ScrollNotification>(
-                        child: MovieListTrending(_trendingMovies),
-                        onNotification: (ScrollNotification scrollInfo) {
-                          final metrics = scrollInfo.metrics;
+                        }
+                        return;
+                      },
+                    ),
+                    NotificationListener<ScrollNotification>(
+                      child: MovieListHorizontal(_movies),
+                      onNotification: (ScrollNotification scrollInfo) {
+                        final metrics = scrollInfo.metrics;
 
-                          if (metrics.pixels >= metrics.maxScrollExtent) {
-                            if (_currentTrendingPage < _totalTendingPage &&
-                                !_isLoadingTrending) {
-                              _currentTrendingPage++;
-                              _getTrending();
-                            }
+                        if (metrics.pixels >= metrics.maxScrollExtent) {
+                          if (_currentMoviePage < _totalMoviePage &&
+                              !_isLoadingMovies) {
+                            _currentMoviePage++;
+                            _getMovies();
                           }
-                          return;
-                        },
-                      ),
-                    ],
-                  ),
+                        }
+                        return;
+                      },
+                    ),
+                    NotificationListener<ScrollNotification>(
+                      child: MovieListTrending(_trendingMovies),
+                      onNotification: (ScrollNotification scrollInfo) {
+                        final metrics = scrollInfo.metrics;
+
+                        if (metrics.pixels >= metrics.maxScrollExtent) {
+                          if (_currentTrendingPage < _totalTendingPage &&
+                              !_isLoadingTrending) {
+                            _currentTrendingPage++;
+                            _getTrending();
+                          }
+                        }
+                        return;
+                      },
+                    ),
+                  ],
                 ),
-        ),
-      ],
+              ),
+      ),
     );
   }
 
