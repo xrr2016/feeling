@@ -24,7 +24,7 @@ class MovieItemVertical extends StatelessWidget {
         );
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 12.0),
+        margin: EdgeInsets.only(right: 12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -44,7 +44,6 @@ class MovieItemVertical extends StatelessWidget {
               movie.title,
               maxLines: 1,
               style: Styles.normal,
-              textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: 12.0),

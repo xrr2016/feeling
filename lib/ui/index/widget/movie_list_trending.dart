@@ -17,20 +17,18 @@ class _MovieListTrendingState extends State<MovieListTrending> {
   Widget build(BuildContext context) {
     final _movies = widget.movies;
 
-    return Expanded(
-      child: Scrollbar(
-        child: ListView.builder(
-          itemCount: _movies.length,
-          physics: AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 12.0,
-          ),
-          itemBuilder: (_, int index) {
-            Movie movie = _movies[index];
-            return MovieItem(movie);
-          },
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: _movies.length,
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+          vertical: 12.0,
         ),
+        itemBuilder: (_, int index) {
+          Movie movie = _movies[index];
+          return MovieItem(movie);
+        },
       ),
     );
   }

@@ -11,7 +11,6 @@ class _IndexMineState extends State<IndexMine> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        AppBar(),
         Container(
           height: 500.0,
           child: Swiper(

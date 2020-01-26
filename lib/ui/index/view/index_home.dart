@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flin/styles.dart';
-import 'package:flin/utils/screen_size.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
 import '../../../const/app_info.dart';
 import '../../../widget/loading.dart';
+import '../../../utils/screen_size.dart';
 import '../../search/search_screen.dart';
 import '../../../const/movie_types.dart';
-import '../widget/movie_list_trending.dart';
+
 import '../widget/movie_list_horiziontal.dart';
 import '../../../data/network/api_client.dart';
 
@@ -20,28 +20,35 @@ class IndexHome extends StatefulWidget {
 class _IndexHomeState extends State<IndexHome>
     with AutomaticKeepAliveClientMixin {
   bool _isLoadingData = false;
-  bool _isLoadingTrending = false;
   bool _isLoadingMovies = false;
 
-  int _totalTendingPage = 1;
-  int _currentTrendingPage = 1;
-  List<Movie> _trendingMovies = [];
+  List<Movie> _top = [];
+  int _topTotal = 1;
+  int _topCurrent = 1;
 
-  int _totalMoviePage = 1;
-  int _currentMoviePage = 1;
-  List<Movie> _movies = [];
+  List<Movie> _playing = [];
+  int _playingTotal = 1;
+  int _playingCurrent = 1;
 
-  int _selectionIndex = 0;
+  List<Movie> _popular = [];
+  int _popularTotal = 1;
+  int _popularCurrent = 1;
 
-  Future _fetchMovieData() async {
+  List<Movie> _upcoming = [];
+  int _upcomingTotal = 1;
+  int _upcomingCurrent = 1;
+
+  Future _fetchAllMovies() async {
     setState(() {
       _isLoadingData = true;
     });
 
-    var futures = List<Future>();
+    List<Future> futures = List<Future>();
 
-    futures.add(_getMovies());
-    futures.add(_getTrending());
+    futures.add(_getMovies(type: 'popular', page: _popularCurrent));
+    futures.add(_getMovies(type: 'upcoming', page: _upcomingCurrent));
+    futures.add(_getMovies(type: 'now_playing', page: _playingCurrent));
+    futures.add(_getMovies(type: 'top_rated', page: _topCurrent));
 
     await Future.wait(futures);
 
@@ -50,49 +57,42 @@ class _IndexHomeState extends State<IndexHome>
     });
   }
 
-  Future _getTrending({String time = 'day'}) async {
-    _isLoadingTrending = true;
-    try {
-      Response response = await ApiClient.get(
-        '/3/trending/movie/$time',
-        queryParameters: {
-          "page": _currentTrendingPage,
-        },
-      );
-
-      final data = response.data;
-      final results = data["results"] as List;
-      _totalTendingPage = data["total_pages"];
-
-      results.forEach((r) => _trendingMovies.add(Movie.fromJson(r)));
-      setState(() {
-        _trendingMovies = _trendingMovies;
-      });
-    } on DioError catch (err) {
-      throw err;
-    } finally {
-      _isLoadingTrending = false;
-    }
-  }
-
-  Future _getMovies({String type = 'upcoming'}) async {
+  Future _getMovies({String type = 'upcoming', int page}) async {
     _isLoadingMovies = true;
     try {
       Response response = await ApiClient.get(
         '/3/movie/$type',
-        queryParameters: {
-          "page": _currentMoviePage,
-        },
+        queryParameters: {"page": page},
       );
 
       final data = response.data;
       final results = data["results"] as List;
-      _totalMoviePage = data["total_pages"];
 
-      results.forEach((r) => _movies.add(Movie.fromJson(r)));
-      setState(() {
-        _movies = _movies;
-      });
+      switch (type) {
+        case 'popular':
+          _popularTotal = data["total_pages"];
+          results.forEach((r) => _popular.add(Movie.fromJson(r)));
+          setState(() => _popular = _popular);
+          break;
+
+        case 'upcoming':
+          _upcomingTotal = data["total_pages"];
+          results.forEach((r) => _upcoming.add(Movie.fromJson(r)));
+          setState(() => _upcoming = _upcoming);
+          break;
+
+        case 'top_rated':
+          _topTotal = data["total_pages"];
+          results.forEach((r) => _top.add(Movie.fromJson(r)));
+          setState(() => _top = _top);
+          break;
+
+        case 'now_playing':
+          _playingTotal = data["total_pages"];
+          results.forEach((r) => _playing.add(Movie.fromJson(r)));
+          setState(() => _playing = _playing);
+          break;
+      }
     } on DioError catch (err) {
       throw err;
     } finally {
@@ -103,89 +103,111 @@ class _IndexHomeState extends State<IndexHome>
   @override
   void initState() {
     super.initState();
-    _fetchMovieData();
+    _fetchAllMovies();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: screenHeightExcludingToolbar(context),
-        child: _isLoadingData
-            ? Loading()
-            : RefreshIndicator(
-                onRefresh: () {
-                  _isLoadingData = false;
-                  _isLoadingMovies = false;
-                  _isLoadingTrending = false;
+    if (_isLoadingData) {
+      return Loading();
+    } else {
+      return RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: Colors.transparent,
+        onRefresh: () {
+          _isLoadingData = false;
+          _isLoadingMovies = false;
 
-                  _totalTendingPage = 1;
-                  _currentTrendingPage = 1;
+          _popularCurrent = 1;
+          _popularTotal = 1;
 
-                  _totalMoviePage = 1;
-                  _currentMoviePage = 1;
+          _upcomingCurrent = 1;
+          _upcomingTotal = 1;
 
-                  setState(() {
-                    _movies = [];
-                    _trendingMovies = [];
-                  });
+          _playingCurrent = 1;
+          _playingTotal = 1;
 
-                  return _fetchMovieData();
+          _topCurrent = 1;
+          _topTotal = 1;
+
+          setState(() {
+            _popular = [];
+            _upcoming = [];
+            _playing = [];
+            _top = [];
+          });
+
+          return _fetchAllMovies();
+        },
+        child: SizedBox(
+          height: screenHeightExcludingToolbar(context),
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            children: <Widget>[
+              NotificationListener<ScrollNotification>(
+                child: MovieListHorizontal(_popular, 'Popular'),
+                onNotification: (ScrollNotification scrollInfo) {
+                  final metrics = scrollInfo.metrics;
+
+                  if (metrics.pixels >= metrics.maxScrollExtent) {
+                    if (_popularCurrent < _popularTotal && !_isLoadingMovies) {
+                      _popularCurrent++;
+                      _getMovies(type: 'popular', page: _popularCurrent);
+                    }
+                  }
+                  return;
                 },
-                child: Column(
-                  children: <Widget>[
-                    NotificationListener<ScrollNotification>(
-                      child: MovieListHorizontal(_movies),
-                      onNotification: (ScrollNotification scrollInfo) {
-                        final metrics = scrollInfo.metrics;
-
-                        if (metrics.pixels >= metrics.maxScrollExtent) {
-                          if (_currentMoviePage < _totalMoviePage &&
-                              !_isLoadingMovies) {
-                            _currentMoviePage++;
-                            _getMovies();
-                          }
-                        }
-                        return;
-                      },
-                    ),
-                    NotificationListener<ScrollNotification>(
-                      child: MovieListHorizontal(_movies),
-                      onNotification: (ScrollNotification scrollInfo) {
-                        final metrics = scrollInfo.metrics;
-
-                        if (metrics.pixels >= metrics.maxScrollExtent) {
-                          if (_currentMoviePage < _totalMoviePage &&
-                              !_isLoadingMovies) {
-                            _currentMoviePage++;
-                            _getMovies();
-                          }
-                        }
-                        return;
-                      },
-                    ),
-                    NotificationListener<ScrollNotification>(
-                      child: MovieListTrending(_trendingMovies),
-                      onNotification: (ScrollNotification scrollInfo) {
-                        final metrics = scrollInfo.metrics;
-
-                        if (metrics.pixels >= metrics.maxScrollExtent) {
-                          if (_currentTrendingPage < _totalTendingPage &&
-                              !_isLoadingTrending) {
-                            _currentTrendingPage++;
-                            _getTrending();
-                          }
-                        }
-                        return;
-                      },
-                    ),
-                  ],
-                ),
               ),
-      ),
-    );
+              NotificationListener<ScrollNotification>(
+                child: MovieListHorizontal(_playing, 'Playing'),
+                onNotification: (ScrollNotification scrollInfo) {
+                  final metrics = scrollInfo.metrics;
+
+                  if (metrics.pixels >= metrics.maxScrollExtent) {
+                    if (_playingCurrent < _playingTotal && !_isLoadingMovies) {
+                      _playingCurrent++;
+                      _getMovies(type: 'now_playing', page: _playingCurrent);
+                    }
+                  }
+                  return;
+                },
+              ),
+              NotificationListener<ScrollNotification>(
+                child: MovieListHorizontal(_upcoming, 'Upcoming'),
+                onNotification: (ScrollNotification scrollInfo) {
+                  final metrics = scrollInfo.metrics;
+
+                  if (metrics.pixels >= metrics.maxScrollExtent) {
+                    if (_upcomingCurrent < _upcomingTotal &&
+                        !_isLoadingMovies) {
+                      _upcomingCurrent++;
+                      _getMovies(type: 'upcoming', page: _upcomingCurrent);
+                    }
+                  }
+                  return;
+                },
+              ),
+              NotificationListener<ScrollNotification>(
+                child: MovieListHorizontal(_top, 'Top'),
+                onNotification: (ScrollNotification scrollInfo) {
+                  final metrics = scrollInfo.metrics;
+
+                  if (metrics.pixels >= metrics.maxScrollExtent) {
+                    if (_topCurrent < _topTotal && !_isLoadingMovies) {
+                      _topCurrent++;
+                      _getMovies(type: 'top_rated', page: _topCurrent);
+                    }
+                  }
+                  return;
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
