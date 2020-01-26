@@ -1,4 +1,13 @@
+import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
+
+class Post {
+  final String title;
+  final String description;
+
+  Post(this.title, this.description);
+}
 
 class SearchScreen extends StatefulWidget {
   static String routeName = '/search';
@@ -8,50 +17,59 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  FocusNode _focusNode = FocusNode();
-  TextEditingController _controller = TextEditingController();
-  bool _isSearching = false;
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future _searchResult(String query) async {
-    print(query);
-    setState(() {
-      _isSearching = true;
+  Future<List<Post>> search(String search) async {
+    await Future.delayed(Duration(seconds: 2));
+    return List.generate(search.length, (int index) {
+      return Post(
+        "Title : $search $index",
+        "Description :$search $index",
+      );
     });
-    _controller.clear();
-    return Future.delayed(Duration(seconds: 3));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          controller: _controller,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22.0,
+        title: Container(
+          height: 300,
+          child: SearchBar(
+            searchBarStyle: SearchBarStyle(
+              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            loader: Center(child: Text("loading...")),
+            emptyWidget: Center(child: Text("No result...")),
+            cancellationWidget: Icon(Icons.clear),
+            onSearch: search,
+            onItemFound: (Post post, int index) {
+              return ListTile(
+                title: Text(post.title),
+                subtitle: Text(post.description),
+              );
+            },
           ),
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search),
-            labelText: 'Search something...',
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SearchBar(
+            searchBarStyle: SearchBarStyle(
+              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            loader: Center(child: Text("loading...")),
+            emptyWidget: Center(child: Text("No result...")),
+            cancellationWidget: Icon(Icons.clear),
+            onSearch: search,
+            onItemFound: (Post post, int index) {
+              return ListTile(
+                title: Text(post.title),
+                subtitle: Text(post.description),
+              );
+            },
           ),
-          maxLines: 1,
-          onSubmitted: (String query) {
-            _searchResult(query);
-          },
-          focusNode: _focusNode,
-          autofocus: true,
-          cursorColor: Colors.white,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.search,
-          onTap: () => _focusNode.requestFocus(),
         ),
       ),
     );

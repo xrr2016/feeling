@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
-import '../../../utils/screen_size.dart';
 import '../widget/movie_list_trending.dart';
 import '../../../data/network/api_client.dart';
 
@@ -69,23 +68,20 @@ class _IndexTrendingState extends State<IndexTrending>
 
           return _getTrending();
         },
-        child: SizedBox(
-          height: screenHeightExcludingToolbar(context),
-          child: NotificationListener<ScrollNotification>(
-            child: MovieListTrending(_trendingMovies),
-            onNotification: (ScrollNotification scrollInfo) {
-              final metrics = scrollInfo.metrics;
+        child: NotificationListener<ScrollNotification>(
+          child: MovieListTrending(_trendingMovies),
+          onNotification: (ScrollNotification scrollInfo) {
+            final metrics = scrollInfo.metrics;
 
-              if (metrics.pixels >= metrics.maxScrollExtent) {
-                if (_currentTrendingPage < _totalTendingPage &&
-                    !_isLoadingTrending) {
-                  _currentTrendingPage++;
-                  _getTrending();
-                }
+            if (metrics.pixels >= metrics.maxScrollExtent) {
+              if (_currentTrendingPage < _totalTendingPage &&
+                  !_isLoadingTrending) {
+                _currentTrendingPage++;
+                _getTrending();
               }
-              return;
-            },
-          ),
+            }
+            return;
+          },
         ),
       );
     }

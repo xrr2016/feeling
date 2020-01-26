@@ -46,9 +46,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               title: 'Flin',
               theme: ThemeData(
-                textTheme: GoogleFonts.robotoTextTheme().apply(
-                  bodyColor: Colors.white,
-                ),
+                textTheme: GoogleFonts.robotoTextTheme(),
               ),
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,

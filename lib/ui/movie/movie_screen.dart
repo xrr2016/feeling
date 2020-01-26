@@ -177,20 +177,15 @@ class _MovieScreenState extends State<MovieScreen> {
                             child: CircularProgressIndicator(strokeWidth: 1.0),
                           )
                         : MovieGenres(_movieDetail.genres),
-                    SizedBox(height: 12.0),
+                    SizedBox(height: 24.0),
+                    SectionHeader('Overview'),
                     MovieOverview(movie.overview),
                     SizedBox(height: 24.0),
-                    SizedBox(
-                      width: screenWidth(context),
-                      child: Text('Gallery', style: Styles.subTitle),
-                    ),
+                    SectionHeader('Gallery'),
                     SizedBox(height: 24.0),
                     GalleryList(gallery: _gallery),
                     SizedBox(height: 24.0),
-                    SizedBox(
-                      width: screenWidth(context),
-                      child: Text('Casts', style: Styles.subTitle),
-                    ),
+                    SectionHeader('Casts'),
                     SizedBox(height: 24.0),
                     CastList(casts: _casts),
                     SizedBox(height: 24.0),
@@ -223,6 +218,23 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 }
 
+class SectionHeader extends StatelessWidget {
+  final String text;
+
+  const SectionHeader(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: screenWidth(context),
+      child: Text(
+        text,
+        style: Styles.subTitle.copyWith(color: Colors.white),
+      ),
+    );
+  }
+}
+
 class MovieMeta extends StatelessWidget {
   const MovieMeta({
     Key key,
@@ -241,8 +253,8 @@ class MovieMeta extends StatelessWidget {
             children: <Widget>[
               Text(
                 movie.title,
-                style: Styles.subTitle,
                 maxLines: 2,
+                style: Styles.subTitle.copyWith(color: Colors.white),
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 6.0),
@@ -305,12 +317,7 @@ class MovieOverview extends StatelessWidget {
     return Column(
       children: <Widget>[
         SizedBox(height: 12.0),
-        SizedBox(
-          width: screenWidth(context),
-          child: Text('Overview', style: Styles.subTitle),
-        ),
-        SizedBox(height: 12.0),
-        Text(overview, style: Styles.normal),
+        Text(overview, style: Styles.normal.copyWith(color: Colors.white)),
         SizedBox(height: 12.0),
       ],
     );

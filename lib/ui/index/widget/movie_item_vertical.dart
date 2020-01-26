@@ -45,7 +45,7 @@ class MovieItemVertical extends StatelessWidget {
             Text(
               movie.title,
               maxLines: 1,
-              style: Styles.normal,
+              style: Styles.normal.copyWith(color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: 12.0),

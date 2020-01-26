@@ -26,7 +26,7 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(label, style: Styles.subTitle),
+          Text(label, style: Styles.subTitle.copyWith(color: Colors.white)),
           SizedBox(height: 24.0),
           SizedBox(
             height: 340.0,

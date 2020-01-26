@@ -14,7 +14,7 @@ class TextTag extends StatelessWidget {
         border: Border.all(width: 1.0, color: Colors.white),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      child: Text(text, style: TextStyle(fontSize: 14.0)),
+      child: Text(text, style: TextStyle(fontSize: 14.0, color: Colors.white)),
     );
   }
 }

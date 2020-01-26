@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../const/app_info.dart';
 import '../../styles.dart';
 import './view/index_mine.dart';
 import './view/index_home.dart';
 import './view/index_trending.dart';
+import '../search/search_delegate.dart';
 
 class IndexScreen extends StatefulWidget {
   @override
@@ -33,10 +33,11 @@ class _IndexScreenState extends State<IndexScreen> {
           backgroundColor: Colors.transparent,
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.search),
+              tooltip: 'Search',
+              icon: const Icon(Icons.search),
               onPressed: () {
 //                Navigator.pushNamed(context, SearchScreen.routeName);
-//                showSearch(context: null, delegate: null);
+                showSearch(context: context, delegate: AppSearchDelegate());
               },
             ),
           ],

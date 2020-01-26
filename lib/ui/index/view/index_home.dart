@@ -1,14 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flin/styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
-import '../../../const/app_info.dart';
 import '../../../widget/loading.dart';
-import '../../../utils/screen_size.dart';
-import '../../search/search_screen.dart';
-import '../../../const/movie_types.dart';
-
 import '../widget/movie_list_horiziontal.dart';
 import '../../../data/network/api_client.dart';
 
@@ -141,70 +135,66 @@ class _IndexHomeState extends State<IndexHome>
 
           return _fetchAllMovies();
         },
-        child: SizedBox(
-          height: screenHeightExcludingToolbar(context),
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: <Widget>[
-              NotificationListener<ScrollNotification>(
-                child: MovieListHorizontal(_popular, 'Popular'),
-                onNotification: (ScrollNotification scrollInfo) {
-                  final metrics = scrollInfo.metrics;
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            NotificationListener<ScrollNotification>(
+              child: MovieListHorizontal(_popular, 'Popular'),
+              onNotification: (ScrollNotification scrollInfo) {
+                final metrics = scrollInfo.metrics;
 
-                  if (metrics.pixels >= metrics.maxScrollExtent) {
-                    if (_popularCurrent < _popularTotal && !_isLoadingMovies) {
-                      _popularCurrent++;
-                      _getMovies(type: 'popular', page: _popularCurrent);
-                    }
+                if (metrics.pixels >= metrics.maxScrollExtent) {
+                  if (_popularCurrent < _popularTotal && !_isLoadingMovies) {
+                    _popularCurrent++;
+                    _getMovies(type: 'popular', page: _popularCurrent);
                   }
-                  return;
-                },
-              ),
-              NotificationListener<ScrollNotification>(
-                child: MovieListHorizontal(_playing, 'Playing'),
-                onNotification: (ScrollNotification scrollInfo) {
-                  final metrics = scrollInfo.metrics;
+                }
+                return;
+              },
+            ),
+            NotificationListener<ScrollNotification>(
+              child: MovieListHorizontal(_playing, 'Playing'),
+              onNotification: (ScrollNotification scrollInfo) {
+                final metrics = scrollInfo.metrics;
 
-                  if (metrics.pixels >= metrics.maxScrollExtent) {
-                    if (_playingCurrent < _playingTotal && !_isLoadingMovies) {
-                      _playingCurrent++;
-                      _getMovies(type: 'now_playing', page: _playingCurrent);
-                    }
+                if (metrics.pixels >= metrics.maxScrollExtent) {
+                  if (_playingCurrent < _playingTotal && !_isLoadingMovies) {
+                    _playingCurrent++;
+                    _getMovies(type: 'now_playing', page: _playingCurrent);
                   }
-                  return;
-                },
-              ),
-              NotificationListener<ScrollNotification>(
-                child: MovieListHorizontal(_upcoming, 'Upcoming'),
-                onNotification: (ScrollNotification scrollInfo) {
-                  final metrics = scrollInfo.metrics;
+                }
+                return;
+              },
+            ),
+            NotificationListener<ScrollNotification>(
+              child: MovieListHorizontal(_upcoming, 'Upcoming'),
+              onNotification: (ScrollNotification scrollInfo) {
+                final metrics = scrollInfo.metrics;
 
-                  if (metrics.pixels >= metrics.maxScrollExtent) {
-                    if (_upcomingCurrent < _upcomingTotal &&
-                        !_isLoadingMovies) {
-                      _upcomingCurrent++;
-                      _getMovies(type: 'upcoming', page: _upcomingCurrent);
-                    }
+                if (metrics.pixels >= metrics.maxScrollExtent) {
+                  if (_upcomingCurrent < _upcomingTotal && !_isLoadingMovies) {
+                    _upcomingCurrent++;
+                    _getMovies(type: 'upcoming', page: _upcomingCurrent);
                   }
-                  return;
-                },
-              ),
-              NotificationListener<ScrollNotification>(
-                child: MovieListHorizontal(_top, 'Top'),
-                onNotification: (ScrollNotification scrollInfo) {
-                  final metrics = scrollInfo.metrics;
+                }
+                return;
+              },
+            ),
+            NotificationListener<ScrollNotification>(
+              child: MovieListHorizontal(_top, 'Top'),
+              onNotification: (ScrollNotification scrollInfo) {
+                final metrics = scrollInfo.metrics;
 
-                  if (metrics.pixels >= metrics.maxScrollExtent) {
-                    if (_topCurrent < _topTotal && !_isLoadingMovies) {
-                      _topCurrent++;
-                      _getMovies(type: 'top_rated', page: _topCurrent);
-                    }
+                if (metrics.pixels >= metrics.maxScrollExtent) {
+                  if (_topCurrent < _topTotal && !_isLoadingMovies) {
+                    _topCurrent++;
+                    _getMovies(type: 'top_rated', page: _topCurrent);
                   }
-                  return;
-                },
-              ),
-            ],
-          ),
+                }
+                return;
+              },
+            ),
+          ],
         ),
       );
     }
