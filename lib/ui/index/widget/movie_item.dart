@@ -21,16 +21,13 @@ class MovieItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => MovieScreen(
-              movie,
-              movie.id.toString(),
-            ),
+            builder: (_) => MovieScreen(movie, movie.id.toString()),
           ),
         );
       },
       child: Container(
-        height: 160.0,
-        margin: EdgeInsets.only(top: 24.0, bottom: 24.0),
+        height: 184.0,
+        padding: EdgeInsets.all(12.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,7 +45,7 @@ class MovieItem extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
             ),
-            SizedBox(width: 24.0),
+            SizedBox(width: 12.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -48,8 +48,6 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 textTheme: GoogleFonts.robotoTextTheme().apply(
                   bodyColor: Colors.white,
-                  displayColor: Colors.white,
-                  decorationColor: Colors.white,
                 ),
               ),
               localizationsDelegates: [

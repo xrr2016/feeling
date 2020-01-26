@@ -19,12 +19,8 @@ class _MovieListTrendingState extends State<MovieListTrending> {
 
     return Scrollbar(
       child: ListView.builder(
+        itemExtent: 184.0,
         itemCount: _movies.length,
-        physics: AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 12.0,
-        ),
         itemBuilder: (_, int index) {
           Movie movie = _movies[index];
           return MovieItem(movie);
