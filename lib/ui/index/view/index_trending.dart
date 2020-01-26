@@ -17,6 +17,21 @@ class _IndexTrendingState extends State<IndexTrending>
   int _currentTrendingPage = 1;
   List<Movie> _trendingMovies = [];
   bool _isLoadingTrending = false;
+  bool _isLoadingData = false;
+
+  Future _fetchData() async {
+    setState(() {
+      _isLoadingData = true;
+    });
+
+    List<Future> futures = List<Future>();
+    futures.add(_getTrending());
+    await Future.wait(futures);
+
+    setState(() {
+      _isLoadingData = false;
+    });
+  }
 
   Future _getTrending({String time = 'day'}) async {
     _isLoadingTrending = true;
@@ -36,6 +51,7 @@ class _IndexTrendingState extends State<IndexTrending>
       setState(() {
         _trendingMovies = _trendingMovies;
       });
+      return true;
     } on DioError catch (err) {
       throw err;
     } finally {
@@ -46,14 +62,14 @@ class _IndexTrendingState extends State<IndexTrending>
   @override
   void initState() {
     super.initState();
-    _getTrending();
+    _fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    if (_isLoadingTrending) {
+    if (_isLoadingData) {
       return Loading();
     } else {
       return RefreshIndicator(
