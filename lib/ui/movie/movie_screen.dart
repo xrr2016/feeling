@@ -135,59 +135,131 @@ class _MovieScreenState extends State<MovieScreen> {
     Movie movie = widget.movie;
     String poster = movie.posterPath ?? movie.backdropPath;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
+    return DecoratedBox(
+      decoration: BoxDecoration(gradient: Styles.background),
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
 //            actions: <Widget>[
 //              IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
 //            ],
-            expandedHeight: screenHeight(context, dividedBy: 2),
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.pin,
-              background: ExtendedImage.network(
-                IMG_PREFIX + poster,
-                cache: true,
-                fit: BoxFit.cover,
+              elevation: 0.0,
+              expandedHeight: screenHeight(context, dividedBy: 2),
+              backgroundColor: Colors.transparent,
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
+                background: Hero(
+                  tag: widget.heroTag,
+                  child: ExtendedImage.network(
+                    IMG_PREFIX + poster,
+                    cache: true,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 12.0,
+                  right: 12.0,
+                  bottom: 60.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 24.0),
+                    MovieMeta(movie: movie),
+                    SizedBox(height: 24.0),
+                    _movieDetail == null
+                        ? SizedBox(
+                            height: 36.0,
+                            child: CircularProgressIndicator(strokeWidth: 1.0),
+                          )
+                        : MovieGenres(_movieDetail.genres),
+                    SizedBox(height: 12.0),
+                    MovieOverview(movie.overview),
+                    SizedBox(height: 24.0),
+                    SizedBox(
+                      width: screenWidth(context),
+                      child: Text('Gallery', style: Styles.subTitle),
+                    ),
+                    SizedBox(height: 24.0),
+                    GalleryList(gallery: _gallery),
+                    SizedBox(height: 24.0),
+                    SizedBox(
+                      width: screenWidth(context),
+                      child: Text('Casts', style: Styles.subTitle),
+                    ),
+                    SizedBox(height: 24.0),
+                    CastList(casts: _casts),
+                    SizedBox(height: 24.0),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.transparent,
+        floatingActionButton: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: Styles.background,
+            shape: BoxShape.circle,
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 12.0, right: 12.0, top: 12.0, bottom: 60.0),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 12.0),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              movie.title,
-                              style: Styles.subTitle,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: 6.0),
-                            Text(movie.releaseDate, style: Styles.info),
-                          ],
-                        ),
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            movie.voteAverage.toString(),
-                            style:
-                                Styles.subTitle.copyWith(color: Colors.amber),
-                          ),
-                          SizedBox(height: 6.0),
-                          StarRating(movie.voteAverage),
-                        ],
-                      ),
+          child: FloatingActionButton(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => EditScreen(movie)),
+              );
+            },
+            child: Icon(Icons.edit),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MovieMeta extends StatelessWidget {
+  const MovieMeta({
+    Key key,
+    @required this.movie,
+  }) : super(key: key);
+
+  final Movie movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                movie.title,
+                style: Styles.subTitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 6.0),
+              Text(movie.releaseDate, style: Styles.info),
+            ],
+          ),
+        ),
+        Column(
+          children: <Widget>[
+            Text(
+              movie.voteAverage.toString(),
+              style: Styles.subTitle.copyWith(color: Colors.amber),
+            ),
+            SizedBox(height: 6.0),
+            StarRating(movie.voteAverage),
+          ],
+        ),
 //                      IconButton(
 //                        iconSize: 60.0,
 //                        onPressed: () {
@@ -200,68 +272,47 @@ class _MovieScreenState extends State<MovieScreen> {
 //                        color: Colors.redAccent,
 //                        icon: Icon(Icons.play_circle_outline),
 //                      )
-                    ],
-                  ),
-                  SizedBox(height: 24.0),
-                  _movieDetail == null
-                      ? SizedBox(height: 36.0)
-                      : Row(
-                          children: <Widget>[
-                            Wrap(
-                              spacing: 12.0,
-                              verticalDirection: VerticalDirection.down,
-                              direction: Axis.horizontal,
-                              children: _movieDetail.genres
-                                  .map((g) => TextTag(g.name))
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                  SizedBox(height: 12.0),
-                  Column(
-                    children: <Widget>[
-                      SizedBox(height: 12.0),
-                      Row(
-                        children: <Widget>[
-                          Text('Overview', style: Styles.subTitle),
-                        ],
-                      ),
-                      SizedBox(height: 12.0),
-                      Text(movie.overview, style: Styles.normal),
-                      SizedBox(height: 12.0),
-                    ],
-                  ),
-                  SizedBox(height: 12.0),
-                  Row(
-                    children: <Widget>[
-                      Text('Gallery', style: Styles.subTitle),
-                    ],
-                  ),
-                  SizedBox(height: 12.0),
-                  GalleryList(gallery: _gallery),
-                  SizedBox(height: 24.0),
-                  Row(
-                    children: <Widget>[
-                      Text('Cast', style: Styles.subTitle),
-                    ],
-                  ),
-                  SizedBox(height: 12.0),
-                  CastList(casts: _casts),
-                ],
-              ),
-            ),
-          ),
-        ],
+      ],
+    );
+  }
+}
+
+class MovieGenres extends StatelessWidget {
+  final List<Genre> genres;
+
+  const MovieGenres(this.genres);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: screenWidth(context),
+      child: Wrap(
+        spacing: 12.0,
+        alignment: WrapAlignment.start,
+        children: genres.map((g) => TextTag(g.name)).toList(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => EditScreen(movie)),
-          );
-        },
-        child: Icon(Icons.edit),
-      ),
+    );
+  }
+}
+
+class MovieOverview extends StatelessWidget {
+  const MovieOverview(this.overview);
+
+  final String overview;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 12.0),
+        SizedBox(
+          width: screenWidth(context),
+          child: Text('Overview', style: Styles.subTitle),
+        ),
+        SizedBox(height: 12.0),
+        Text(overview, style: Styles.normal),
+        SizedBox(height: 12.0),
+      ],
     );
   }
 }

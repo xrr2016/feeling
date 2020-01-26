@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../const/app_info.dart';
+import '../../styles.dart';
 import './view/index_mine.dart';
 import './view/index_home.dart';
 import './view/index_trending.dart';
@@ -23,17 +24,8 @@ class _IndexScreenState extends State<IndexScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xff4776E6),
-            Color(0xff8E54E9),
-          ],
-        ),
-      ),
+    return DecoratedBox(
+      decoration: BoxDecoration(gradient: Styles.background),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,

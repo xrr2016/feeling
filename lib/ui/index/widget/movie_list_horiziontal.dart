@@ -18,6 +18,7 @@ class MovieListHorizontal extends StatefulWidget {
 class _MovieListHorizontalState extends State<MovieListHorizontal> {
   @override
   Widget build(BuildContext context) {
+    final label = widget.label;
     final _movies = widget.movies;
 
     return Padding(
@@ -25,7 +26,7 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(widget.label, style: Styles.subTitle),
+          Text(label, style: Styles.subTitle),
           SizedBox(height: 24.0),
           SizedBox(
             height: 340.0,
@@ -38,7 +39,7 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
                       itemBuilder: (_, index) {
                         final Movie movie = _movies[index];
 
-                        return MovieItemVertical(movie);
+                        return MovieItemVertical(movie, label);
                       },
                       itemCount: _movies.length,
                     ),

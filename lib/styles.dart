@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Styles {
-  static Color background = Color(0xFFF6F6F8);
+  static LinearGradient background = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xff4776E6),
+      Color(0xff8E54E9),
+    ],
+  );
 
   static TextStyle title = TextStyle(
     fontSize: 28.0,
