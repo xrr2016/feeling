@@ -1,9 +1,9 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/person.dart';
 import '../../../const/api_const.dart';
 import '../../../styles.dart';
-import '../../../widget/place_holder.dart';
 import '../../../ui/person/person_screen.dart';
 
 class PersonItem extends StatelessWidget {
@@ -32,11 +32,10 @@ class PersonItem extends StatelessWidget {
                       width: double.infinity,
                       child: Hero(
                         tag: person.id,
-                        child: FadeInImage(
+                        child: ExtendedImage.network(
+                          IMG_PREFIX + person.profilePath,
+                          cache: true,
                           fit: BoxFit.cover,
-                          fadeInCurve: Curves.ease,
-                          image: NetworkImage(IMG_PREFIX + person.profilePath),
-                          placeholder: placeholder,
                         ),
                       ),
                     ),

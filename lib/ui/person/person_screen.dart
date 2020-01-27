@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../styles.dart';
 import '../../model/person.dart';
 import '../../const/api_const.dart';
 import '../../widget/loading.dart';
-import '../../widget/place_holder.dart';
 import '../../model/person_detail.dart';
 import '../../data/network/api_client.dart';
 
@@ -194,12 +194,14 @@ class _PersonScreenState extends State<PersonScreen> {
 
                               return Container(
                                 margin: EdgeInsets.only(right: 12.0),
-                                child: FadeInImage(
+                                child: ExtendedImage.network(
+                                  IMG_PREFIX + knownFor.posterPath,
+                                  cache: true,
                                   fit: BoxFit.cover,
-                                  fadeInCurve: Curves.ease,
-                                  image: NetworkImage(
-                                      IMG_PREFIX + knownFor.posterPath),
-                                  placeholder: placeholder,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0),
+                                  ),
                                 ),
                               );
                             },

@@ -85,13 +85,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.9"
-  flappy_search_bar:
-    dependency: "direct main"
-    description:
-      name: flappy_search_bar
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.7.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -130,13 +123,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.3"
-  flutter_staggered_grid_view:
-    dependency: transitive
-    description:
-      name: flutter_staggered_grid_view
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.0"
   flutter_swiper:
     dependency: "direct main"
     description:
@@ -259,13 +245,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.4.0"
-  photo_view:
-    dependency: "direct main"
-    description:
-      name: photo_view
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.9.1"
   platform:
     dependency: transitive
     description:
@@ -341,13 +320,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.5.5"
-  sqflite:
-    dependency: "direct main"
-    description:
-      name: sqflite
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.2.0"
   stack_trace:
     dependency: transitive
     description:
@@ -369,13 +341,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.5"
-  synchronized:
-    dependency: transitive
-    description:
-      name: synchronized
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.1"
   term_glyph:
     dependency: transitive
     description:
@@ -397,13 +362,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.6"
-  transparent_image:
-    dependency: "direct main"
-    description:
-      name: transparent_image
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:
@@ -418,13 +376,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.8"
-  webview_flutter:
-    dependency: transitive
-    description:
-      name: webview_flutter
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.19+5"
   xml:
     dependency: transitive
     description:
@@ -439,13 +390,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.0"
-  youtube_player_flutter:
-    dependency: "direct main"
-    description:
-      name: youtube_player_flutter
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "6.0.3+2"
 sdks:
-  dart: ">=2.6.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <2.0.0"
+  dart: ">=2.5.0 <3.0.0"
+  flutter: ">=1.12.13+hotfix.4 <2.0.0"

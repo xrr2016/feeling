@@ -1,7 +1,9 @@
+import 'package:flin/ui/edit/widget/watch_date.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../model/movie.dart';
-import '../../model/story.dart';
+import '../../styles.dart';
 
 class EditScreen extends StatefulWidget {
   final Movie movie;
@@ -13,31 +15,40 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  Story _story = Story();
-  int _currentPage = 0;
-
-  FocusNode _focusNode = FocusNode();
-  PageController _pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final movie = widget.movie;
-    final img = movie.posterPath ?? movie.backdropPath;
-    final feels = Feels.values;
+    final Movie _movie = widget.movie;
 
-    return Scaffold(
-        body: PageView(
-      controller: _pageController,
-    ));
+    final List _contents = [WatchDate(_movie)];
+
+    return DecoratedBox(
+      decoration: BoxDecoration(gradient: Styles.background),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Swiper(
+            loop: false,
+            itemCount: 1,
+            // control: SwiperControl(
+            //   size: 32.0,
+            //   color: Colors.white,
+            // ),
+            pagination: SwiperPagination(
+              margin: EdgeInsets.all(12.0),
+              alignment: Alignment.topRight,
+            ),
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              return _contents[index];
+            },
+          ),
+        ),
+      ),
+    );
   }
 }
 
