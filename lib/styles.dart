@@ -10,6 +10,15 @@ class Styles {
     ],
   );
 
+  static LinearGradient backgroundReverse = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xff4776E6),
+      Color(0xff8E54E9),
+    ],
+  );
+
   static TextStyle title = TextStyle(
     fontSize: 28.0,
     fontWeight: FontWeight.bold,

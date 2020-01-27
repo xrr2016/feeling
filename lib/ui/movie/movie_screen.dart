@@ -198,7 +198,7 @@ class _MovieScreenState extends State<MovieScreen> {
         backgroundColor: Colors.transparent,
         floatingActionButton: DecoratedBox(
           decoration: BoxDecoration(
-            gradient: Styles.background,
+            gradient: Styles.backgroundReverse,
             shape: BoxShape.circle,
           ),
           child: FloatingActionButton(
