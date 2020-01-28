@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               title: 'feeling',
               theme: ThemeData(
-                primarySwatch: theme.color,
+                // primarySwatch: theme.color,
                 textTheme: GoogleFonts.robotoTextTheme(),
               ),
               localizationsDelegates: [
