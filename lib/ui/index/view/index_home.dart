@@ -54,7 +54,7 @@ class _IndexHomeState extends State<IndexHome>
   Future _getMovies({String type = 'upcoming', int page}) async {
     _isLoadingMovies = true;
     try {
-      Response response = await ApiClient.get(
+      Response response = await apiClient.get(
         '/3/movie/$type',
         queryParameters: {"page": page},
       );

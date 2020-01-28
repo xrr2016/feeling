@@ -36,7 +36,7 @@ class _MovieScreenState extends State<MovieScreen> {
 //  Future _getMovieVideos(int id) async {
 //    _isLoadingVideos = true;
 //    try {
-//      Response response = await ApiClient.get('/3/movie/$id/videos');
+//      Response response = await apiClient.get('/3/movie/$id/videos');
 //
 //      final data = response.data;
 //      final results = data["results"] as List;
@@ -61,7 +61,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
   Future _getMovieDetail(int id) async {
     try {
-      Response response = await ApiClient.get('/3/movie/$id');
+      Response response = await apiClient.get('/3/movie/$id');
 
       final data = response.data;
 
@@ -76,7 +76,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
   Future _getMovieImages(int id) async {
     try {
-      Response response = await ApiClient.get('/3/movie/$id/images');
+      Response response = await apiClient.get('/3/movie/$id/images');
 
       final data = response.data;
       final backdrops = data["backdrops"] as List;
@@ -94,7 +94,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
   Future _getMovieCast(int id) async {
     try {
-      Response response = await ApiClient.get('/3/movie/$id/credits');
+      Response response = await apiClient.get('/3/movie/$id/credits');
 
       final data = response.data;
       final result = data["cast"] as List;

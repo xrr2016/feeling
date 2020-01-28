@@ -28,4 +28,4 @@ Dio _createClient() {
   return client;
 }
 
-final Dio ApiClient = _createClient();
+final Dio apiClient = _createClient();

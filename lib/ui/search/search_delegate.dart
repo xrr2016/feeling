@@ -48,10 +48,10 @@ class AppSearchDelegate extends SearchDelegate {
               onPressed: () {
                 query = '';
                 _currentPage = 1;
-                _totalPage = 1;
+                // _totalPage = 1;
                 _totalResults = 0;
                 _results = [];
-                _isSearching = false;
+                // _isSearching = false;
                 showSuggestions(context);
               },
             )
@@ -70,17 +70,17 @@ class AppSearchDelegate extends SearchDelegate {
     return Container();
   }
 
-  bool _isSearching = false;
+  // bool _isSearching = false;
   int _currentPage = 1;
-  int _totalPage = 1;
+  // int _totalPage = 1;
   int _totalResults = 0;
   List<Movie> _results = [];
 
   Future _searchMovies() async {
-    _isSearching = true;
+    // _isSearching = true;
 
     try {
-      Response response = await ApiClient.get(
+      Response response = await apiClient.get(
         '/3/search/movie',
         queryParameters: {
           "query": this.query,
@@ -92,7 +92,7 @@ class AppSearchDelegate extends SearchDelegate {
       final data = response.data;
       final results = data["results"] as List;
 
-      _totalPage = data["total_pages"];
+      // _totalPage = data["total_pages"];
       _totalResults = data["total_results"];
       results.forEach((r) => _results.add(Movie.fromJson(r)));
 
@@ -100,7 +100,7 @@ class AppSearchDelegate extends SearchDelegate {
     } on DioError catch (err) {
       throw err;
     } finally {
-      _isSearching = false;
+      // _isSearching = false;
     }
   }
 

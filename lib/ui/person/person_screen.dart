@@ -21,7 +21,7 @@ class PersonScreen extends StatefulWidget {
 class _PersonScreenState extends State<PersonScreen> {
   Future _getPersonDetail(int id, {String language = 'en-US'}) async {
     try {
-      Response response = await ApiClient.get(
+      Response response = await apiClient.get(
         '/3/person/$id',
         queryParameters: {
           "language": language,

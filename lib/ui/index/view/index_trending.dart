@@ -36,7 +36,7 @@ class _IndexTrendingState extends State<IndexTrending>
   Future _getTrending({String time = 'day'}) async {
     _isLoadingTrending = true;
     try {
-      Response response = await ApiClient.get(
+      Response response = await apiClient.get(
         '/3/trending/movie/$time',
         queryParameters: {
           "page": _currentTrendingPage,
