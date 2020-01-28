@@ -1,4 +1,4 @@
-import 'package:flin/ui/edit/widget/watch_date.dart';
+import 'package:feeling/ui/edit/widget/watch_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 

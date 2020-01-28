@@ -1,4 +1,4 @@
-import 'package:flin/model/movie.dart';
+import 'package:feeling/model/movie.dart';
 import 'package:flutter/material.dart';
 
 import './movie_item.dart';

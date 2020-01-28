@@ -1,3 +1,3 @@
 class AppInfo {
-  static String name = 'flin';
+  static String name = 'feeling';
 }
