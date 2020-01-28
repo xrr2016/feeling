@@ -1,4 +1,6 @@
 import 'package:feeling/const/feel_emoji.dart';
+import 'package:feeling/utils/screen_size.dart';
+// import 'package:feeling/model/story.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -20,12 +22,13 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
+  SwiperController _swiperController = SwiperController();
+  String _watchDate = _formatDate(DateTime.now());
+  int _feelIndex = 0;
+
   static String _formatDate(DateTime date) {
     return formatDate(date, [yyyy, '.', mm, '.', dd]);
   }
-
-  SwiperController _swiperController = SwiperController();
-  String _watchDate = _formatDate(DateTime.now());
 
   FlatButton _moveTo(int index) {
     return FlatButton(
@@ -103,27 +106,59 @@ class _EditScreenState extends State<EditScreen> {
           alignment: Alignment.center,
           child: SizedBox(
             width: double.infinity,
-            height: 100.0,
+            height: 124.0,
             child: ListView.builder(
+              itemExtent: 124.0,
               scrollDirection: Axis.horizontal,
               itemCount: FeelEmoji.list.length,
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
               itemBuilder: (context, index) {
                 final asset = FeelEmoji.list[index];
-
-                print(asset);
+                final svg = asset['svg'];
+                final label = asset['label'];
 
                 return InkWell(
+                  splashColor: Colors.indigo,
                   onTap: () {
-                    _swiperController.next();
+                    setState(() {
+                      _feelIndex = index;
+                    });
                   },
-                  child: Container(
-                    child: SvgPicture.asset(
-                      asset['svg'],
-                      semanticsLabel: asset['label'],
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: _feelIndex == index ? Colors.white10 : null,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 50.0,
+                          height: 50.0,
+                          child: SvgPicture.asset(svg, semanticsLabel: label),
+                        ),
+                        SizedBox(height: 12.0),
+                        Text(asset['label'], style: Styles.normal)
+                      ],
                     ),
                   ),
                 );
               },
+            ),
+          ),
+        ),
+        Positioned(
+          top: 500.0,
+          left: screenWidth(context) / 2 - 60,
+          child: FlatButton(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            onPressed: () {
+              _swiperController.next();
+            },
+            child: Text(
+              'Confirm',
+              style:
+                  Styles.normal.copyWith(decoration: TextDecoration.underline),
             ),
           ),
         ),

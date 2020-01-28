@@ -13,27 +13,27 @@ class FeelEmoji {
 
   static List<Map> list = [
     {
-      "label": "Angry",
+      "label": "angry",
       "svg": angry,
     },
     {
-      "label": "Haha",
+      "label": "haha",
       "svg": haha,
     },
     {
-      "label": "Like",
+      "label": "kike",
       "svg": like,
     },
     {
-      "label": "Love",
+      "label": "love",
       "svg": love,
     },
     {
-      "label": "Sad",
+      "label": "sad",
       "svg": sad,
     },
     {
-      "label": "Wow",
+      "label": "wow",
       "svg": wow,
     },
   ];
