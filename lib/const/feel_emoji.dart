@@ -21,7 +21,7 @@ class FeelEmoji {
       "svg": haha,
     },
     {
-      "label": "kike",
+      "label": "like",
       "svg": like,
     },
     {

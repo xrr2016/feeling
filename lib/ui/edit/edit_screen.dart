@@ -1,16 +1,15 @@
-import 'package:feeling/const/feel_emoji.dart';
-import 'package:feeling/utils/screen_size.dart';
-// import 'package:feeling/model/story.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:date_format/date_format.dart';
 
-import '../../const/story_question.dart';
-import '../../const/api_const.dart';
-import '../../model/movie.dart';
 import '../../styles.dart';
+import '../../model/story.dart';
+import '../../model/movie.dart';
+import '../../const/api_const.dart';
+import '../../const/feel_emoji.dart';
+import '../../const/story_question.dart';
 
 class EditScreen extends StatefulWidget {
   final Movie movie;
@@ -24,8 +23,9 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   SwiperController _swiperController = SwiperController();
   String _watchDate = _formatDate(DateTime.now());
-  int _feelIndex = 0;
+  String _feel = 'haha';
   double _rate = 5.0;
+  TextEditingController _reviewController = TextEditingController(text: '');
 
   static String _formatDate(DateTime date) {
     return formatDate(date, [yyyy, '.', mm, '.', dd]);
@@ -45,7 +45,7 @@ class _EditScreenState extends State<EditScreen> {
         FlatButton(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
-            'Choose',
+            'Change',
             style: Styles.normal.copyWith(decoration: TextDecoration.underline),
           ),
           onPressed: () async {
@@ -59,7 +59,6 @@ class _EditScreenState extends State<EditScreen> {
             setState(() {
               if (selectedDate != null) {
                 _watchDate = _formatDate(selectedDate);
-                _swiperController.next();
               }
             });
           },
@@ -92,12 +91,12 @@ class _EditScreenState extends State<EditScreen> {
                   splashColor: Colors.indigo,
                   onTap: () {
                     setState(() {
-                      _feelIndex = index;
+                      _feel = label;
                     });
                   },
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: _feelIndex == index ? Colors.white10 : null,
+                      color: _feel == label ? Colors.white10 : null,
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: Column(
@@ -118,17 +117,6 @@ class _EditScreenState extends State<EditScreen> {
             ),
           ),
         ),
-        SizedBox(height: 42.0),
-        FlatButton(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          onPressed: () {
-            _swiperController.next();
-          },
-          child: Text(
-            'Confirm',
-            style: Styles.normal.copyWith(decoration: TextDecoration.underline),
-          ),
-        ),
       ],
     );
   }
@@ -137,7 +125,7 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 48.0),
-        Text(StoryQuestion.feeling, style: Styles.normal),
+        Text(StoryQuestion.rate, style: Styles.normal),
         SizedBox(height: 60.0),
         Text(
           _rate.toStringAsFixed(1),
@@ -156,15 +144,58 @@ class _EditScreenState extends State<EditScreen> {
             });
           },
         ),
-        SizedBox(height: 42.0),
-        FlatButton(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+      ],
+    );
+  }
+
+  Widget _buildReview() {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 48.0),
+        Text(StoryQuestion.review, style: Styles.normal),
+        SizedBox(height: 60.0),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          child: TextField(
+            maxLength: 240,
+            autofocus: true,
+            cursorColor: Colors.white,
+            controller: _reviewController,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            ),
+            textInputAction: TextInputAction.done,
+            textCapitalization: TextCapitalization.sentences,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(12.0),
+              counterStyle: TextStyle(
+                color: Colors.white70,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 120.0),
+        RaisedButton(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 16.0),
           onPressed: () {
-            _swiperController.next();
+            Story _story = Story(
+              feel: _feel,
+              rate: _rate,
+              movie: widget.movie,
+              watchDate: _watchDate,
+              review: _reviewController.text,
+              updateDate: _formatDate(DateTime.now()),
+              createDate: _formatDate(DateTime.now()),
+            );
+
+            // TODO save to local
+            print(_story.review);
           },
           child: Text(
-            'Confirm',
-            style: Styles.normal.copyWith(decoration: TextDecoration.underline),
+            'Save story',
+            style: Styles.normal.copyWith(color: Colors.black),
           ),
         ),
       ],
@@ -180,6 +211,7 @@ class _EditScreenState extends State<EditScreen> {
       _buildWatchDate(),
       _buildFeeling(),
       _buildRate(),
+      _buildReview(),
     ];
 
     return DecoratedBox(
