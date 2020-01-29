@@ -1,8 +1,7 @@
+import 'package:feeling/data/box/story_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:hive/hive.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -16,8 +15,7 @@ import './data/local/translate_preferences.dart';
 
 void main() async {
   await DotEnv().load('.env');
-  // await Hive.initFlutter();
-
+  await StoryBox().init();
   final delegate = await LocalizationDelegate.create(
     fallbackLocale: 'en',
     supportedLocales: ['en', 'zh'],

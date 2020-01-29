@@ -1,14 +1,17 @@
+import 'package:feeling/ui/index/index_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:date_format/date_format.dart';
+import 'package:hive/hive.dart';
 
 import '../../styles.dart';
 import '../../model/story.dart';
 import '../../model/movie.dart';
 import '../../const/api_const.dart';
 import '../../const/feel_emoji.dart';
+import '../../data/box/story_box.dart';
 import '../../const/story_question.dart';
 
 class EditScreen extends StatefulWidget {
@@ -22,10 +25,16 @@ class EditScreen extends StatefulWidget {
 
 class _EditScreenState extends State<EditScreen> {
   SwiperController _swiperController = SwiperController();
-  String _watchDate = _formatDate(DateTime.now());
+  double _rate;
   String _feel = 'haha';
-  double _rate = 5.0;
+  String _watchDate = _formatDate(DateTime.now());
   TextEditingController _reviewController = TextEditingController(text: '');
+
+  @override
+  void initState() {
+    _rate = widget.movie.voteAverage ?? 5.0;
+    super.initState();
+  }
 
   static String _formatDate(DateTime date) {
     return formatDate(date, [yyyy, '.', mm, '.', dd]);
@@ -77,10 +86,10 @@ class _EditScreenState extends State<EditScreen> {
           width: double.infinity,
           height: 124.0,
           child: ListView.builder(
-            itemExtent: 124.0,
+            itemExtent: 100.0,
             scrollDirection: Axis.horizontal,
             itemCount: FeelEmoji.list.length,
-            padding: EdgeInsets.symmetric(horizontal: 48.0),
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
             itemBuilder: (context, index) {
               final asset = FeelEmoji.list[index];
               final svg = asset['svg'];
@@ -166,10 +175,10 @@ class _EditScreenState extends State<EditScreen> {
             textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.sentences,
             decoration: InputDecoration(
+              hintText: 'your review here',
+              hintStyle: TextStyle(color: Colors.white70),
               contentPadding: EdgeInsets.all(12.0),
-              counterStyle: TextStyle(
-                color: Colors.white70,
-              ),
+              counterStyle: TextStyle(color: Colors.white70),
             ),
           ),
         ),
@@ -186,6 +195,14 @@ class _EditScreenState extends State<EditScreen> {
               review: _reviewController.text,
               updateDate: _formatDate(DateTime.now()),
               createDate: _formatDate(DateTime.now()),
+            );
+
+            Box<Story> storyBox = Hive.box<Story>(StoryBox.name);
+            storyBox.add(_story);
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => IndexScreen(initPage: 2)),
             );
           },
           child: Text('Save story', style: Styles.subTitle),

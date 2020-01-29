@@ -2,22 +2,41 @@
 // final movie = movieFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:hive/hive.dart';
 
+part 'movie.g.dart';
+
+@HiveType(typeId: 1)
 class Movie {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final bool video;
+  @HiveField(2)
   final int voteCount;
+  @HiveField(3)
   final double voteAverage;
+  @HiveField(4)
   final String title;
+  @HiveField(5)
   final String releaseDate;
+  @HiveField(6)
   final String originalLanguage;
+  @HiveField(7)
   final String originalTitle;
+  @HiveField(8)
   final List<int> genreIds;
+  @HiveField(9)
   final String backdropPath;
+  @HiveField(10)
   final bool adult;
+  @HiveField(11)
   final String overview;
+  @HiveField(12)
   final String posterPath;
+  @HiveField(13)
   final double popularity;
+  @HiveField(14)
   final String mediaType;
 
   Movie({
