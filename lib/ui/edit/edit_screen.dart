@@ -34,14 +34,14 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildWatchDate() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 48.0),
+        SizedBox(height: 120.0),
         Text(StoryQuestion.watchDate, style: Styles.normal),
-        SizedBox(height: 100.0),
+        SizedBox(height: 48.0),
         Text(
           _watchDate.toString(),
           style: Styles.title.copyWith(fontSize: 36.0),
         ),
-        SizedBox(height: 64.0),
+        SizedBox(height: 24.0),
         FlatButton(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
@@ -70,51 +70,49 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildFeeling() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 48.0),
+        SizedBox(height: 120.0),
         Text(StoryQuestion.feeling, style: Styles.normal),
-        SizedBox(height: 80.0),
+        SizedBox(height: 24.0),
         SizedBox(
           width: double.infinity,
           height: 124.0,
-          child: Scrollbar(
-            child: ListView.builder(
-              itemExtent: 124.0,
-              scrollDirection: Axis.horizontal,
-              itemCount: FeelEmoji.list.length,
-              padding: EdgeInsets.symmetric(horizontal: 48.0),
-              itemBuilder: (context, index) {
-                final asset = FeelEmoji.list[index];
-                final svg = asset['svg'];
-                final label = asset['label'];
+          child: ListView.builder(
+            itemExtent: 124.0,
+            scrollDirection: Axis.horizontal,
+            itemCount: FeelEmoji.list.length,
+            padding: EdgeInsets.symmetric(horizontal: 48.0),
+            itemBuilder: (context, index) {
+              final asset = FeelEmoji.list[index];
+              final svg = asset['svg'];
+              final label = asset['label'];
 
-                return InkWell(
-                  splashColor: Colors.indigo,
-                  onTap: () {
-                    setState(() {
-                      _feel = label;
-                    });
-                  },
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: _feel == label ? Colors.white10 : null,
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 50.0,
-                          height: 50.0,
-                          child: SvgPicture.asset(svg, semanticsLabel: label),
-                        ),
-                        SizedBox(height: 12.0),
-                        Text(asset['label'], style: Styles.normal)
-                      ],
-                    ),
+              return InkWell(
+                splashColor: Colors.indigo,
+                onTap: () {
+                  setState(() {
+                    _feel = label;
+                  });
+                },
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: _feel == label ? Colors.white10 : null,
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
-                );
-              },
-            ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        child: SvgPicture.asset(svg, semanticsLabel: label),
+                      ),
+                      SizedBox(height: 12.0),
+                      Text(asset['label'], style: Styles.normal),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ],
@@ -124,7 +122,7 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildRate() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 48.0),
+        SizedBox(height: 120.0),
         Text(StoryQuestion.rate, style: Styles.normal),
         SizedBox(height: 60.0),
         Text(
@@ -151,7 +149,7 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildReview() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 48.0),
+        SizedBox(height: 120.0),
         Text(StoryQuestion.review, style: Styles.normal),
         SizedBox(height: 60.0),
         Padding(
@@ -175,7 +173,7 @@ class _EditScreenState extends State<EditScreen> {
             ),
           ),
         ),
-        SizedBox(height: 120.0),
+        SizedBox(height: 48.0),
         RaisedButton(
           color: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 16.0),
@@ -190,7 +188,6 @@ class _EditScreenState extends State<EditScreen> {
               createDate: _formatDate(DateTime.now()),
             );
 
-            // TODO save to local
             print(_story.review);
           },
           child: Text(
@@ -241,6 +238,7 @@ class _EditScreenState extends State<EditScreen> {
                   control: SwiperControl(
                     size: 24.0,
                     color: Colors.white,
+                    disableColor: Colors.white30,
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return pages[index];
