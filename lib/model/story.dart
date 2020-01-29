@@ -17,12 +17,15 @@ class Story {
   @HiveField(4)
   final Movie movie;
   @HiveField(5)
-  final String createDate;
+  final String movieId;
   @HiveField(6)
+  final String createDate;
+  @HiveField(7)
   String updateDate;
 
   Story({
     @required this.movie,
+    @required this.movieId,
     @required this.createDate,
     @required this.updateDate,
     this.watchDate,

@@ -37,6 +37,8 @@ dependencies:
   path_provider: ^1.5.1
   date_format: ^1.0.8
   flutter_svg:
+  pull_to_refresh: ^1.5.8
+  bot_toast: ^2.2.1
 
 dev_dependencies:
   flutter_test:

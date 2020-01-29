@@ -1,4 +1,4 @@
-import 'package:feeling/data/box/story_box.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,6 +8,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import './routes.dart';
+import './data/box/story_box.dart';
 import './ui/index/index_screen.dart';
 import './provider/theme_provider.dart';
 import './provider/locale_provider.dart';
@@ -45,23 +46,25 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<ThemeProvider>(
           builder: (context, theme, child) {
-            return MaterialApp(
-              title: 'feeling',
-              theme: ThemeData(
-                // primarySwatch: theme.color,
-                textTheme: GoogleFonts.robotoTextTheme(),
+            return BotToastInit(
+              child: MaterialApp(
+                title: 'feeling',
+                theme: ThemeData(
+                  textTheme: GoogleFonts.robotoTextTheme(),
+                ),
+                localizationsDelegates: [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  localizationDelegate
+                ],
+                supportedLocales: localizationDelegate.supportedLocales,
+                navigatorObservers: [BotToastNavigatorObserver()],
+                locale: localizationDelegate.currentLocale,
+                debugShowCheckedModeBanner: false,
+                home: child,
+                routes: routes,
               ),
-              localizationsDelegates: [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                localizationDelegate
-              ],
-              supportedLocales: localizationDelegate.supportedLocales,
-              locale: localizationDelegate.currentLocale,
-              debugShowCheckedModeBanner: false,
-              home: child,
-              routes: routes,
             );
           },
           child: IndexScreen(),

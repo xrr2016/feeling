@@ -18,8 +18,9 @@ class StoryAdapter extends TypeAdapter<Story> {
     };
     return Story(
       movie: fields[4] as Movie,
-      createDate: fields[5] as String,
-      updateDate: fields[6] as String,
+      movieId: fields[5] as String,
+      createDate: fields[6] as String,
+      updateDate: fields[7] as String,
       watchDate: fields[0] as String,
       rate: fields[2] as double,
       feel: fields[1] as String,
@@ -30,7 +31,7 @@ class StoryAdapter extends TypeAdapter<Story> {
   @override
   void write(BinaryWriter writer, Story obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.watchDate)
       ..writeByte(1)
@@ -42,8 +43,10 @@ class StoryAdapter extends TypeAdapter<Story> {
       ..writeByte(4)
       ..write(obj.movie)
       ..writeByte(5)
-      ..write(obj.createDate)
+      ..write(obj.movieId)
       ..writeByte(6)
+      ..write(obj.createDate)
+      ..writeByte(7)
       ..write(obj.updateDate);
   }
 }

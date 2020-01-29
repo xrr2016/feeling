@@ -197,7 +197,6 @@ class _MovieScreenState extends State<MovieScreen> {
         ),
         backgroundColor: Colors.transparent,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.cyan,
           elevation: 0.0,
           onPressed: () {
             Navigator.push(

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+// import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
@@ -18,6 +19,14 @@ class _IndexTrendingState extends State<IndexTrending>
   List<Movie> _trendingMovies = [];
   bool _isLoadingTrending = false;
   bool _isLoadingData = false;
+
+  //  RefreshController _refreshController =
+  //     RefreshController(initialRefresh: false);
+
+  // void _onRefresh() async{
+  //   await Future.delayed(Duration(milliseconds: 1000));
+  //   _refreshController.refreshCompleted();
+  // }
 
   Future _fetchData() async {
     setState(() {

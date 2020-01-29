@@ -5,6 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:hive/hive.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 import '../../styles.dart';
 import '../../model/story.dart';
@@ -29,6 +30,7 @@ class _EditScreenState extends State<EditScreen> {
   String _feel = 'haha';
   String _watchDate = _formatDate(DateTime.now());
   TextEditingController _reviewController = TextEditingController(text: '');
+  Box<Story> storyBox = Hive.box<Story>(StoryBox.name);
 
   @override
   void initState() {
@@ -193,17 +195,44 @@ class _EditScreenState extends State<EditScreen> {
               movie: widget.movie,
               watchDate: _watchDate,
               review: _reviewController.text,
+              movieId: widget.movie.id.toString(),
               updateDate: _formatDate(DateTime.now()),
               createDate: _formatDate(DateTime.now()),
             );
 
-            Box<Story> storyBox = Hive.box<Story>(StoryBox.name);
-            storyBox.add(_story);
+            int foundStores = storyBox.values
+                .where((story) => story.movieId == _story.movieId)
+                .length;
 
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => IndexScreen(initPage: 2)),
-            );
+            if (foundStores > 0) {
+              BotToast.showSimpleNotification(
+                title: "Story exist.",
+                align: Alignment.center,
+                onlyOne: true,
+                crossPage: false,
+                hideCloseButton: true,
+                enableSlideOff: true,
+                subTitle: 'View',
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => IndexScreen(initPage: 2),
+                      settings: RouteSettings(arguments: 1),
+                    ),
+                  );
+                },
+              );
+            } else {
+              storyBox.add(_story);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IndexScreen(initPage: 2),
+                ),
+              );
+            }
           },
           child: Text('Save story', style: Styles.subTitle),
         ),
