@@ -72,7 +72,7 @@ class _EditScreenState extends State<EditScreen> {
       children: <Widget>[
         SizedBox(height: 120.0),
         Text(StoryQuestion.feeling, style: Styles.normal),
-        SizedBox(height: 24.0),
+        SizedBox(height: 48.0),
         SizedBox(
           width: double.infinity,
           height: 124.0,
@@ -124,7 +124,7 @@ class _EditScreenState extends State<EditScreen> {
       children: <Widget>[
         SizedBox(height: 120.0),
         Text(StoryQuestion.rate, style: Styles.normal),
-        SizedBox(height: 60.0),
+        SizedBox(height: 48.0),
         Text(
           _rate.toStringAsFixed(1),
           style: Styles.title.copyWith(fontSize: 36.0),
@@ -151,7 +151,7 @@ class _EditScreenState extends State<EditScreen> {
       children: <Widget>[
         SizedBox(height: 120.0),
         Text(StoryQuestion.review, style: Styles.normal),
-        SizedBox(height: 60.0),
+        SizedBox(height: 48.0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: TextField(
@@ -174,8 +174,8 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         SizedBox(height: 48.0),
-        RaisedButton(
-          color: Colors.white,
+        MaterialButton(
+          color: Colors.cyan,
           padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 16.0),
           onPressed: () {
             Story _story = Story(
@@ -187,13 +187,8 @@ class _EditScreenState extends State<EditScreen> {
               updateDate: _formatDate(DateTime.now()),
               createDate: _formatDate(DateTime.now()),
             );
-
-            print(_story.review);
           },
-          child: Text(
-            'Save story',
-            style: Styles.normal.copyWith(color: Colors.black),
-          ),
+          child: Text('Save story', style: Styles.subTitle),
         ),
       ],
     );
@@ -236,7 +231,7 @@ class _EditScreenState extends State<EditScreen> {
                   controller: _swiperController,
                   scrollDirection: Axis.vertical,
                   control: SwiperControl(
-                    size: 24.0,
+                    size: 20.0,
                     color: Colors.white,
                     disableColor: Colors.white30,
                   ),

@@ -196,22 +196,16 @@ class _MovieScreenState extends State<MovieScreen> {
           ],
         ),
         backgroundColor: Colors.transparent,
-        floatingActionButton: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: Styles.backgroundReverse,
-            shape: BoxShape.circle,
-          ),
-          child: FloatingActionButton(
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => EditScreen(movie)),
-              );
-            },
-            child: Icon(Icons.edit),
-          ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.cyan,
+          elevation: 0.0,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => EditScreen(movie)),
+            );
+          },
+          child: Icon(Icons.edit),
         ),
       ),
     );

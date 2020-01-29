@@ -4,16 +4,14 @@ import '../data/local/theme_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   static List<Color> _colors = [
+    Colors.cyan,
     Colors.amber,
     Colors.indigo,
     Colors.purple,
     Colors.blue,
-    Colors.cyan,
     Colors.teal,
     Colors.green,
     Colors.red,
-    Colors.cyan,
-    Colors.teal,
     Colors.orange,
     Colors.brown,
   ];
