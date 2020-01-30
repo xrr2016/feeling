@@ -30,9 +30,10 @@ class _StoryScreenState extends State<StoryScreen> {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.white,
+        gradient: Styles.background,
         image: DecorationImage(
           image: NetworkImage(IMG_PREFIX + poster),
+          // image: MemoryImage(bytes),
           fit: BoxFit.cover,
         ),
       ),
@@ -56,8 +57,8 @@ class _StoryScreenState extends State<StoryScreen> {
                       child: Row(
                         children: <Widget>[
                           SizedBox(
-                            width: 80.0,
-                            child: Text('Feel', style: Styles.normal),
+                            width: 70.0,
+                            child: Text('Feel:', style: Styles.normal),
                           ),
                           SizedBox(width: 6.0),
                           Container(
@@ -94,7 +95,7 @@ class StoryInfoItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Row(
         children: <Widget>[
-          SizedBox(width: 80.0, child: Text(labal, style: Styles.normal)),
+          SizedBox(width: 70.0, child: Text(labal, style: Styles.normal)),
           SizedBox(width: 12.0),
           Text(content, style: Styles.subTitle),
         ],

@@ -57,6 +57,17 @@ class _IndexMineState extends State<IndexMine>
                     final svg = asset['svg'];
                     final label = asset['label'];
 
+                    final image = ExtendedImage.network(
+                      IMG_PREFIX + poster,
+                      fit: BoxFit.cover,
+                      cache: true,
+                      height: 250.0,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    );
+
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
@@ -68,24 +79,10 @@ class _IndexMineState extends State<IndexMine>
                       child: Stack(
                         fit: StackFit.expand,
                         children: <Widget>[
-                          ExtendedImage.network(
-                            IMG_PREFIX + poster,
-                            fit: BoxFit.cover,
-                            cache: true,
-                            height: 250.0,
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
+                          image,
                           Positioned(
-                            top: 12.0,
-                            left: 24.0,
-                            child: Text(story.watchDate, style: Styles.normal),
-                          ),
-                          Positioned(
-                            top: 12.0,
-                            right: 24.0,
+                            bottom: 12.0,
+                            right: 33.0,
                             child: Text(
                               story.rate.toStringAsFixed(1),
                               style: Styles.normal,
@@ -93,7 +90,7 @@ class _IndexMineState extends State<IndexMine>
                           ),
                           Positioned(
                             right: 24.0,
-                            bottom: 24.0,
+                            bottom: 46.0,
                             child: Container(
                               width: 50.0,
                               height: 50.0,
