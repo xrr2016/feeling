@@ -230,6 +230,7 @@ class _EditScreenState extends State<EditScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => IndexScreen(initPage: 2),
+                  settings: RouteSettings(arguments: 0),
                 ),
               );
             }

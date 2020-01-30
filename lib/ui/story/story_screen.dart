@@ -1,9 +1,11 @@
-import 'package:feeling/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../styles.dart';
 import '../../model/movie.dart';
 import '../../model/story.dart';
 import '../../const/api_const.dart';
+import '../../const/feel_emoji.dart';
 
 class StoryScreen extends StatefulWidget {
   final Story story;
@@ -21,8 +23,14 @@ class _StoryScreenState extends State<StoryScreen> {
     final Movie movie = story.movie;
     String poster = movie.posterPath ?? movie.backdropPath;
 
+    final feel = story.feel;
+    final asset = FeelEmoji.list.firstWhere((item) => item['label'] == feel);
+    final svg = asset['svg'];
+    final label = asset['label'];
+
     return DecoratedBox(
       decoration: BoxDecoration(
+        color: Colors.white,
         image: DecorationImage(
           image: NetworkImage(IMG_PREFIX + poster),
           fit: BoxFit.cover,
@@ -34,14 +42,62 @@ class _StoryScreenState extends State<StoryScreen> {
           elevation: 0.0,
           backgroundColor: Colors.transparent,
         ),
-        body: Column(
+        body: Stack(
           children: <Widget>[
-            Text(
-              story.rate.toStringAsFixed(1),
-              style: Styles.normal,
+            Positioned(
+              left: 24.0,
+              bottom: 100.0,
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: 80.0,
+                            child: Text('Feel', style: Styles.normal),
+                          ),
+                          SizedBox(width: 6.0),
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            child: SvgPicture.asset(svg, semanticsLabel: label),
+                          ),
+                        ],
+                      ),
+                    ),
+                    StoryInfoItem('Rate:', story.rate.toStringAsFixed(1)),
+                    StoryInfoItem('Date:', story.watchDate),
+                    StoryInfoItem('Review:', story.review),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class StoryInfoItem extends StatelessWidget {
+  final String labal;
+  final String content;
+
+  const StoryInfoItem(this.labal, this.content);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Row(
+        children: <Widget>[
+          SizedBox(width: 80.0, child: Text(labal, style: Styles.normal)),
+          SizedBox(width: 12.0),
+          Text(content, style: Styles.subTitle),
+        ],
       ),
     );
   }

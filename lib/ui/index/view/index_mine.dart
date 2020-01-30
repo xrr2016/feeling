@@ -31,8 +31,6 @@ class _IndexMineState extends State<IndexMine>
     double _height = 500.0;
     double _width = screenWidth(context) - 90;
 
-    print(storyIndex);
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
