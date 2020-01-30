@@ -1,7 +1,7 @@
-import 'package:feeling/model/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../model/movie.dart';
 part 'story.g.dart';
 
 @HiveType(typeId: 0)

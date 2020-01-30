@@ -1,7 +1,7 @@
-import 'package:feeling/model/movie.dart';
 import 'package:flutter/material.dart';
 
 import './movie_item.dart';
+import '../../../model/movie.dart';
 
 class MovieListTrending extends StatefulWidget {
   final List<Movie> movies;

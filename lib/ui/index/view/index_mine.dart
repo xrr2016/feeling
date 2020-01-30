@@ -1,4 +1,3 @@
-import 'package:feeling/ui/story/story_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import '../../../utils/screen_size.dart';
 import '../../../model/story.dart';
 import '../../../const/api_const.dart';
 import '../../../model/movie.dart';
+import '../../../ui/story/story_screen.dart';
 import '../../../data/box/story_box.dart';
 
 class IndexMine extends StatefulWidget {

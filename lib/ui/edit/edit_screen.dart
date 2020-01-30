@@ -1,4 +1,3 @@
-import 'package:feeling/ui/index/index_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -14,6 +13,7 @@ import '../../const/api_const.dart';
 import '../../const/feel_emoji.dart';
 import '../../data/box/story_box.dart';
 import '../../const/story_question.dart';
+import '../../ui/index/index_screen.dart';
 
 class EditScreen extends StatefulWidget {
   final Movie movie;

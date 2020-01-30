@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           builder: (context, theme, child) {
             return BotToastInit(
               child: MaterialApp(
-                title: 'feeling',
+                title: 'Feeling',
                 theme: ThemeData(
                   textTheme: GoogleFonts.robotoTextTheme(),
                 ),
