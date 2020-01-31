@@ -1,3 +1,4 @@
+import '../../utils/screen_size.dart';
 import 'package:flutter/material.dart';
 
 import '../../styles.dart';
@@ -37,59 +38,60 @@ class _IndexScreenState extends State<IndexScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
       decoration: BoxDecoration(gradient: Styles.background),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0.0,
-            centerTitle: false,
-            backgroundColor: Colors.transparent,
-            actions: <Widget>[
-              IconButton(
-                tooltip: 'Search',
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  showSearch(context: context, delegate: AppSearchDelegate());
-                },
-              ),
-            ],
-          ),
-//        extendBodyBehindAppBar: true,
-          body: PageView(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          centerTitle: false,
+          backgroundColor: Colors.transparent,
+          actions: <Widget>[
+            IconButton(
+              tooltip: 'Search',
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: AppSearchDelegate());
+              },
+            ),
+          ],
+        ),
+        // extendBodyBehindAppBar: true,
+        body: SizedBox(
+          height: screenHeightExcludingToolbar(context),
+          child: PageView(
             children: _contents,
             controller: _pageController,
             onPageChanged: _onPageChanged,
             physics: NeverScrollableScrollPhysics(),
           ),
+        ),
+        backgroundColor: Colors.transparent,
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 0.0,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white54,
           backgroundColor: Colors.transparent,
-          bottomNavigationBar: BottomNavigationBar(
-            elevation: 0.0,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white54,
-            backgroundColor: Colors.transparent,
-            currentIndex: _currentTabIndex,
-            onTap: (int index) {
-              setState(() {
-                _currentTabIndex = index;
-                _pageController.jumpToPage(index);
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                title: Text('home'),
-                icon: Icon(Icons.home),
-              ),
-              BottomNavigationBarItem(
-                title: Text('trending'),
-                icon: Icon(Icons.trending_up),
-              ),
-              BottomNavigationBarItem(
-                title: Text('mine'),
-                icon: Icon(Icons.person),
-              ),
-            ],
-          ),
+          currentIndex: _currentTabIndex,
+          onTap: (int index) {
+            setState(() {
+              _currentTabIndex = index;
+              _pageController.jumpToPage(index);
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              title: Text('home'),
+              icon: Icon(Icons.home),
+            ),
+            BottomNavigationBarItem(
+              title: Text('trending'),
+              icon: Icon(Icons.trending_up),
+            ),
+            BottomNavigationBarItem(
+              title: Text('mine'),
+              icon: Icon(Icons.person),
+            ),
+          ],
         ),
       ),
     );

@@ -28,8 +28,7 @@ class _IndexMineState extends State<IndexMine>
     super.build(context);
     final int storyIndex = ModalRoute.of(context).settings.arguments ?? 0;
     final storyBox = Hive.box<Story>(StoryBox.name);
-    double _height = 500.0;
-    double _width = screenWidth(context) - 90;
+    double _height = screenHeight(context, dividedBy: 1.8);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -39,13 +38,10 @@ class _IndexMineState extends State<IndexMine>
           child: storyBox.isNotEmpty
               ? Swiper(
                   loop: false,
+                  scale: 0.9,
                   index: storyIndex,
-                  layout: SwiperLayout.STACK,
+                  viewportFraction: 0.8,
                   itemCount: storyBox.length,
-                  itemWidth: _width,
-                  itemHeight: _height,
-                  containerWidth: _width,
-                  containerHeight: _height,
                   itemBuilder: (BuildContext context, int index) {
                     Story story = storyBox.getAt(index);
                     Movie movie = story.movie;
@@ -103,11 +99,7 @@ class _IndexMineState extends State<IndexMine>
                     );
                   },
                 )
-              : Center(
-                  child: Text(
-                  'No story now...',
-                  style: Styles.subTitle,
-                )),
+              : Center(child: Text('No story now...', style: Styles.subTitle)),
         ),
       ],
     );

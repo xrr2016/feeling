@@ -31,6 +31,7 @@ class _EditScreenState extends State<EditScreen> {
   String _watchDate = _formatDate(DateTime.now());
   TextEditingController _reviewController = TextEditingController(text: '');
   Box<Story> storyBox = Hive.box<Story>(StoryBox.name);
+  int _step = 0;
 
   @override
   void initState() {
@@ -179,66 +180,68 @@ class _EditScreenState extends State<EditScreen> {
             decoration: InputDecoration(
               hintText: 'your review here',
               hintStyle: TextStyle(color: Colors.white70),
-              contentPadding: EdgeInsets.all(12.0),
+              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               counterStyle: TextStyle(color: Colors.white70),
             ),
           ),
         ),
-        SizedBox(height: 48.0),
-        MaterialButton(
-          color: Colors.cyan,
-          padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 16.0),
-          onPressed: () {
-            Story _story = Story(
-              feel: _feel,
-              rate: _rate,
-              movie: widget.movie,
-              watchDate: _watchDate,
-              review: _reviewController.text,
-              movieId: widget.movie.id.toString(),
-              updateDate: _formatDate(DateTime.now()),
-              createDate: _formatDate(DateTime.now()),
-            );
-
-            int foundStores = storyBox.values
-                .where((story) => story.movieId == _story.movieId)
-                .length;
-
-            if (foundStores > 0) {
-              BotToast.showSimpleNotification(
-                title: "Story exist.",
-                align: Alignment.center,
-                onlyOne: true,
-                crossPage: false,
-                hideCloseButton: true,
-                enableSlideOff: true,
-                subTitle: 'View',
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => IndexScreen(initPage: 2),
-                      settings: RouteSettings(arguments: 1),
-                    ),
-                  );
-                },
-              );
-            } else {
-              storyBox.add(_story);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => IndexScreen(initPage: 2),
-                  settings: RouteSettings(arguments: 0),
-                ),
-              );
-            }
-          },
-          child: Text('Save story', style: Styles.subTitle),
-        ),
       ],
     );
+  }
+
+  void _saveStory() {
+    Story _story = Story(
+      feel: _feel,
+      rate: _rate,
+      movie: widget.movie,
+      watchDate: _watchDate,
+      review: _reviewController.text,
+      movieId: widget.movie.id.toString(),
+      updateDate: _formatDate(DateTime.now()),
+      createDate: _formatDate(DateTime.now()),
+    );
+
+    int index = -1;
+
+    for (var i = 0; i < storyBox.values.length; i++) {
+      var story = storyBox.getAt(i);
+      if (story.movieId == _story.movieId) {
+        index = i;
+      }
+    }
+
+    if (index >= 0) {
+      BotToast.showSimpleNotification(
+        wrapToastAnimation: (controller, cancelFunc, widget) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
+            child: widget,
+          );
+        },
+        title: "Story exist.",
+        onlyOne: true,
+        crossPage: false,
+        enableSlideOff: true,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => IndexScreen(initPage: 2),
+              settings: RouteSettings(arguments: index),
+            ),
+          );
+        },
+      );
+    } else {
+      storyBox.add(_story);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => IndexScreen(initPage: 2),
+          settings: RouteSettings(arguments: 0),
+        ),
+      );
+    }
   }
 
   @override
@@ -282,12 +285,27 @@ class _EditScreenState extends State<EditScreen> {
                     color: Colors.white,
                     disableColor: Colors.white30,
                   ),
+                  onIndexChanged: (int index) {
+                    setState(() {
+                      _step = index;
+                    });
+                  },
                   itemBuilder: (BuildContext context, int index) {
                     return pages[index];
                   },
                 ),
               ),
             ],
+          ),
+          floatingActionButton: AnimatedOpacity(
+            opacity: 1,
+            duration: Duration(milliseconds: 1000),
+            child: _step == 3
+                ? FloatingActionButton(
+                    child: Icon(Icons.save_alt),
+                    onPressed: _saveStory,
+                  )
+                : Container(),
           ),
         ),
       ),

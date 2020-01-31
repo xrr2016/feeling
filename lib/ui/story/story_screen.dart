@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../styles.dart';
 import '../../model/movie.dart';
+import '../../utils/screen_size.dart';
 import '../../model/story.dart';
 import '../../const/api_const.dart';
 import '../../const/feel_emoji.dart';
@@ -33,24 +34,34 @@ class _StoryScreenState extends State<StoryScreen> {
         gradient: Styles.background,
         image: DecorationImage(
           image: NetworkImage(IMG_PREFIX + poster),
-          // image: MemoryImage(bytes),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-        ),
+        appBar: AppBar(elevation: 0.0, backgroundColor: Colors.transparent),
         body: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
             Positioned(
-              left: 24.0,
-              bottom: 100.0,
+              left: 0.0,
+              bottom: 0.0,
               child: Container(
+                width: 300.0,
+                height: screenHeight(context, dividedBy: 2),
+                padding: EdgeInsets.only(left: 24.0, top: 24.0),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black12,
+                      Colors.black26,
+                    ],
+                  ),
+                ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12.0),
