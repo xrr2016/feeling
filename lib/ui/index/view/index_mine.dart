@@ -27,7 +27,7 @@ class _IndexMineState extends State<IndexMine>
   Widget build(BuildContext context) {
     super.build(context);
     final int storyIndex = ModalRoute.of(context).settings.arguments ?? 0;
-    final storyBox = Hive.box<Story>(StoryBox.name);
+    final storys = Hive.box<Story>(StoryBox.name).values.toList().reversed;
     double _height = screenHeight(context, dividedBy: 1.8);
 
     return Column(
@@ -35,15 +35,15 @@ class _IndexMineState extends State<IndexMine>
       children: <Widget>[
         SizedBox(
           height: _height,
-          child: storyBox.isNotEmpty
+          child: storys.isNotEmpty
               ? Swiper(
-                  loop: true,
+                  loop: false,
                   scale: 0.8,
                   index: storyIndex,
                   viewportFraction: 0.8,
-                  itemCount: storyBox.length,
+                  itemCount: storys.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Story story = storyBox.getAt(index);
+                    Story story = storys.elementAt(index);
                     Movie movie = story.movie;
                     final poster = movie.posterPath ?? movie.backdropPath;
 
@@ -54,7 +54,7 @@ class _IndexMineState extends State<IndexMine>
                     final label = asset['label'];
 
                     final image = ExtendedImage.network(
-                      IMG_PREFIX + poster,
+                      IMG_PREFIX_HD + poster,
                       fit: BoxFit.cover,
                       cache: true,
                       height: 250.0,

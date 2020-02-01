@@ -25,8 +25,8 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  int _step = 0;
   double _rate;
+  double _opacity = 0.0;
   String _feel = 'haha';
   String _watchDate = _formatDate(DateTime.now());
   SwiperController _swiperController = SwiperController();
@@ -52,9 +52,9 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildWatchDate() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 120.0),
-        Text(StoryQuestion.watchDate, style: Styles.normal),
-        SizedBox(height: 48.0),
+        SizedBox(height: 50.0),
+        Text(StoryQuestion.watchDate, style: Styles.subTitle),
+        SizedBox(height: 50.0),
         Text(
           _watchDate.toString(),
           style: Styles.title.copyWith(fontSize: 36.0),
@@ -88,9 +88,9 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildFeeling() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 120.0),
+        SizedBox(height: 50.0),
         Text(StoryQuestion.feeling, style: Styles.subTitle),
-        SizedBox(height: 48.0),
+        SizedBox(height: 50.0),
         SizedBox(
           width: double.infinity,
           height: 124.0,
@@ -140,9 +140,9 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildRate() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 120.0),
+        SizedBox(height: 50.0),
         Text(StoryQuestion.rate, style: Styles.subTitle),
-        SizedBox(height: 48.0),
+        SizedBox(height: 50.0),
         Text(
           _rate.toStringAsFixed(1),
           style: Styles.title.copyWith(fontSize: 36.0),
@@ -167,14 +167,14 @@ class _EditScreenState extends State<EditScreen> {
   Widget _buildReview() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 120.0),
+        SizedBox(height: 60.0),
         Text(StoryQuestion.review, style: Styles.subTitle),
-        SizedBox(height: 48.0),
+        SizedBox(height: 50.0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: TextField(
             maxLength: 240,
-            autofocus: true,
+            // autofocus: true,
             cursorColor: Colors.white,
             controller: _reviewController,
             textInputAction: TextInputAction.done,
@@ -234,6 +234,7 @@ class _EditScreenState extends State<EditScreen> {
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[
+              SizedBox(height: 40.0),
               ExtendedImage.network(
                 IMG_PREFIX + poster,
                 cache: true,
@@ -250,12 +251,12 @@ class _EditScreenState extends State<EditScreen> {
                   controller: _swiperController,
                   scrollDirection: Axis.vertical,
                   pagination: SwiperPagination(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.topRight,
                   ),
                   onIndexChanged: (int index) {
-                    setState(() {
-                      _step = index;
-                    });
+                    if (index == 3) {
+                      setState(() => _opacity = 1);
+                    }
                   },
                   itemBuilder: (BuildContext context, int index) {
                     return SingleChildScrollView(child: pages[index]);
@@ -265,14 +266,12 @@ class _EditScreenState extends State<EditScreen> {
             ],
           ),
           floatingActionButton: AnimatedOpacity(
-            opacity: 1,
+            opacity: _opacity,
             duration: Duration(milliseconds: 1000),
-            child: _step == 3
-                ? FloatingActionButton(
-                    child: Icon(Icons.save_alt),
-                    onPressed: _saveStory,
-                  )
-                : Container(),
+            child: FloatingActionButton(
+              child: Icon(Icons.save_alt),
+              onPressed: _saveStory,
+            ),
           ),
         ),
       ),

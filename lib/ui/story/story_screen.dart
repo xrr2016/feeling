@@ -34,17 +34,14 @@ class _StoryScreenState extends State<StoryScreen> {
     return Scaffold(
       appBar: AppBar(elevation: 0.0, backgroundColor: Colors.transparent),
       extendBodyBehindAppBar: true,
-      backgroundColor: Colors.transparent,
       body: Stack(
         fit: StackFit.expand,
         alignment: Alignment.topLeft,
         children: <Widget>[
           ExtendedImage.network(
-            IMG_PREFIX + poster,
+            IMG_PREFIX_HD + poster,
             cache: true,
             fit: BoxFit.cover,
-            // color: Colors.amber,
-            colorBlendMode: BlendMode.exclusion,
           ),
           Positioned(
             left: 0.0,

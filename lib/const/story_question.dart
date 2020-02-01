@@ -1,5 +1,5 @@
 class StoryQuestion {
-  static String watchDate = 'When did you watch this movie?';
+  static String watchDate = 'When you watch this movie?';
 
   static String feeling = 'How do you feel about it?';
 
