@@ -25,18 +25,24 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  SwiperController _swiperController = SwiperController();
+  int _step = 0;
   double _rate;
   String _feel = 'haha';
   String _watchDate = _formatDate(DateTime.now());
-  TextEditingController _reviewController = TextEditingController(text: '');
+  SwiperController _swiperController = SwiperController();
   Box<Story> storyBox = Hive.box<Story>(StoryBox.name);
-  int _step = 0;
+  TextEditingController _reviewController = TextEditingController(text: '');
 
   @override
   void initState() {
     _rate = widget.movie.voteAverage ?? 5.0;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _reviewController.dispose();
+    super.dispose();
   }
 
   static String _formatDate(DateTime date) {
@@ -83,7 +89,7 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 120.0),
-        Text(StoryQuestion.feeling, style: Styles.normal),
+        Text(StoryQuestion.feeling, style: Styles.subTitle),
         SizedBox(height: 48.0),
         SizedBox(
           width: double.infinity,
@@ -135,7 +141,7 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 120.0),
-        Text(StoryQuestion.rate, style: Styles.normal),
+        Text(StoryQuestion.rate, style: Styles.subTitle),
         SizedBox(height: 48.0),
         Text(
           _rate.toStringAsFixed(1),
@@ -162,7 +168,7 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 120.0),
-        Text(StoryQuestion.review, style: Styles.normal),
+        Text(StoryQuestion.review, style: Styles.subTitle),
         SizedBox(height: 48.0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -171,12 +177,9 @@ class _EditScreenState extends State<EditScreen> {
             autofocus: true,
             cursorColor: Colors.white,
             controller: _reviewController,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-            ),
             textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.sentences,
+            style: TextStyle(color: Colors.white, fontSize: 18.0),
             decoration: InputDecoration(
               hintText: 'your review here',
               hintStyle: TextStyle(color: Colors.white70),
@@ -201,47 +204,14 @@ class _EditScreenState extends State<EditScreen> {
       createDate: _formatDate(DateTime.now()),
     );
 
-    int index = -1;
-
-    for (var i = 0; i < storyBox.values.length; i++) {
-      var story = storyBox.getAt(i);
-      if (story.movieId == _story.movieId) {
-        index = i;
-      }
-    }
-
-    if (index >= 0) {
-      BotToast.showSimpleNotification(
-        wrapToastAnimation: (controller, cancelFunc, widget) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0),
-            child: widget,
-          );
-        },
-        title: "Story exist.",
-        onlyOne: true,
-        crossPage: false,
-        enableSlideOff: true,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => IndexScreen(initPage: 2),
-              settings: RouteSettings(arguments: index),
-            ),
-          );
-        },
-      );
-    } else {
-      storyBox.add(_story);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => IndexScreen(initPage: 2),
-          settings: RouteSettings(arguments: 0),
-        ),
-      );
-    }
+    storyBox.add(_story);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => IndexScreen(initPage: 2),
+        settings: RouteSettings(arguments: 0),
+      ),
+    );
   }
 
   @override
@@ -264,7 +234,6 @@ class _EditScreenState extends State<EditScreen> {
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[
-              SizedBox(height: 24.0),
               ExtendedImage.network(
                 IMG_PREFIX + poster,
                 cache: true,
@@ -280,10 +249,8 @@ class _EditScreenState extends State<EditScreen> {
                   itemCount: pages.length,
                   controller: _swiperController,
                   scrollDirection: Axis.vertical,
-                  control: SwiperControl(
-                    size: 20.0,
-                    color: Colors.white,
-                    disableColor: Colors.white30,
+                  pagination: SwiperPagination(
+                    alignment: Alignment.topLeft,
                   ),
                   onIndexChanged: (int index) {
                     setState(() {
@@ -291,7 +258,7 @@ class _EditScreenState extends State<EditScreen> {
                     });
                   },
                   itemBuilder: (BuildContext context, int index) {
-                    return pages[index];
+                    return SingleChildScrollView(child: pages[index]);
                   },
                 ),
               ),

@@ -37,8 +37,8 @@ class _IndexMineState extends State<IndexMine>
           height: _height,
           child: storyBox.isNotEmpty
               ? Swiper(
-                  loop: false,
-                  scale: 0.9,
+                  loop: true,
+                  scale: 0.8,
                   index: storyIndex,
                   viewportFraction: 0.8,
                   itemCount: storyBox.length,
@@ -77,19 +77,11 @@ class _IndexMineState extends State<IndexMine>
                         children: <Widget>[
                           image,
                           Positioned(
-                            bottom: 12.0,
-                            right: 33.0,
-                            child: Text(
-                              story.rate.toStringAsFixed(1),
-                              style: Styles.normal,
-                            ),
-                          ),
-                          Positioned(
-                            right: 24.0,
-                            bottom: 46.0,
+                            top: 12.0,
+                            right: 12.0,
                             child: Container(
-                              width: 50.0,
-                              height: 50.0,
+                              width: 32.0,
+                              height: 32.0,
                               child:
                                   SvgPicture.asset(svg, semanticsLabel: label),
                             ),

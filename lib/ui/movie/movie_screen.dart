@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
-//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:hive/hive.dart';
 
+import '../../data/box/story_box.dart';
+import '../../model/story.dart';
 import '../../styles.dart';
 import '../../widget/text_tag.dart';
 import '../../model/cast.dart';
@@ -29,6 +31,8 @@ class _MovieScreenState extends State<MovieScreen> {
   List _gallery = [];
   List _casts = [];
   MovieDetail _movieDetail;
+  Box<Story> storyBox = Hive.box<Story>(StoryBox.name);
+  bool _isStoryExist = false;
 
 //  List _videos = [];
 //  bool _isLoadingVideos = false;
@@ -127,6 +131,17 @@ class _MovieScreenState extends State<MovieScreen> {
     _getMovieImages(movie.id);
     _getMovieCast(movie.id);
     _getMovieDetail(movie.id);
+
+    for (var i = 0; i < storyBox.values.length; i++) {
+      var story = storyBox.getAt(i);
+
+      if (story.movieId == movie.id.toString()) {
+        setState(() {
+          _isStoryExist = true;
+        });
+      }
+    }
+
 //    _getMovieVideos(movie.id);
   }
 
@@ -196,16 +211,18 @@ class _MovieScreenState extends State<MovieScreen> {
           ],
         ),
         backgroundColor: Colors.transparent,
-        floatingActionButton: FloatingActionButton(
-          elevation: 0.0,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => EditScreen(movie)),
-            );
-          },
-          child: Icon(Icons.edit),
-        ),
+        floatingActionButton: _isStoryExist
+            ? Container()
+            : FloatingActionButton(
+                elevation: 0.0,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => EditScreen(movie)),
+                  );
+                },
+                child: Icon(Icons.edit),
+              ),
       ),
     );
   }
