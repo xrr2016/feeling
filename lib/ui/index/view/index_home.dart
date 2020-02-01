@@ -97,7 +97,10 @@ class _IndexHomeState extends State<IndexHome>
   @override
   void initState() {
     super.initState();
-    _fetchAllMovies();
+    _getMovies(type: 'popular', page: _popularCurrent);
+    _getMovies(type: 'upcoming', page: _upcomingCurrent);
+    _getMovies(type: 'now_playing', page: _playingCurrent);
+    _getMovies(type: 'top_rated', page: _topCurrent);
   }
 
   @override

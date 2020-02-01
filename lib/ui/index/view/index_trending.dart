@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
 import '../widget/movie_list_trending.dart';
+import '../../../ui/index/widget/movie_item.dart';
 import '../../../data/network/api_client.dart';
 
 class IndexTrending extends StatefulWidget {
@@ -14,102 +16,101 @@ class IndexTrending extends StatefulWidget {
 
 class _IndexTrendingState extends State<IndexTrending>
     with AutomaticKeepAliveClientMixin {
-  int _totalTendingPage = 1;
-  int _currentTrendingPage = 1;
-  List<Movie> _trendingMovies = [];
-  bool _isLoadingTrending = false;
-  bool _isLoadingData = false;
+  int _totalPage = 1;
+  int _currentPage = 1;
+  List<Movie> _movies = [];
+  bool _isLoading = false;
+  RefreshController _refreshController = RefreshController(
+    initialRefresh: true,
+  );
 
-  //  RefreshController _refreshController =
-  //     RefreshController(initialRefresh: false);
-
-  // void _onRefresh() async{
-  //   await Future.delayed(Duration(milliseconds: 1000));
-  //   _refreshController.refreshCompleted();
-  // }
-
-  Future _fetchData() async {
-    setState(() {
-      _isLoadingData = true;
-    });
-
-    List<Future> futures = List<Future>();
-    futures.add(_getTrending());
-    await Future.wait(futures);
-
-    setState(() {
-      _isLoadingData = false;
-    });
+  void _onRefresh() async {
+    if (mounted) {
+      _totalPage = 1;
+      _currentPage = 1;
+      _movies = await _getTrendingMovies();
+      setState(() {
+        _movies = _movies;
+      });
+    }
+    _refreshController.refreshCompleted();
   }
 
-  Future _getTrending({String time = 'day'}) async {
-    _isLoadingTrending = true;
+  void _onLoading() async {
+    _currentPage++;
+
+    if (_currentPage < _totalPage && !_isLoading) {
+      List<Movie> movies = await _getTrendingMovies();
+
+      if (mounted) {
+        setState(() => _movies.addAll(movies));
+      }
+    }
+    _refreshController.loadComplete();
+  }
+
+  Future _getTrendingMovies({String time = 'day'}) async {
+    _isLoading = true;
     try {
       Response response = await apiClient.get(
         '/3/trending/movie/$time',
-        queryParameters: {
-          "page": _currentTrendingPage,
-        },
+        queryParameters: {"page": _currentPage},
       );
 
       final data = response.data;
       final results = data["results"] as List;
-      _totalTendingPage = data["total_pages"];
+      _totalPage = data["total_pages"];
+      List<Movie> movies = [];
+      results.forEach((r) => movies.add(Movie.fromJson(r)));
 
-      results.forEach((r) => _trendingMovies.add(Movie.fromJson(r)));
-      setState(() {
-        _trendingMovies = _trendingMovies;
-      });
-      return true;
+      return movies;
     } on DioError catch (err) {
       throw err;
     } finally {
-      _isLoadingTrending = false;
+      _isLoading = false;
     }
   }
 
   @override
-  void initState() {
-    super.initState();
-    _fetchData();
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    if (_isLoadingData) {
-      return Loading();
-    } else {
-      return RefreshIndicator(
-        color: Colors.white,
-        backgroundColor: Colors.transparent,
-        onRefresh: () {
-          setState(() {
-            _totalTendingPage = 1;
-            _currentTrendingPage = 1;
-            _trendingMovies = [];
-          });
-
-          return _getTrending();
-        },
-        child: NotificationListener<ScrollNotification>(
-          child: MovieListTrending(_trendingMovies),
-          onNotification: (ScrollNotification scrollInfo) {
-            final metrics = scrollInfo.metrics;
-
-            if (metrics.pixels >= metrics.maxScrollExtent) {
-              if (_currentTrendingPage < _totalTendingPage &&
-                  !_isLoadingTrending) {
-                _currentTrendingPage++;
-                _getTrending();
-              }
-            }
-            return;
+    return Scrollbar(
+      child: SmartRefresher(
+        enablePullUp: true,
+        enablePullDown: true,
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        header: ClassicHeader(
+          failedIcon: const Icon(Icons.error, color: Colors.white),
+          completeIcon: const Icon(Icons.done, color: Colors.white),
+          idleIcon: const Icon(Icons.arrow_downward, color: Colors.white),
+          releaseIcon: const Icon(Icons.refresh, color: Colors.white),
+          textStyle: TextStyle(color: Colors.white),
+        ),
+        footer: ClassicFooter(
+          failedIcon: const Icon(Icons.error, color: Colors.white),
+          canLoadingIcon: const Icon(Icons.autorenew, color: Colors.white),
+          idleIcon: const Icon(Icons.arrow_upward, color: Colors.white),
+          textStyle: TextStyle(color: Colors.white),
+        ),
+        child: ListView.builder(
+          itemExtent: 184.0,
+          itemCount: _movies.length,
+          itemBuilder: (_, int index) {
+            Movie movie = _movies[index];
+            return MovieItem(movie);
           },
         ),
-      );
-    }
+      ),
+    );
   }
 
   @override
