@@ -204,6 +204,14 @@ class _MovieScreenState extends State<MovieScreen> {
                     SizedBox(height: 24.0),
                     CastList(casts: _casts),
                     SizedBox(height: 24.0),
+                    SectionHeader('Companies'),
+                    SizedBox(height: 24.0),
+                    _movieDetail == null
+                        ? SizedBox(
+                            height: 36.0,
+                            child: CircularProgressIndicator(strokeWidth: 1.0),
+                          )
+                        : MovieCompanies(_movieDetail.productionCompanies),
                   ],
                 ),
               ),
@@ -255,45 +263,35 @@ class MovieMeta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: <Widget>[
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                movie.title,
-                maxLines: 2,
-                style: Styles.subTitle.copyWith(color: Colors.white),
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(height: 6.0),
-              Text(movie.releaseDate, style: Styles.info),
-            ],
+        Container(
+          width: screenWidth(context),
+          child: Text(
+            movie.title,
+            maxLines: 2,
+            style: Styles.subTitle.copyWith(color: Colors.white),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-        Column(
+        SizedBox(height: 12.0),
+        Row(
           children: <Widget>[
+            StarRating(movie.voteAverage),
+            SizedBox(width: 12.0),
             Text(
               movie.voteAverage.toString(),
-              style: Styles.subTitle.copyWith(color: Colors.amber),
+              style: Styles.normal.copyWith(color: Colors.amber),
             ),
-            SizedBox(height: 6.0),
-            StarRating(movie.voteAverage),
           ],
         ),
-//                      IconButton(
-//                        iconSize: 60.0,
-//                        onPressed: () {
-//                          if (_videoController.value.isPlaying) {
-//                            _videoController.pause();
-//                          } else {
-//                            _videoController.play();
-//                          }
-//                        },
-//                        color: Colors.redAccent,
-//                        icon: Icon(Icons.play_circle_outline),
-//                      )
+        SizedBox(height: 12.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(movie.releaseDate, style: Styles.info),
+          ],
+        ),
       ],
     );
   }
@@ -312,6 +310,36 @@ class MovieGenres extends StatelessWidget {
         spacing: 12.0,
         alignment: WrapAlignment.start,
         children: genres.map((g) => TextTag(g.name)).toList(),
+      ),
+    );
+  }
+}
+
+class MovieCompanies extends StatelessWidget {
+  final List<ProductionCompany> companies;
+
+  const MovieCompanies(this.companies);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: screenWidth(context),
+      child: Wrap(
+        spacing: 0.0,
+        alignment: WrapAlignment.start,
+        children: companies
+            .map(
+              (c) => Padding(
+                padding: const EdgeInsets.only(bottom: 6.0),
+                child: Text(
+                  c.name,
+                  style: Styles.normal.copyWith(
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

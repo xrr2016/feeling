@@ -4,7 +4,6 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:hive/hive.dart';
-import 'package:bot_toast/bot_toast.dart';
 
 import '../../styles.dart';
 import '../../model/story.dart';
