@@ -98,5 +98,5 @@ flutter_icons:
   image_path: "assets/icons/logo.png"
 
 flutter_native_splash:
-  image: "assets/icons/logo.png"
+  image: "assets/images/splash.png"
   color: "#ffffff"
