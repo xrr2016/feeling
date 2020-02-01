@@ -1,6 +1,5 @@
 import 'package:Feeling/data/box/story_box.dart';
 import 'package:Feeling/ui/index/index_screen.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../model/movie.dart';
-import '../../../widget/loading.dart';
-import '../widget/movie_list_trending.dart';
 import '../../../ui/index/widget/movie_item.dart';
 import '../../../data/network/api_client.dart';
 
