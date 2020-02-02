@@ -173,15 +173,12 @@ class _EditScreenState extends State<EditScreen> {
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: TextField(
             maxLength: 240,
-            // autofocus: true,
             cursorColor: Colors.white,
             controller: _reviewController,
             textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.sentences,
             style: TextStyle(color: Colors.white, fontSize: 18.0),
             decoration: InputDecoration(
-              hintText: 'your review here',
-              hintStyle: TextStyle(color: Colors.white70),
               contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               counterStyle: TextStyle(color: Colors.white70),
             ),

@@ -26,7 +26,7 @@ class MovieItem extends StatelessWidget {
         );
       },
       child: Container(
-        height: 184.0,
+        height: 200.0,
         padding: EdgeInsets.all(12.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -71,7 +71,7 @@ class MovieItem extends StatelessWidget {
                   Spacer(),
                   Text(
                     movie.overview,
-                    maxLines: 4,
+                    maxLines: 3,
                     style: Styles.info,
                     overflow: TextOverflow.fade,
                   ),

@@ -122,16 +122,17 @@ class _StoryScreenState extends State<StoryScreen> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 12.0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            movie.title,
-                            style: Styles.title.copyWith(
-                              fontStyle: FontStyle.italic,
-                              decoration: TextDecoration.underline,
-                            ),
+                      child: SizedBox(
+                        width: screenWidth(context),
+                        child: Text(
+                          movie.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Styles.subTitle.copyWith(
+                            fontStyle: FontStyle.italic,
+                            decoration: TextDecoration.underline,
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -224,7 +225,7 @@ class StoryInfoItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(width: 70.0, child: Text(labal, style: Styles.normal)),
+          SizedBox(width: 80.0, child: Text(labal, style: Styles.normal)),
           SizedBox(width: 12.0),
           Expanded(child: Text(content, style: Styles.subTitle)),
         ],

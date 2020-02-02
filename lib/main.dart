@@ -14,27 +14,13 @@ import './provider/locale_provider.dart';
 void main() async {
   await DotEnv().load('.env');
   await StoryBox().init();
-  // final delegate = await LocalizationDelegate.create(
-  //   fallbackLocale: 'en',
-  //   supportedLocales: ['en', 'zh'],
-  //   preferences: TranslatePreferences(),
-  // );
-
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (_) {
-      runApp(
-        MyApp(),
-        // LocalizedApp(delegate, MyApp()),
-      );
-    },
-  );
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final localizationDelegate = LocalizedApp.of(context).delegate;
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),

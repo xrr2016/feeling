@@ -38,7 +38,7 @@ class _IndexMineState extends State<IndexMine>
           child: storys.isNotEmpty
               ? Swiper(
                   loop: false,
-                  scale: 0.8,
+                  scale: 0.9,
                   index: storyIndex,
                   viewportFraction: 0.8,
                   itemCount: storys.length,

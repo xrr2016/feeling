@@ -7,7 +7,7 @@ import '../../const/api_const.dart';
 Dio _createClient() {
   BaseOptions options = BaseOptions(
     baseUrl: BASE_URL,
-    connectTimeout: 10000,
+    connectTimeout: 20000,
     receiveTimeout: 3000,
     queryParameters: {
       "api_key": DotEnv().env['TMDB_AUTH_V3'],

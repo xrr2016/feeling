@@ -100,7 +100,7 @@ class _IndexTrendingState extends State<IndexTrending>
           textStyle: TextStyle(color: Colors.white),
         ),
         child: ListView.builder(
-          itemExtent: 184.0,
+          itemExtent: 200.0,
           itemCount: _movies.length,
           itemBuilder: (_, int index) {
             Movie movie = _movies[index];

@@ -29,7 +29,7 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
           Text(label, style: Styles.subTitle.copyWith(color: Colors.white)),
           SizedBox(height: 24.0),
           SizedBox(
-            height: 340.0,
+            height: 350.0,
             child: _movies.isNotEmpty
                 ? Scrollbar(
                     child: ListView.builder(
