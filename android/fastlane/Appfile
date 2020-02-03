@@ -1,0 +1,2 @@
+json_key_file("/Users/xiaoranran/GooglePlay/api-6328590059498333552-334495-b990ac1c083f.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("fun.coldstone.Feeling") # e.g. com.krausefx.app
