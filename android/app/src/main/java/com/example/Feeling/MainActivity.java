@@ -1,4 +1,4 @@
-package com.example.Feeling;
+package fun.coldstone.Feeling;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;
