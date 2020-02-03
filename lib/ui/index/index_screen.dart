@@ -1,3 +1,5 @@
+import 'package:extended_image/extended_image.dart';
+
 import '../../utils/screen_size.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +47,10 @@ class _IndexScreenState extends State<IndexScreen> {
           elevation: 0.0,
           centerTitle: false,
           backgroundColor: Colors.transparent,
+          leading: Container(
+            padding: EdgeInsets.only(left: 24.0),
+            child: ExtendedImage.asset('assets/images/logo_trans.png'),
+          ),
           actions: <Widget>[
             IconButton(
               tooltip: 'Search',
