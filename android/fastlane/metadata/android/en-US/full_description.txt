@@ -1,0 +1,1 @@
+An app to browse, find, and record your movie watching stories, in order to better record the movies you have watched.
