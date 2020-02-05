@@ -45,6 +45,14 @@ class TrendingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future loadMoreMovies() async {
+    _currentPage++;
+
+    if (_currentPage < _totalPage && !_isLoading) {
+      await getTrendingMovies();
+    }
+  }
+
   Future getTrendingMovies({String time = 'day'}) async {
     setLoading(true);
     try {

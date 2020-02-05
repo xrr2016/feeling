@@ -16,68 +16,9 @@ class IndexTrending extends StatefulWidget {
 
 class _IndexTrendingState extends State<IndexTrending>
     with AutomaticKeepAliveClientMixin {
-  int _totalPage = 1;
-  int _currentPage = 1;
-  List<Movie> _movies = [];
-  bool _isLoading = false;
   RefreshController _refreshController = RefreshController(
-    initialRefresh: true,
-  );
-
-  @override
-  void initState() {
-    final page = Provider.of<TrendingProvider>(context).currentPage;
-
-    print(page);
-    super.initState();
-  }
-
-  void _onRefresh() async {
-    if (mounted) {
-      _totalPage = 1;
-      _currentPage = 1;
-      _movies = await _getTrendingMovies();
-      setState(() {
-        _movies = _movies;
-      });
-    }
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    _currentPage++;
-
-    if (_currentPage < _totalPage && !_isLoading) {
-      List<Movie> movies = await _getTrendingMovies();
-
-      if (mounted) {
-        setState(() => _movies.addAll(movies));
-      }
-    }
-    _refreshController.loadComplete();
-  }
-
-  Future _getTrendingMovies({String time = 'day'}) async {
-    _isLoading = true;
-    try {
-      Response response = await apiClient.get(
-        '/3/trending/movie/$time',
-        queryParameters: {"page": _currentPage},
+      // initialRefresh: true,
       );
-
-      final data = response.data;
-      final results = data["results"] as List;
-      _totalPage = data["total_pages"];
-      List<Movie> movies = [];
-      results.forEach((r) => movies.add(Movie.fromJson(r)));
-
-      return movies;
-    } on DioError catch (err) {
-      throw err;
-    } finally {
-      _isLoading = false;
-    }
-  }
 
   @override
   void dispose() {
@@ -88,37 +29,58 @@ class _IndexTrendingState extends State<IndexTrending>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    List<Movie> movies = Provider.of<TrendingProvider>(context).movies;
 
     return Scrollbar(
       child: SmartRefresher(
-        enablePullUp: true,
-        enablePullDown: true,
         controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        header: ClassicHeader(
-          failedIcon: const Icon(Icons.error, color: Colors.white),
-          completeIcon: const Icon(Icons.done, color: Colors.white),
-          idleIcon: const Icon(Icons.arrow_downward, color: Colors.white),
-          releaseIcon: const Icon(Icons.refresh, color: Colors.white),
-          textStyle: TextStyle(color: Colors.white),
-        ),
-        footer: ClassicFooter(
-          failedIcon: const Icon(Icons.error, color: Colors.white),
-          canLoadingIcon: const Icon(Icons.autorenew, color: Colors.white),
-          idleIcon: const Icon(Icons.arrow_upward, color: Colors.white),
-          textStyle: TextStyle(color: Colors.white),
-        ),
+        enablePullUp: true,
+        onLoading: () async {
+          await Provider.of<TrendingProvider>(context, listen: false)
+              .loadMoreMovies();
+          _refreshController.loadComplete();
+        },
         child: ListView.builder(
           itemExtent: 200.0,
-          itemCount: _movies.length,
+          itemCount: movies.length,
           itemBuilder: (_, int index) {
-            Movie movie = _movies[index];
+            Movie movie = movies[index];
             return MovieItem(movie);
           },
         ),
       ),
     );
+
+    // return Scrollbar(
+    //   child: SmartRefresher(
+    //     enablePullUp: true,
+    //     enablePullDown: true,
+    //     controller: _refreshController,
+    //     onRefresh: _onRefresh,
+    //     onLoading: _onLoading,
+    //     header: ClassicHeader(
+    //       failedIcon: const Icon(Icons.error, color: Colors.white),
+    //       completeIcon: const Icon(Icons.done, color: Colors.white),
+    //       idleIcon: const Icon(Icons.arrow_downward, color: Colors.white),
+    //       releaseIcon: const Icon(Icons.refresh, color: Colors.white),
+    //       textStyle: TextStyle(color: Colors.white),
+    //     ),
+    //     footer: ClassicFooter(
+    //       failedIcon: const Icon(Icons.error, color: Colors.white),
+    //       canLoadingIcon: const Icon(Icons.autorenew, color: Colors.white),
+    //       idleIcon: const Icon(Icons.arrow_upward, color: Colors.white),
+    //       textStyle: TextStyle(color: Colors.white),
+    //     ),
+    //     child: ListView.builder(
+    //       itemExtent: 200.0,
+    //       itemCount: _movies.length,
+    //       itemBuilder: (_, int index) {
+    //         Movie movie = _movies[index];
+    //         return MovieItem(movie);
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 
   @override
