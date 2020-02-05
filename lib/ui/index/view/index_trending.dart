@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../model/movie.dart';
+import '../provider/trending_provider.dart';
 import '../../../ui/index/widget/movie_item.dart';
 import '../../../data/network/api_client.dart';
 
@@ -21,6 +23,14 @@ class _IndexTrendingState extends State<IndexTrending>
   RefreshController _refreshController = RefreshController(
     initialRefresh: true,
   );
+
+  @override
+  void initState() {
+    final page = Provider.of<TrendingProvider>(context).currentPage;
+
+    print(page);
+    super.initState();
+  }
 
   void _onRefresh() async {
     if (mounted) {
