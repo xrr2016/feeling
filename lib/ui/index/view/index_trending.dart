@@ -1,13 +1,11 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../styles.dart';
 import '../../../model/movie.dart';
 import '../provider/trending_provider.dart';
 import '../../../ui/index/widget/movie_item.dart';
-import '../../../data/network/api_client.dart';
 
 class IndexTrending extends StatefulWidget {
   @override
@@ -17,8 +15,8 @@ class IndexTrending extends StatefulWidget {
 class _IndexTrendingState extends State<IndexTrending>
     with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController = RefreshController(
-      // initialRefresh: true,
-      );
+    initialRefresh: true,
+  );
 
   @override
   void dispose() {
@@ -29,58 +27,74 @@ class _IndexTrendingState extends State<IndexTrending>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<Movie> movies = Provider.of<TrendingProvider>(context).movies;
 
-    return Scrollbar(
-      child: SmartRefresher(
-        controller: _refreshController,
-        enablePullUp: true,
-        onLoading: () async {
-          await Provider.of<TrendingProvider>(context, listen: false)
-              .loadMoreMovies();
-          _refreshController.loadComplete();
-        },
-        child: ListView.builder(
-          itemExtent: 200.0,
-          itemCount: movies.length,
-          itemBuilder: (_, int index) {
-            Movie movie = movies[index];
-            return MovieItem(movie);
-          },
-        ),
-      ),
+    const failedIcon = const Icon(Icons.error, color: Colors.white);
+    const completeIcon = const Icon(Icons.done, color: Colors.white);
+    const idleIcon = const Icon(Icons.arrow_downward, color: Colors.white);
+    const textStyle = TextStyle(color: Colors.white);
+
+    return Consumer<TrendingProvider>(
+      builder: (context, trending, _) {
+        return Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Scrollbar(
+              child: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                enableTwoLevel: true,
+                controller: _refreshController,
+                onRefresh: () async {
+                  await trending.initTrendingMovies();
+                  _refreshController.refreshCompleted();
+                },
+                onLoading: () async {
+                  await trending.loadMoreMovies();
+                  _refreshController.loadComplete();
+                },
+                header: ClassicHeader(
+                  failedIcon: failedIcon,
+                  completeIcon: completeIcon,
+                  idleIcon: idleIcon,
+                  textStyle: textStyle,
+                  releaseIcon: const Icon(Icons.refresh, color: Colors.white),
+                ),
+                footer: ClassicFooter(
+                  failedIcon: failedIcon,
+                  idleIcon: idleIcon,
+                  textStyle: textStyle,
+                  canLoadingIcon:
+                      const Icon(Icons.autorenew, color: Colors.white),
+                ),
+                child: ListView.builder(
+                  itemExtent: 200.0,
+                  itemCount: trending.movies.length,
+                  itemBuilder: (_, int index) =>
+                      MovieItem(trending.movies[index]),
+                ),
+              ),
+            ),
+            trending.isLoading
+                ? Positioned(
+                    top: 0.0,
+                    right: 12.0,
+                    child: Container(
+                      padding: EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black45,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Text(
+                        '${trending.currentPage}/${trending.totalPage}',
+                        style: Styles.info,
+                      ),
+                    ),
+                  )
+                : Container(),
+          ],
+        );
+      },
     );
-
-    // return Scrollbar(
-    //   child: SmartRefresher(
-    //     enablePullUp: true,
-    //     enablePullDown: true,
-    //     controller: _refreshController,
-    //     onRefresh: _onRefresh,
-    //     onLoading: _onLoading,
-    //     header: ClassicHeader(
-    //       failedIcon: const Icon(Icons.error, color: Colors.white),
-    //       completeIcon: const Icon(Icons.done, color: Colors.white),
-    //       idleIcon: const Icon(Icons.arrow_downward, color: Colors.white),
-    //       releaseIcon: const Icon(Icons.refresh, color: Colors.white),
-    //       textStyle: TextStyle(color: Colors.white),
-    //     ),
-    //     footer: ClassicFooter(
-    //       failedIcon: const Icon(Icons.error, color: Colors.white),
-    //       canLoadingIcon: const Icon(Icons.autorenew, color: Colors.white),
-    //       idleIcon: const Icon(Icons.arrow_upward, color: Colors.white),
-    //       textStyle: TextStyle(color: Colors.white),
-    //     ),
-    //     child: ListView.builder(
-    //       itemExtent: 200.0,
-    //       itemCount: _movies.length,
-    //       itemBuilder: (_, int index) {
-    //         Movie movie = _movies[index];
-    //         return MovieItem(movie);
-    //       },
-    //     ),
-    //   ),
-    // );
   }
 
   @override

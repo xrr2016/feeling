@@ -5,10 +5,6 @@ import '../../../model/movie.dart';
 import '../../../data/network/api_client.dart';
 
 class TrendingProvider extends ChangeNotifier {
-  TrendingProvider() {
-    getTrendingMovies();
-  }
-
   String _message = '';
   int _totalPage = 1;
   int _currentPage = 1;
@@ -41,7 +37,6 @@ class TrendingProvider extends ChangeNotifier {
     _totalPage = data["total_pages"];
 
     results.forEach((r) => _movies.add(Movie.fromJson(r)));
-
     notifyListeners();
   }
 
@@ -51,6 +46,15 @@ class TrendingProvider extends ChangeNotifier {
     if (_currentPage < _totalPage && !_isLoading) {
       await getTrendingMovies();
     }
+  }
+
+  Future initTrendingMovies() async {
+    _currentPage = 1;
+    _totalPage = 1;
+    _movies = [];
+    _isLoading = false;
+
+    await getTrendingMovies();
   }
 
   Future getTrendingMovies({String time = 'day'}) async {
