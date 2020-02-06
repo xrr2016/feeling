@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../styles.dart';
-import '../../../model/movie.dart';
 import '../provider/trending_provider.dart';
 import '../../../ui/index/widget/movie_item.dart';
 
