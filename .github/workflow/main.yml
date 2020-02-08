@@ -1,4 +1,10 @@
-on: push
+name: Feeling action
+
+on:
+  push:
+    branches:
+      - master
+
 name: Test, Build and Release apk
 jobs:
   build:
