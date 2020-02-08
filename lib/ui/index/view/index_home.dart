@@ -1,3 +1,4 @@
+import 'package:Feeling/data/network/tmdb.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +6,7 @@ import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
 import '../widget/movie_list_horiziontal.dart';
 import '../../../data/network/api_client.dart';
+import '../../../data/network/tmdb.dart';
 
 class IndexHome extends StatefulWidget {
   @override
@@ -13,6 +15,8 @@ class IndexHome extends StatefulWidget {
 
 class _IndexHomeState extends State<IndexHome>
     with AutomaticKeepAliveClientMixin {
+  Tmdb tmdb = Tmdb();
+
   bool _isLoadingData = false;
   bool _isLoadingMovies = false;
 
@@ -101,6 +105,10 @@ class _IndexHomeState extends State<IndexHome>
     _getMovies(type: 'upcoming', page: _upcomingCurrent);
     _getMovies(type: 'now_playing', page: _playingCurrent);
     _getMovies(type: 'top_rated', page: _topCurrent);
+
+    // tmdb.getMovies(query: {"page": 1}).then((value) {
+    //   print(value);
+    // });
   }
 
   @override

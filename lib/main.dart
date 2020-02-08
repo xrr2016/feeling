@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import './routes.dart';
+import './data/network/tmdb.dart';
 import './data/box/story_box.dart';
 import './ui/index/index_screen.dart';
 
@@ -11,6 +12,7 @@ void main() async {
   await DotEnv().load('.env');
   await StoryBox().init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // Tmdb.init();
   runApp(MyApp());
 }
 
