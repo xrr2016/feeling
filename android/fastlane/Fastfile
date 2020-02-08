@@ -4,8 +4,26 @@ default_platform(:android)
 
 platform :android do
 
+  lane :beta do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release'
+    )
+
+    upload_to_play_store(
+      rollout: "0.5",
+      track: "beta",
+      aab:"../build/app/outputs/bundle/release/app-release.aab",
+    )
+  end
+
   desc "Submit a new build to Internal Track on Play"
   lane :internal do
+    gradle(
+      task: 'assemble',
+      build_type: 'Test'
+    )
+
     upload_to_play_store(
       rollout: "0.5",
       track: "internal",
