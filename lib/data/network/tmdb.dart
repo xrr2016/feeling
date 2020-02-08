@@ -49,7 +49,7 @@ class Tmdb {
 
       return movies;
     } on DioError catch (err) {
-      throw err;
+      throw Exception('Failed to load movies: ${err.message}');
     }
   }
 }
