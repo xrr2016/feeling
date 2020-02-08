@@ -22,7 +22,7 @@ jobs:
       - run: flutter pub get
       - run: flutter test
       - run: flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --release
-      - name: Create a Release APK
+      - name: Create a Release appbundle
         uses: ncipollo/release-action@v1.5.0
         with:
           artifacts: "/build/app/outputs/bundle/release/app-release.aab"
