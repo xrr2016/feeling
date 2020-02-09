@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 
 import '../../const/api_const.dart';
 
@@ -24,6 +25,10 @@ Dio _createClient() {
     requestHeader: false,
     compact: true,
   ));
+
+  client.interceptors.add(
+    DioCacheManager(CacheConfig(baseUrl: BASE_URL)).interceptor,
+  );
 
   return client;
 }

@@ -39,6 +39,7 @@ dependencies:
   flutter_svg:
   pull_to_refresh: ^1.5.8
   bot_toast: ^2.2.1
+  dio_http_cache: ^0.2.5
 
 dev_dependencies:
   flutter_test:

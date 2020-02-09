@@ -1,5 +1,6 @@
 import 'package:Feeling/data/network/tmdb.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/movie.dart';
@@ -61,6 +62,7 @@ class _IndexHomeState extends State<IndexHome>
       Response response = await apiClient.get(
         '/3/movie/$type',
         queryParameters: {"page": page},
+        options: buildCacheOptions(Duration(days: 1)),
       );
 
       final data = response.data;
