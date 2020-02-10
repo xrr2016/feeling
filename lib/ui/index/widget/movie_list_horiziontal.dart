@@ -22,7 +22,7 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
     final _movies = widget.movies;
 
     return Padding(
-      padding: const EdgeInsets.only(left: 24.0, top: 12.0, bottom: 12.0),
+      padding: const EdgeInsets.only(left: 16.0, top: 12.0, bottom: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
