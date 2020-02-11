@@ -1,3 +1,4 @@
+import 'package:Feeling/ui/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:extended_image/extended_image.dart';
@@ -45,16 +46,12 @@ class _IndexScreenState extends State<IndexScreen> {
     return ChangeNotifierProvider(
       create: (_) => TrendingProvider(),
       child: Container(
-        decoration: BoxDecoration(gradient: Styles.background),
+        decoration: BoxDecoration(gradient: Styles.background4),
         child: Scaffold(
           appBar: AppBar(
             elevation: 0.0,
             centerTitle: false,
             backgroundColor: Colors.transparent,
-            // leading: Container(
-            //   padding: EdgeInsets.only(left: 24.0),
-            //   child: ExtendedImage.asset('assets/images/logo_trans.png'),
-            // ),
             title: Text(AppInfo.name, style: Styles.title),
             actions: <Widget>[
               IconButton(
@@ -62,6 +59,13 @@ class _IndexScreenState extends State<IndexScreen> {
                 icon: const Icon(Icons.search),
                 onPressed: () {
                   showSearch(context: context, delegate: AppSearchDelegate());
+                },
+              ),
+              IconButton(
+                tooltip: 'Setting',
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(SettingScreen.routeName);
                 },
               ),
             ],

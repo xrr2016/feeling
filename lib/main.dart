@@ -1,7 +1,9 @@
+import 'package:Feeling/provider/theme_provider.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 import './routes.dart';
 // import './data/network/tmdb.dart';
@@ -19,14 +21,27 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BotToastInit(
-      child: MaterialApp(
-        title: 'Feeling',
-        theme: ThemeData(fontFamily: 'AlibabaSans'),
-        navigatorObservers: [BotToastNavigatorObserver()],
-        debugShowCheckedModeBanner: false,
-        home: IndexScreen(),
-        routes: routes,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, theme, child) {
+          return BotToastInit(
+            child: MaterialApp(
+              title: 'Feeling',
+              theme: ThemeData(
+                fontFamily: 'AlibabaSans',
+                primarySwatch: theme.color,
+              ),
+              navigatorObservers: [BotToastNavigatorObserver()],
+              debugShowCheckedModeBanner: false,
+              home: child,
+              routes: routes,
+            ),
+          );
+        },
+        child: IndexScreen(),
       ),
     );
   }

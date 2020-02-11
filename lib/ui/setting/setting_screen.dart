@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/theme_provider.dart';
+// import '../../styles.dart';
 
 class SettingScreen extends StatefulWidget {
   static String routeName = '/setting-screen';
@@ -35,7 +36,12 @@ class _SettingScreenState extends State<SettingScreen> {
       child: Column(
         children: <Widget>[
           SizedBox(height: 12.0),
-          ListTile(title: Text('Theme setting')),
+          ListTile(
+            title: Text(
+              'Theme setting',
+              // style: Styles.subTitle,
+            ),
+          ),
           Consumer<ThemeProvider>(
             builder: (_, theme, child) {
               return SizedBox(
@@ -77,6 +83,16 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
               );
             },
+          ),
+          ListTile(
+            title: Text(
+              'Background setting',
+            ),
+          ),
+          ListTile(
+            title: Text(
+              'Language setting',
+            ),
           ),
         ],
       ),
