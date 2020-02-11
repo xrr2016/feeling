@@ -1,3 +1,4 @@
+import 'package:Feeling/provider/background_provider.dart';
 import 'package:Feeling/provider/theme_provider.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider<BackgroundProvider>(
+            create: (_) => BackgroundProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, theme, child) {

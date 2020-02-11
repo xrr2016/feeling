@@ -56,23 +56,19 @@ class Styles {
 
   static TextStyle title = TextStyle(
     fontSize: 28.0,
-    color: Colors.white,
     fontWeight: FontWeight.bold,
   );
 
   static TextStyle subTitle = TextStyle(
     fontSize: 24.0,
-    color: Colors.white,
     fontWeight: FontWeight.bold,
   );
 
   static TextStyle normal = TextStyle(
     fontSize: 20.0,
-    color: Colors.white,
   );
 
   static TextStyle info = TextStyle(
     fontSize: 18.0,
-    color: Colors.white70,
   );
 }

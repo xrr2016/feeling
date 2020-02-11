@@ -1,3 +1,4 @@
+import 'package:Feeling/provider/background_provider.dart';
 import 'package:Feeling/ui/index/view/index_discover.dart';
 import 'package:Feeling/ui/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -51,8 +52,13 @@ class _IndexScreenState extends State<IndexScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => TrendingProvider(),
-      child: Container(
-        decoration: BoxDecoration(gradient: Styles.background4),
+      child: Consumer<BackgroundProvider>(
+        builder: (context, background, child) {
+          return Container(
+            decoration: BoxDecoration(gradient: background.value),
+            child: child,
+          );
+        },
         child: Scaffold(
           appBar: AppBar(
             elevation: 0.0,
