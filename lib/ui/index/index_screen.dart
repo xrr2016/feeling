@@ -1,3 +1,4 @@
+import 'package:Feeling/ui/index/view/index_discover.dart';
 import 'package:Feeling/ui/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,12 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   int _currentTabIndex;
   PageController _pageController;
-  List<Widget> _contents = [IndexHome(), IndexTrending(), IndexMine()];
+  List<Widget> _contents = [
+    IndexHome(),
+    IndexDiscover(),
+    IndexTrending(),
+    IndexMine()
+  ];
 
   void _onPageChanged(int index) {
     setState(() {
@@ -86,6 +92,7 @@ class _IndexScreenState extends State<IndexScreen> {
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white54,
             backgroundColor: Colors.transparent,
+            type: BottomNavigationBarType.fixed,
             currentIndex: _currentTabIndex,
             onTap: (int index) {
               setState(() {
@@ -97,6 +104,10 @@ class _IndexScreenState extends State<IndexScreen> {
               BottomNavigationBarItem(
                 title: Text('home'),
                 icon: Icon(Icons.home),
+              ),
+              BottomNavigationBarItem(
+                title: Text('discover'),
+                icon: Icon(Icons.explore),
               ),
               BottomNavigationBarItem(
                 title: Text('trending'),
