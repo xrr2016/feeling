@@ -84,7 +84,7 @@ class _MovieItemState extends State<MovieItem>
                     Text(
                       widget.movie.title,
                       maxLines: 1,
-                      style: Styles.normal.copyWith(color: Colors.white),
+                      style: Styles.normal,
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 6.0),

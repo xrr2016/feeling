@@ -9,7 +9,7 @@ import '../../utils/screen_size.dart';
 import './provider/trending_provider.dart';
 import '../../styles.dart';
 import './view/index_mine.dart';
-import '../../const/app_info.dart';
+// import '../../const/app_info.dart';
 import './view/index_home.dart';
 import './view/index_trending.dart';
 import '../search/search_delegate.dart';
@@ -30,8 +30,8 @@ class _IndexScreenState extends State<IndexScreen> {
   PageController _pageController;
   List<Widget> _contents = [
     IndexHome(),
-    IndexDiscover(),
-    IndexTrending(),
+    // IndexDiscover(),
+    // IndexTrending(),
     IndexMine()
   ];
 
@@ -40,6 +40,9 @@ class _IndexScreenState extends State<IndexScreen> {
       _currentTabIndex = index;
     });
   }
+
+  List _titles = ['Popular', 'Playing', 'Upcoming', 'Trending', 'Top'];
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -61,10 +64,37 @@ class _IndexScreenState extends State<IndexScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
+            titleSpacing: 0.0,
             elevation: 0.0,
             centerTitle: false,
             backgroundColor: Colors.transparent,
-            title: Text(AppInfo.name, style: Styles.title),
+            title: SizedBox(
+              height: 40.0,
+              child: ListView.builder(
+                padding: EdgeInsets.only(left: 12.0),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: _titles.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      print(index);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 12.0),
+                      child: Text(
+                        _titles[index],
+                        style: _currentIndex == index
+                            ? Styles.subTitle
+                            : Styles.normal.copyWith(
+                                textBaseline: TextBaseline.ideographic,
+                              ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             actions: <Widget>[
               IconButton(
                 tooltip: 'Search',
@@ -96,7 +126,7 @@ class _IndexScreenState extends State<IndexScreen> {
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0.0,
             selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white54,
+            // unselectedItemColor: Colors.white54,
             backgroundColor: Colors.transparent,
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentTabIndex,
@@ -111,14 +141,14 @@ class _IndexScreenState extends State<IndexScreen> {
                 title: Text('home'),
                 icon: Icon(Icons.home),
               ),
-              BottomNavigationBarItem(
-                title: Text('discover'),
-                icon: Icon(Icons.explore),
-              ),
-              BottomNavigationBarItem(
-                title: Text('trending'),
-                icon: Icon(Icons.trending_up),
-              ),
+              // BottomNavigationBarItem(
+              //   title: Text('discover'),
+              //   icon: Icon(Icons.explore),
+              // ),
+              // BottomNavigationBarItem(
+              //   title: Text('trending'),
+              //   icon: Icon(Icons.trending_up),
+              // ),
               BottomNavigationBarItem(
                 title: Text('mine'),
                 icon: Icon(Icons.person),

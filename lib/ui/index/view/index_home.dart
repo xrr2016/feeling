@@ -1,7 +1,11 @@
 import 'package:Feeling/data/network/tmdb.dart';
+import 'package:Feeling/ui/index/provider/trending_provider.dart';
+import 'package:Feeling/ui/index/widget/movie_item.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
@@ -120,95 +124,16 @@ class _IndexHomeState extends State<IndexHome>
     if (_isLoadingData) {
       return Loading();
     } else {
-      return RefreshIndicator(
-        color: Colors.white,
-        backgroundColor: Colors.transparent,
-        onRefresh: () {
-          _isLoadingData = false;
-          _isLoadingMovies = false;
-
-          _popularCurrent = 1;
-          _popularTotal = 1;
-
-          _upcomingCurrent = 1;
-          _upcomingTotal = 1;
-
-          _playingCurrent = 1;
-          _playingTotal = 1;
-
-          _topCurrent = 1;
-          _topTotal = 1;
-
-          setState(() {
-            _popular = [];
-            _upcoming = [];
-            _playing = [];
-            _top = [];
-          });
-
-          return _fetchAllMovies();
+      return Consumer<TrendingProvider>(
+        builder: (context, trending, _) {
+          return Scrollbar(
+            child: ListView.builder(
+              itemExtent: 200.0,
+              itemCount: _popular.length,
+              itemBuilder: (_, int index) => MovieItem(_popular[index]),
+            ),
+          );
         },
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            NotificationListener<ScrollNotification>(
-              child: MovieListHorizontal(_popular, 'Popular'),
-              onNotification: (ScrollNotification scrollInfo) {
-                final metrics = scrollInfo.metrics;
-
-                if (metrics.pixels >= metrics.maxScrollExtent) {
-                  if (_popularCurrent < _popularTotal && !_isLoadingMovies) {
-                    _popularCurrent++;
-                    _getMovies(type: 'popular', page: _popularCurrent);
-                  }
-                }
-                return;
-              },
-            ),
-            NotificationListener<ScrollNotification>(
-              child: MovieListHorizontal(_playing, 'Playing'),
-              onNotification: (ScrollNotification scrollInfo) {
-                final metrics = scrollInfo.metrics;
-
-                if (metrics.pixels >= metrics.maxScrollExtent) {
-                  if (_playingCurrent < _playingTotal && !_isLoadingMovies) {
-                    _playingCurrent++;
-                    _getMovies(type: 'now_playing', page: _playingCurrent);
-                  }
-                }
-                return;
-              },
-            ),
-            NotificationListener<ScrollNotification>(
-              child: MovieListHorizontal(_upcoming, 'Upcoming'),
-              onNotification: (ScrollNotification scrollInfo) {
-                final metrics = scrollInfo.metrics;
-
-                if (metrics.pixels >= metrics.maxScrollExtent) {
-                  if (_upcomingCurrent < _upcomingTotal && !_isLoadingMovies) {
-                    _upcomingCurrent++;
-                    _getMovies(type: 'upcoming', page: _upcomingCurrent);
-                  }
-                }
-                return;
-              },
-            ),
-            NotificationListener<ScrollNotification>(
-              child: MovieListHorizontal(_top, 'Top'),
-              onNotification: (ScrollNotification scrollInfo) {
-                final metrics = scrollInfo.metrics;
-
-                if (metrics.pixels >= metrics.maxScrollExtent) {
-                  if (_topCurrent < _topTotal && !_isLoadingMovies) {
-                    _topCurrent++;
-                    _getMovies(type: 'top_rated', page: _topCurrent);
-                  }
-                }
-                return;
-              },
-            ),
-          ],
-        ),
       );
     }
   }
@@ -216,3 +141,93 @@ class _IndexHomeState extends State<IndexHome>
   @override
   bool get wantKeepAlive => true;
 }
+
+// RefreshIndicator(
+//   color: Colors.white,
+//   backgroundColor: Colors.transparent,
+//   onRefresh: () {
+//     _isLoadingData = false;
+//     _isLoadingMovies = false;
+
+//     _popularCurrent = 1;
+//     _popularTotal = 1;
+
+//     _upcomingCurrent = 1;
+//     _upcomingTotal = 1;
+
+//     _playingCurrent = 1;
+//     _playingTotal = 1;
+
+//     _topCurrent = 1;
+//     _topTotal = 1;
+
+//     setState(() {
+//       _popular = [];
+//       _upcoming = [];
+//       _playing = [];
+//       _top = [];
+//     });
+
+//     return _fetchAllMovies();
+//   },
+// child: ListView(
+// children: <Widget>[
+// NotificationListener<ScrollNotification>(
+//   child: MovieListHorizontal(_popular, 'Popular'),
+//   onNotification: (ScrollNotification scrollInfo) {
+//     final metrics = scrollInfo.metrics;
+
+//     if (metrics.pixels >= metrics.maxScrollExtent) {
+//       if (_popularCurrent < _popularTotal && !_isLoadingMovies) {
+//         _popularCurrent++;
+//         _getMovies(type: 'popular', page: _popularCurrent);
+//       }
+//     }
+//     return;
+//   },
+// ),
+// NotificationListener<ScrollNotification>(
+//   child: MovieListHorizontal(_playing, 'Playing'),
+//   onNotification: (ScrollNotification scrollInfo) {
+//     final metrics = scrollInfo.metrics;
+
+//     if (metrics.pixels >= metrics.maxScrollExtent) {
+//       if (_playingCurrent < _playingTotal && !_isLoadingMovies) {
+//         _playingCurrent++;
+//         _getMovies(type: 'now_playing', page: _playingCurrent);
+//       }
+//     }
+//     return;
+//   },
+// ),
+// NotificationListener<ScrollNotification>(
+//   child: MovieListHorizontal(_upcoming, 'Upcoming'),
+//   onNotification: (ScrollNotification scrollInfo) {
+//     final metrics = scrollInfo.metrics;
+
+//     if (metrics.pixels >= metrics.maxScrollExtent) {
+//       if (_upcomingCurrent < _upcomingTotal && !_isLoadingMovies) {
+//         _upcomingCurrent++;
+//         _getMovies(type: 'upcoming', page: _upcomingCurrent);
+//       }
+//     }
+//     return;
+//   },
+// ),
+// NotificationListener<ScrollNotification>(
+//   child: MovieListHorizontal(_top, 'Top'),
+//   onNotification: (ScrollNotification scrollInfo) {
+//     final metrics = scrollInfo.metrics;
+
+//     if (metrics.pixels >= metrics.maxScrollExtent) {
+//       if (_topCurrent < _topTotal && !_isLoadingMovies) {
+//         _topCurrent++;
+//         _getMovies(type: 'top_rated', page: _topCurrent);
+//       }
+//     }
+//     return;
+//   },
+// ),
+//   ],
+// ),
+// );
