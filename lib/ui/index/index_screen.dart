@@ -1,6 +1,5 @@
-import 'package:Feeling/provider/background_provider.dart';
-import 'package:Feeling/ui/index/view/index_discover.dart';
 import 'package:Feeling/ui/setting/setting_screen.dart';
+import 'package:Feeling/widget/loyout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:extended_image/extended_image.dart';
@@ -55,18 +54,10 @@ class _IndexScreenState extends State<IndexScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => TrendingProvider(),
-      child: Consumer<BackgroundProvider>(
-        builder: (context, background, child) {
-          return Container(
-            decoration: BoxDecoration(gradient: background.value),
-            child: child,
-          );
-        },
+      child: Layout(
         child: Scaffold(
           appBar: AppBar(
-            titleSpacing: 0.0,
             elevation: 0.0,
-            centerTitle: false,
             backgroundColor: Colors.transparent,
             title: SizedBox(
               height: 40.0,
@@ -76,9 +67,11 @@ class _IndexScreenState extends State<IndexScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: _titles.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
+                  return GestureDetector(
                     onTap: () {
-                      print(index);
+                      setState(() {
+                        _currentIndex = index;
+                      });
                     },
                     child: Container(
                       margin: EdgeInsets.only(right: 12.0),
@@ -86,9 +79,8 @@ class _IndexScreenState extends State<IndexScreen> {
                         _titles[index],
                         style: _currentIndex == index
                             ? Styles.subTitle
-                            : Styles.normal.copyWith(
-                                textBaseline: TextBaseline.ideographic,
-                              ),
+                            : Styles.subTitle
+                                .copyWith(fontWeight: FontWeight.w100),
                       ),
                     ),
                   );
@@ -126,7 +118,7 @@ class _IndexScreenState extends State<IndexScreen> {
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0.0,
             selectedItemColor: Colors.white,
-            // unselectedItemColor: Colors.white54,
+            unselectedItemColor: Colors.white54,
             backgroundColor: Colors.transparent,
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentTabIndex,
@@ -139,16 +131,8 @@ class _IndexScreenState extends State<IndexScreen> {
             items: [
               BottomNavigationBarItem(
                 title: Text('home'),
-                icon: Icon(Icons.home),
+                icon: Icon(Icons.explore),
               ),
-              // BottomNavigationBarItem(
-              //   title: Text('discover'),
-              //   icon: Icon(Icons.explore),
-              // ),
-              // BottomNavigationBarItem(
-              //   title: Text('trending'),
-              //   icon: Icon(Icons.trending_up),
-              // ),
               BottomNavigationBarItem(
                 title: Text('mine'),
                 icon: Icon(Icons.person),

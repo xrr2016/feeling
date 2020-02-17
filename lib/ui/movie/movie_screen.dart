@@ -1,3 +1,4 @@
+import 'package:Feeling/widget/loyout.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -150,8 +151,7 @@ class _MovieScreenState extends State<MovieScreen> {
     Movie movie = widget.movie;
     String poster = movie.posterPath ?? movie.backdropPath;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(gradient: Styles.background),
+    return Layout(
       child: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[

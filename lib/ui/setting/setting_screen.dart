@@ -1,4 +1,5 @@
 import 'package:Feeling/provider/background_provider.dart';
+import 'package:Feeling/widget/loyout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,8 +31,7 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Consumer2<ThemeProvider, BackgroundProvider>(
       builder: (context, theme, background, child) {
-        return DecoratedBox(
-          decoration: BoxDecoration(gradient: background.value),
+        return Layout(
           child: Scaffold(
             appBar: AppBar(
               elevation: 0.0,
@@ -135,6 +135,12 @@ class _SettingScreenState extends State<SettingScreen> {
                     'Language setting',
                   ),
                 ),
+                ListTile(
+                  title: Text(
+                    'Dark mode',
+                  ),
+                ),
+                // AboutDialog(),
               ],
             ),
           ),

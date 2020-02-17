@@ -13,16 +13,16 @@ class AppSearchDelegate extends SearchDelegate {
   @override
   String get searchFieldLabel => 'Search movies';
 
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+  // @override
+  // ThemeData appBarTheme(BuildContext context) {
+  //   final ThemeData theme = Theme.of(context);
 
-    return theme.copyWith(
-      primaryColor: Colors.white,
-      primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.black87),
-      primaryColorBrightness: Brightness.light,
-    );
-  }
+  //   return theme.copyWith(
+  //     primaryColor: Colors.white,
+  //     primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.black87),
+  //     primaryColorBrightness: Brightness.light,
+  //   );
+  // }
 
   @override
   Widget buildLeading(BuildContext context) {

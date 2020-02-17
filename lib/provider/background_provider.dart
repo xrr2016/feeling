@@ -1,3 +1,4 @@
+import 'package:Feeling/data/box/setting_box.dart';
 import 'package:flutter/material.dart';
 
 LinearGradient marsParty = LinearGradient(
@@ -45,9 +46,16 @@ LinearGradient backgroundReverse = LinearGradient(
 );
 
 class BackgroundProvider extends ChangeNotifier {
+  BackgroundProvider() {
+    int index = SettingBox.box.get(SettingBox.backgroundIndexKey);
+    if (index != null) {
+      _selectedIndex = index;
+    }
+  }
+
   static List _values = [marsParty, sharpBlues, spikyNaga];
 
-  int _selectedIndex = 0;
+  int _selectedIndex = SettingBox.box.get(SettingBox.backgroundIndexKey);
 
   get selectedIndex => _selectedIndex;
 
@@ -63,6 +71,7 @@ class BackgroundProvider extends ChangeNotifier {
     }
     _selectedIndex = index;
     _value = _values[index];
+    SettingBox.setBackgrountIndex(index);
     notifyListeners();
   }
 }

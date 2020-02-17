@@ -26,8 +26,8 @@ class ThemeProvider extends ChangeNotifier {
 
   get selectedIndex => _selectedIndex;
 
-  get fontColor =>
-      _color.computeLuminance() < 0.5 ? Colors.white : Colors.black;
+  get brightness =>
+      _color.computeLuminance() < 0.5 ? Brightness.dark : Brightness.light;
 
   get backgroundColor => Color(0xfff3f3f3);
 

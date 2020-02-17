@@ -1,3 +1,4 @@
+import 'package:Feeling/data/box/setting_box.dart';
 import 'package:Feeling/provider/background_provider.dart';
 import 'package:Feeling/provider/theme_provider.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -14,6 +15,7 @@ import './ui/index/index_screen.dart';
 void main() async {
   await DotEnv().load('.env');
   await StoryBox().init();
+  await SettingBox().init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // Tmdb.init();
   runApp(MyApp());
@@ -24,9 +26,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(),
+        ),
         ChangeNotifierProvider<BackgroundProvider>(
-            create: (_) => BackgroundProvider()),
+          create: (_) => BackgroundProvider(),
+        ),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, theme, child) {
@@ -36,6 +41,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 fontFamily: 'AlibabaSans',
                 primarySwatch: theme.color,
+                brightness: theme.brightness,
               ),
               navigatorObservers: [BotToastNavigatorObserver()],
               debugShowCheckedModeBanner: false,
