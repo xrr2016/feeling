@@ -1,15 +1,15 @@
 import 'package:Feeling/data/network/tmdb.dart';
 import 'package:Feeling/ui/index/provider/trending_provider.dart';
 import 'package:Feeling/ui/index/widget/movie_item.dart';
+import 'package:Feeling/ui/search/search_delegate.dart';
+import 'package:Feeling/utils/screen_size.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
-import '../widget/movie_list_horiziontal.dart';
 import '../../../data/network/api_client.dart';
 import '../../../data/network/tmdb.dart';
 
@@ -19,7 +19,7 @@ class IndexHome extends StatefulWidget {
 }
 
 class _IndexHomeState extends State<IndexHome>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   Tmdb tmdb = Tmdb();
 
   bool _isLoadingData = false;
@@ -104,38 +104,88 @@ class _IndexHomeState extends State<IndexHome>
     }
   }
 
+  List<String> _titles = ['Popular', 'Playing', 'Upcoming', 'Trending', 'Top'];
+
+  TabController _tabController;
+
   @override
   void initState() {
     super.initState();
-    _getMovies(type: 'popular', page: _popularCurrent);
-    _getMovies(type: 'upcoming', page: _upcomingCurrent);
-    _getMovies(type: 'now_playing', page: _playingCurrent);
-    _getMovies(type: 'top_rated', page: _topCurrent);
+    // _getMovies(type: 'popular', page: _popularCurrent);
+    // _getMovies(type: 'upcoming', page: _upcomingCurrent);
+    // _getMovies(type: 'now_playing', page: _playingCurrent);
+    // _getMovies(type: 'top_rated', page: _topCurrent);
 
     // tmdb.getMovies(query: {"page": 1}).then((value) {
     //   print(value);
     // });
+
+    _tabController = TabController(
+      length: _titles.length,
+      vsync: this,
+      initialIndex: 0,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    if (_isLoadingData) {
-      return Loading();
-    } else {
-      return Consumer<TrendingProvider>(
-        builder: (context, trending, _) {
-          return Scrollbar(
-            child: ListView.builder(
-              itemExtent: 200.0,
-              itemCount: _popular.length,
-              itemBuilder: (_, int index) => MovieItem(_popular[index]),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        elevation: 0.0,
+        title: TabBar(
+          isScrollable: true,
+          indicatorWeight: 1.0,
+          controller: _tabController,
+          indicatorSize: TabBarIndicatorSize.label,
+          tabs: _titles
+              .map(
+                (String name) => Tab(
+                  child: Text(
+                    name,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            tooltip: 'Search',
+            icon: const Icon(Icons.search),
+            onPressed: () => showSearch(
+              context: context,
+              delegate: AppSearchDelegate(),
             ),
-          );
-        },
-      );
-    }
+          ),
+        ],
+        backgroundColor: Colors.transparent,
+      ),
+      // Expanded(
+      //   child: TabBarView(
+      //     controller: _tabController,
+      //     children: _titles.map((String name) => Tab(text: name)).toList(),
+      //   ),
+      // ),
+    );
+
+    // if (_isLoadingData) {
+    //   return Loading();
+    // } else {
+    //   return Consumer<TrendingProvider>(
+    //     builder: (context, trending, _) {
+    //       return Scrollbar(
+    //         child: ListView.builder(
+    //           itemExtent: 200.0,
+    //           itemCount: _popular.length,
+    //           itemBuilder: (_, int index) => MovieItem(_popular[index]),
+    //         ),
+    //       );
+    //     },
+    //   );
+    // }
   }
 
   @override

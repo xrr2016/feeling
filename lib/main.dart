@@ -1,7 +1,6 @@
 import 'package:Feeling/data/box/setting_box.dart';
 import 'package:Feeling/provider/background_provider.dart';
 import 'package:Feeling/provider/theme_provider.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -35,19 +34,16 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, theme, child) {
-          return BotToastInit(
-            child: MaterialApp(
-              title: 'Feeling',
-              theme: ThemeData(
-                fontFamily: 'AlibabaSans',
-                primarySwatch: theme.color,
-                brightness: theme.brightness,
-              ),
-              navigatorObservers: [BotToastNavigatorObserver()],
-              debugShowCheckedModeBanner: false,
-              home: child,
-              routes: routes,
+          return MaterialApp(
+            title: 'Feeling',
+            theme: ThemeData(
+              fontFamily: 'AlibabaSans',
+              primarySwatch: theme.color,
+              brightness: theme.brightness,
             ),
+            debugShowCheckedModeBanner: false,
+            home: child,
+            routes: routes,
           );
         },
         child: IndexScreen(),
