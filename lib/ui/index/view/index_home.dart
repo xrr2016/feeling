@@ -135,21 +135,14 @@ class _IndexHomeState extends State<IndexHome>
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         elevation: 0.0,
+        titleSpacing: 0.0,
         title: TabBar(
           isScrollable: true,
-          indicatorWeight: 1.0,
+          indicatorWeight: 0.5,
           controller: _tabController,
+          labelStyle: TextStyle(fontSize: 22.0),
           indicatorSize: TabBarIndicatorSize.label,
-          tabs: _titles
-              .map(
-                (String name) => Tab(
-                  child: Text(
-                    name,
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                ),
-              )
-              .toList(),
+          tabs: _titles.map((String name) => Tab(text: name)).toList(),
         ),
         actions: <Widget>[
           IconButton(
@@ -163,12 +156,10 @@ class _IndexHomeState extends State<IndexHome>
         ],
         backgroundColor: Colors.transparent,
       ),
-      // Expanded(
-      //   child: TabBarView(
-      //     controller: _tabController,
-      //     children: _titles.map((String name) => Tab(text: name)).toList(),
-      //   ),
-      // ),
+      body: TabBarView(
+        controller: _tabController,
+        children: _titles.map((String name) => Tab(text: name)).toList(),
+      ),
     );
 
     // if (_isLoadingData) {
