@@ -1,25 +1,23 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:Feeling/service/tmdb.dart';
 
 import '../../../model/movie.dart';
-import '../../../data/network/api_client.dart';
 
 class TrendingProvider extends ChangeNotifier {
   String _message = '';
-  int _totalPage = 1;
-  int _currentPage = 1;
-  bool _isLoading = false;
+  String get message => _message;
+
   List<Movie> _movies = [];
+  List<Movie> get movies => _movies;
 
-  get message => _message;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
-  get movies => _movies;
+  int _totalPage = 1;
+  int get totalPage => _totalPage;
 
-  get isLoading => _isLoading;
-
-  get totalPage => _totalPage;
-
-  get currentPage => _currentPage;
+  int _currentPage = 1;
+  int get currentPage => _currentPage;
 
   void setLoading(bool val) {
     _isLoading = val;
@@ -31,15 +29,6 @@ class TrendingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setData(Response response) {
-    final data = response.data;
-    final results = data["results"] as List;
-    _totalPage = data["total_pages"];
-
-    results.forEach((r) => _movies.add(Movie.fromJson(r)));
-    notifyListeners();
-  }
-
   Future loadMoreMovies() async {
     _currentPage++;
 
@@ -48,7 +37,7 @@ class TrendingProvider extends ChangeNotifier {
     }
   }
 
-  Future initTrendingMovies() async {
+  Future refreshTrendingMovies() async {
     _currentPage = 1;
     _totalPage = 1;
     _movies = [];
@@ -57,19 +46,21 @@ class TrendingProvider extends ChangeNotifier {
     await getTrendingMovies();
   }
 
-  Future getTrendingMovies({String time = 'day'}) async {
+  Future getTrendingMovies() async {
     setLoading(true);
-    try {
-      Response response = await apiClient.get(
-        '/3/trending/movie/$time',
-        queryParameters: {"page": _currentPage},
-      );
+    setMessage('');
 
-      setData(response);
-    } on DioError catch (err) {
-      setMessage(err.message);
-    } finally {
-      setLoading(false);
+    final result = await Tmdb.getTrendingMovies(
+      time: 'day',
+      page: _currentPage,
+    );
+    if (result is Map) {
+      _movies = result['movies'];
+      _totalPage = result['total'];
+    } else {
+      setMessage(result);
     }
+    setLoading(false);
+    notifyListeners();
   }
 }

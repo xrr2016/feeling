@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:Feeling/model/movie.dart';
@@ -11,8 +12,8 @@ class Tmdb {
 
   static Dio client = Dio(BaseOptions(
     baseUrl: baseUrl,
-    connectTimeout: 3000,
-    receiveTimeout: 3000,
+    connectTimeout: 10000,
+    receiveTimeout: 10000,
     queryParameters: {
       "api_key": DotEnv().env['TMDB_AUTH_V3'],
     },
@@ -22,16 +23,20 @@ class Tmdb {
     client.interceptors.add(
       PrettyDioLogger(
         error: true,
-        request: false,
-        responseBody: false,
+        request: true,
+        responseBody: true,
         responseHeader: true,
-        requestHeader: false,
+        requestHeader: true,
         compact: true,
       ),
     );
+
+    client.interceptors.add(
+      DioCacheManager(CacheConfig(baseUrl: baseUrl)).interceptor,
+    );
   }
 
-  Future<List<Movie>> getMovies({
+  static Future getMovies({
     String type = 'upcoming',
     Map<String, dynamic> query,
     Options options,
@@ -46,11 +51,44 @@ class Tmdb {
       List<Movie> movies = [];
       final data = response.data;
       final results = data["results"] as List;
+      final int total = data["total_pages"];
       results.forEach((r) => movies.add(Movie.fromJson(r)));
 
-      return movies;
+      return {
+        "movies": movies,
+        "total": total,
+      };
     } on DioError catch (err) {
-      throw Exception('Failed to load movies: ${err.message}');
+      return err.message;
+    }
+  }
+
+  static Future getTrendingMovies({
+    String time = 'day',
+    int page = 1,
+  }) async {
+    try {
+      Response response = await client.get(
+        '/3/trending/movie/$time',
+        queryParameters: {"page": page},
+      );
+
+      List<Movie> movies = [];
+      final data = response.data;
+      final results = data["results"] as List;
+      final int total = data["total_pages"];
+      results.forEach((r) => movies.add(Movie.fromJson(r)));
+
+      return {
+        "movies": movies,
+        "total": total,
+      };
+    } on DioError catch (err) {
+      if (err.type == DioErrorType.CONNECT_TIMEOUT) {
+        return 'Timeout, please try again.';
+      }
+
+      return err.message;
     }
   }
 }

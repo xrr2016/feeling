@@ -1,6 +1,7 @@
 import 'package:Feeling/data/box/setting_box.dart';
 import 'package:Feeling/provider/background_provider.dart';
 import 'package:Feeling/provider/theme_provider.dart';
+import 'package:Feeling/service/tmdb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,7 +17,7 @@ void main() async {
   await StoryBox().init();
   await SettingBox().init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  // Tmdb.init();
+  Tmdb.init();
   runApp(MyApp());
 }
 

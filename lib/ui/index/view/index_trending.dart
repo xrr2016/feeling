@@ -34,62 +34,74 @@ class _IndexTrendingState extends State<IndexTrending>
 
     return Consumer<TrendingProvider>(
       builder: (context, trending, _) {
-        return Stack(
-          fit: StackFit.expand,
+        return Column(
           children: <Widget>[
-            Scrollbar(
-              child: SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
-                enableTwoLevel: true,
-                controller: _refreshController,
-                onRefresh: () async {
-                  await trending.initTrendingMovies();
-                  _refreshController.refreshCompleted();
-                },
-                onLoading: () async {
-                  await trending.loadMoreMovies();
-                  _refreshController.loadComplete();
-                },
-                header: ClassicHeader(
-                  failedIcon: failedIcon,
-                  completeIcon: completeIcon,
-                  idleIcon: idleIcon,
-                  textStyle: textStyle,
-                  releaseIcon: const Icon(Icons.refresh, color: Colors.white),
-                ),
-                footer: ClassicFooter(
-                  failedIcon: failedIcon,
-                  idleIcon: idleIcon,
-                  textStyle: textStyle,
-                  canLoadingIcon:
-                      const Icon(Icons.autorenew, color: Colors.white),
-                ),
-                child: ListView.builder(
-                  itemExtent: 200.0,
-                  itemCount: trending.movies.length,
-                  itemBuilder: (_, int index) =>
-                      MovieItem(trending.movies[index]),
-                ),
-              ),
+            SizedBox(
+              height: 80.0,
             ),
-            trending.isLoading
-                ? Positioned(
-                    top: 0.0,
-                    right: 12.0,
-                    child: Container(
-                      padding: EdgeInsets.all(6.0),
-                      decoration: BoxDecoration(
-                        color: Colors.black45,
-                        borderRadius: BorderRadius.circular(12.0),
+            Expanded(
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Scrollbar(
+                    child: SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      controller: _refreshController,
+                      onRefresh: () async {
+                        await trending.refreshTrendingMovies();
+                        _refreshController.refreshCompleted();
+                      },
+                      onLoading: () async {
+                        await trending.loadMoreMovies();
+                        _refreshController.loadComplete();
+                      },
+                      header: ClassicHeader(
+                        failedIcon: failedIcon,
+                        completeIcon: completeIcon,
+                        idleIcon: idleIcon,
+                        textStyle: textStyle,
+                        releaseIcon:
+                            const Icon(Icons.refresh, color: Colors.white),
                       ),
-                      child: Text(
-                        '${trending.currentPage}/${trending.totalPage}',
-                        style: Styles.info,
+                      footer: ClassicFooter(
+                        failedIcon: failedIcon,
+                        idleIcon: idleIcon,
+                        textStyle: textStyle,
+                        canLoadingIcon:
+                            const Icon(Icons.autorenew, color: Colors.white),
+                      ),
+                      child: ListView.builder(
+                        itemExtent: 200.0,
+                        itemCount: trending.movies.length,
+                        itemBuilder: (_, int index) =>
+                            MovieItem(trending.movies[index]),
                       ),
                     ),
-                  )
-                : Container(),
+                  ),
+                  trending.isLoading
+                      ? Positioned(
+                          top: 0.0,
+                          right: 12.0,
+                          child: Container(
+                            padding: EdgeInsets.all(6.0),
+                            decoration: BoxDecoration(
+                              color: Colors.black45,
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Text(
+                              '${trending.currentPage}/${trending.totalPage}',
+                              style: Styles.info,
+                            ),
+                          ),
+                        )
+                      : Align(
+                          alignment: Alignment.center,
+                          child: Text(trending.message),
+                        ),
+                ],
+              ),
+            ),
           ],
         );
       },

@@ -270,6 +270,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.3"
+  flutter_platform_widgets:
+    dependency: "direct main"
+    description:
+      name: flutter_platform_widgets
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.32.4"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -758,4 +765,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.6.0 <3.0.0"
-  flutter: ">=1.12.1 <2.0.0"
+  flutter: ">=1.12.13+hotfix.2 <2.0.0"
