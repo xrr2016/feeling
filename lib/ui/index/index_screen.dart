@@ -1,14 +1,13 @@
+import 'package:Feeling/ui/index/view/index_trending.dart';
+import 'package:Feeling/ui/search/search_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/screen_size.dart';
 import './provider/trending_provider.dart';
 import '../../widget/loyout.dart';
-import '../../styles.dart';
 import './view/index_mine.dart';
-import '../setting/setting_screen.dart';
 import './view/index_home.dart';
-import '../search/search_delegate.dart';
 
 class IndexScreen extends StatefulWidget {
   final int initPage;
@@ -23,7 +22,7 @@ class _IndexScreenState extends State<IndexScreen>
     with SingleTickerProviderStateMixin {
   int _currentTabIndex;
   PageController _pageController;
-  List<Widget> _contents = [IndexHome(), IndexMine()];
+  List<Widget> _contents = [IndexTrending(), IndexHome(), IndexMine()];
 
   @override
   void initState() {
@@ -100,6 +99,7 @@ class _IndexScreenState extends State<IndexScreen>
           backgroundColor: Colors.transparent,
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0.0,
+            type: BottomNavigationBarType.fixed,
             currentIndex: _currentTabIndex,
             backgroundColor: Colors.transparent,
             onTap: (int index) {
@@ -111,11 +111,26 @@ class _IndexScreenState extends State<IndexScreen>
             items: [
               BottomNavigationBarItem(
                 title: Container(),
+                icon: Icon(Icons.trending_up),
+              ),
+              BottomNavigationBarItem(
+                title: Container(),
                 icon: Icon(Icons.explore),
               ),
               BottomNavigationBarItem(
                 title: Container(),
                 icon: Icon(Icons.person),
+              ),
+              BottomNavigationBarItem(
+                title: Container(),
+                icon: IconButton(
+                  tooltip: 'Search',
+                  icon: const Icon(Icons.search),
+                  onPressed: () => showSearch(
+                    context: context,
+                    delegate: AppSearchDelegate(),
+                  ),
+                ),
               ),
             ],
           ),

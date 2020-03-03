@@ -1,17 +1,9 @@
-import 'package:Feeling/data/network/tmdb.dart';
-import 'package:Feeling/ui/index/provider/trending_provider.dart';
-import 'package:Feeling/ui/index/widget/movie_item.dart';
 import 'package:Feeling/ui/search/search_delegate.dart';
-import 'package:Feeling/utils/screen_size.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../../model/movie.dart';
-import '../../../widget/loading.dart';
 import '../../../data/network/api_client.dart';
-import '../../../data/network/tmdb.dart';
 
 class IndexHome extends StatefulWidget {
   @override
@@ -20,8 +12,6 @@ class IndexHome extends StatefulWidget {
 
 class _IndexHomeState extends State<IndexHome>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
-  Tmdb tmdb = Tmdb();
-
   bool _isLoadingData = false;
   bool _isLoadingMovies = false;
 
@@ -144,16 +134,6 @@ class _IndexHomeState extends State<IndexHome>
           indicatorSize: TabBarIndicatorSize.label,
           tabs: _titles.map((String name) => Tab(text: name)).toList(),
         ),
-        actions: <Widget>[
-          IconButton(
-            tooltip: 'Search',
-            icon: const Icon(Icons.search),
-            onPressed: () => showSearch(
-              context: context,
-              delegate: AppSearchDelegate(),
-            ),
-          ),
-        ],
         backgroundColor: Colors.transparent,
       ),
       body: TabBarView(

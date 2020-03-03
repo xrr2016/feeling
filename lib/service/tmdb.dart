@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-
-import '../../model/movie.dart';
+import 'package:Feeling/model/movie.dart';
 
 class Tmdb {
   static String baseUrl = 'https://api.themoviedb.org/';
@@ -12,7 +11,7 @@ class Tmdb {
 
   static Dio client = Dio(BaseOptions(
     baseUrl: baseUrl,
-    connectTimeout: 20000,
+    connectTimeout: 3000,
     receiveTimeout: 3000,
     queryParameters: {
       "api_key": DotEnv().env['TMDB_AUTH_V3'],
@@ -20,14 +19,16 @@ class Tmdb {
   ));
 
   static void init() {
-    client.interceptors.add(PrettyDioLogger(
-      error: true,
-      request: false,
-      responseBody: false,
-      responseHeader: false,
-      requestHeader: false,
-      compact: true,
-    ));
+    client.interceptors.add(
+      PrettyDioLogger(
+        error: true,
+        request: false,
+        responseBody: false,
+        responseHeader: true,
+        requestHeader: false,
+        compact: true,
+      ),
+    );
   }
 
   Future<List<Movie>> getMovies({
