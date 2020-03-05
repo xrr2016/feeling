@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 // import '../../../model/movie.dart';
 // import '../../../data/network/api_client.dart';
 
-class IndexHome extends StatefulWidget {
+class IndexExplore extends StatefulWidget {
   @override
-  _IndexHomeState createState() => _IndexHomeState();
+  _IndexExploreState createState() => _IndexExploreState();
 }
 
-class _IndexHomeState extends State<IndexHome>
+class _IndexExploreState extends State<IndexExplore>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   // bool _isLoadingData = false;
   // bool _isLoadingMovies = false;

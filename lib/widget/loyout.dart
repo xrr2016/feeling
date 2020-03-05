@@ -13,7 +13,10 @@ class Layout extends StatelessWidget {
       builder: (context, background, child) {
         return DecoratedBox(
           child: child,
-          decoration: BoxDecoration(gradient: background.value),
+          decoration: BoxDecoration(
+            // gradient: background.value,
+            color: Colors.grey[200],
+          ),
         );
       },
       child: child,

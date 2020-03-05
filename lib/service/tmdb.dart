@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,13 +26,21 @@ class Tmdb {
     client.interceptors.add(
       PrettyDioLogger(
         error: true,
-        request: true,
-        responseBody: true,
-        responseHeader: true,
-        requestHeader: true,
+        request: false,
+        responseBody: false,
+        responseHeader: false,
+        requestHeader: false,
         compact: true,
       ),
     );
+
+    // Proxy
+    (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.findProxy = (uri) {
+        return "PROXY 127.0.0.1:1087";
+      };
+    };
 
     client.interceptors.add(
       DioCacheManager(CacheConfig(baseUrl: baseUrl)).interceptor,

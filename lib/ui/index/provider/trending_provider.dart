@@ -4,8 +4,11 @@ import 'package:Feeling/service/tmdb.dart';
 import '../../../model/movie.dart';
 
 class TrendingProvider extends ChangeNotifier {
-  String _message = '';
+  String _message = 'loading';
   String get message => _message;
+
+  String _time = 'day';
+  String get time => _time;
 
   List<Movie> _movies = [];
   List<Movie> get movies => _movies;
@@ -19,6 +22,13 @@ class TrendingProvider extends ChangeNotifier {
   int _currentPage = 1;
   int get currentPage => _currentPage;
 
+  void _clear() {
+    _currentPage = 1;
+    _totalPage = 1;
+    _movies.clear();
+    _isLoading = false;
+  }
+
   void setLoading(bool val) {
     _isLoading = val;
     notifyListeners();
@@ -26,6 +36,13 @@ class TrendingProvider extends ChangeNotifier {
 
   void setMessage(String val) {
     _message = val;
+    notifyListeners();
+  }
+
+  void setTime(String val) async {
+    _time = val;
+    _clear();
+    await getTrendingMovies();
     notifyListeners();
   }
 
@@ -38,24 +55,21 @@ class TrendingProvider extends ChangeNotifier {
   }
 
   Future refreshTrendingMovies() async {
-    _currentPage = 1;
-    _totalPage = 1;
-    _movies = [];
-    _isLoading = false;
+    _clear();
 
     await getTrendingMovies();
   }
 
   Future getTrendingMovies() async {
     setLoading(true);
-    setMessage('');
+    setMessage('loading...');
 
     final result = await Tmdb.getTrendingMovies(
-      time: 'day',
+      time: _time,
       page: _currentPage,
     );
     if (result is Map) {
-      _movies = result['movies'];
+      _movies.addAll(result['movies']);
       _totalPage = result['total'];
     } else {
       setMessage(result);

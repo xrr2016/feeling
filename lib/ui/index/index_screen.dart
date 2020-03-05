@@ -1,13 +1,12 @@
 import 'package:Feeling/ui/index/view/index_trending.dart';
-import 'package:Feeling/ui/search/search_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/screen_size.dart';
 import './provider/trending_provider.dart';
 import '../../widget/loyout.dart';
-import './view/index_mine.dart';
-import './view/index_home.dart';
+import './view/index_story.dart';
+import './view/index_explore.dart';
 
 class IndexScreen extends StatefulWidget {
   final int initPage;
@@ -22,7 +21,7 @@ class _IndexScreenState extends State<IndexScreen>
     with SingleTickerProviderStateMixin {
   int _currentTabIndex;
   PageController _pageController;
-  List<Widget> _contents = [IndexTrending(), IndexHome(), IndexMine()];
+  List<Widget> _contents = [IndexTrending(), IndexExplore(), IndexStory()];
 
   @override
   void initState() {
@@ -97,6 +96,7 @@ class _IndexScreenState extends State<IndexScreen>
             ),
           ),
           backgroundColor: Colors.transparent,
+
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0.0,
             type: BottomNavigationBarType.fixed,
@@ -110,27 +110,16 @@ class _IndexScreenState extends State<IndexScreen>
             },
             items: [
               BottomNavigationBarItem(
-                title: Container(),
+                title: Text('trending'),
                 icon: Icon(Icons.trending_up),
               ),
               BottomNavigationBarItem(
-                title: Container(),
+                title: Text('explore'),
                 icon: Icon(Icons.explore),
               ),
               BottomNavigationBarItem(
-                title: Container(),
+                title: Text('story'),
                 icon: Icon(Icons.person),
-              ),
-              BottomNavigationBarItem(
-                title: Container(),
-                icon: IconButton(
-                  tooltip: 'Search',
-                  icon: const Icon(Icons.search),
-                  onPressed: () => showSearch(
-                    context: context,
-                    delegate: AppSearchDelegate(),
-                  ),
-                ),
               ),
             ],
           ),

@@ -38,8 +38,8 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (_, index) {
                         final Movie movie = _movies[index];
-
-                        return MovieItemVertical(movie, label);
+                        return Container();
+                        // return MovieItemVertical(movie, label);
                       },
                       itemCount: _movies.length,
                     ),

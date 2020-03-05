@@ -13,12 +13,12 @@ import '../../../model/movie.dart';
 import '../../../ui/story/story_screen.dart';
 import '../../../data/box/story_box.dart';
 
-class IndexMine extends StatefulWidget {
+class IndexStory extends StatefulWidget {
   @override
-  _IndexMineState createState() => _IndexMineState();
+  _IndexStoryState createState() => _IndexStoryState();
 }
 
-class _IndexMineState extends State<IndexMine>
+class _IndexStoryState extends State<IndexStory>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;

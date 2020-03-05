@@ -1,10 +1,11 @@
+import 'package:Feeling/ui/index/widget/movie_item_vertical.dart';
+import 'package:Feeling/ui/search/search_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../../styles.dart';
 import '../provider/trending_provider.dart';
-import '../../../ui/index/widget/movie_item.dart';
 
 class IndexTrending extends StatefulWidget {
   @override
@@ -27,18 +28,61 @@ class _IndexTrendingState extends State<IndexTrending>
   Widget build(BuildContext context) {
     super.build(context);
 
-    const failedIcon = const Icon(Icons.error, color: Colors.white);
-    const completeIcon = const Icon(Icons.done, color: Colors.white);
-    const idleIcon = const Icon(Icons.arrow_downward, color: Colors.white);
-    const textStyle = TextStyle(color: Colors.white);
-
     return Consumer<TrendingProvider>(
       builder: (context, trending, _) {
         return Column(
           children: <Widget>[
-            SizedBox(
-              height: 80.0,
+            AppBar(
+              elevation: 0.0,
+              centerTitle: false,
+              title: Row(
+                children: <Widget>[
+                  PopupMenuButton(
+                    child: Text(
+                      trending.time == 'week' ? 'Weekily' : 'Daily',
+                      style: TextStyle(
+                        fontSize: Theme.of(context).textTheme.title.fontSize,
+                      ),
+                    ),
+                    onSelected: (String result) {
+                      setState(() {
+                        trending.setTime(result);
+                      });
+                    },
+                    itemBuilder: (BuildContext context) => [
+                      const PopupMenuItem<String>(
+                        value: "day",
+                        child: Text('Daily'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: "week",
+                        child: Text('Weekily'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 12.0),
+                  Text(
+                    '${trending.currentPage}/${trending.totalPage}',
+                    style: TextStyle(
+                      fontSize: Theme.of(context).textTheme.subtitle.fontSize,
+                    ),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                Center(
+                  child: IconButton(
+                    tooltip: 'Search',
+                    icon: const Icon(Icons.search),
+                    onPressed: () => showSearch(
+                      context: context,
+                      delegate: AppSearchDelegate(),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            SizedBox(height: 12.0),
             Expanded(
               child: Stack(
                 fit: StackFit.expand,
@@ -56,49 +100,24 @@ class _IndexTrendingState extends State<IndexTrending>
                         await trending.loadMoreMovies();
                         _refreshController.loadComplete();
                       },
-                      header: ClassicHeader(
-                        failedIcon: failedIcon,
-                        completeIcon: completeIcon,
-                        idleIcon: idleIcon,
-                        textStyle: textStyle,
-                        releaseIcon:
-                            const Icon(Icons.refresh, color: Colors.white),
-                      ),
-                      footer: ClassicFooter(
-                        failedIcon: failedIcon,
-                        idleIcon: idleIcon,
-                        textStyle: textStyle,
-                        canLoadingIcon:
-                            const Icon(Icons.autorenew, color: Colors.white),
-                      ),
-                      child: ListView.builder(
-                        itemExtent: 200.0,
-                        itemCount: trending.movies.length,
-                        itemBuilder: (_, int index) =>
-                            MovieItem(trending.movies[index]),
-                      ),
+                      child: trending.movies.isEmpty
+                          ? Center(child: Text(trending.message))
+                          : ListView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                              ),
+                              itemCount: trending.movies.length,
+                              itemBuilder: (_, int index) => Column(
+                                children: <Widget>[
+                                  MovieItemVertical(
+                                    movie: trending.movies[index],
+                                  ),
+                                  SizedBox(height: 12.0),
+                                ],
+                              ),
+                            ),
                     ),
                   ),
-                  trending.isLoading
-                      ? Positioned(
-                          top: 0.0,
-                          right: 12.0,
-                          child: Container(
-                            padding: EdgeInsets.all(6.0),
-                            decoration: BoxDecoration(
-                              color: Colors.black45,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Text(
-                              '${trending.currentPage}/${trending.totalPage}',
-                              style: Styles.info,
-                            ),
-                          ),
-                        )
-                      : Align(
-                          alignment: Alignment.center,
-                          child: Text(trending.message),
-                        ),
                 ],
               ),
             ),

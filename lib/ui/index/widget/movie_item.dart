@@ -56,7 +56,6 @@ class _MovieItemState extends State<MovieItem>
           );
         },
         child: Container(
-          height: 200.0,
           padding: EdgeInsets.all(12.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -68,8 +67,6 @@ class _MovieItemState extends State<MovieItem>
                 child: ExtendedImage.network(
                   IMG_PREFIX + poster,
                   cache: true,
-                  width: 120.0,
-                  height: 132.0,
                   fit: BoxFit.cover,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -99,12 +96,7 @@ class _MovieItemState extends State<MovieItem>
                       ],
                     ),
                     Spacer(),
-                    Text(
-                      widget.movie.overview,
-                      maxLines: 3,
-                      style: Styles.info,
-                      overflow: TextOverflow.fade,
-                    ),
+                    Text(widget.movie.releaseDate),
                   ],
                 ),
               )

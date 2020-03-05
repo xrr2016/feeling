@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
             title: 'Feeling',
             theme: ThemeData(
               fontFamily: 'AlibabaSans',
-              primarySwatch: theme.color,
-              brightness: theme.brightness,
+              // primarySwatch: theme.color,
+              // brightness: theme.brightness,
             ),
             debugShowCheckedModeBanner: false,
             home: child,
