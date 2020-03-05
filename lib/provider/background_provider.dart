@@ -5,8 +5,8 @@ LinearGradient marsParty = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xff4776E6),
     Color(0xff8E54E9),
+    Color(0xff4776E6),
   ],
 );
 
@@ -14,8 +14,8 @@ LinearGradient sharpBlues = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xff00c6fb),
     Color(0xff005bea),
+    Color(0xff00c6fb),
   ],
 );
 

@@ -1,12 +1,11 @@
-import 'package:Feeling/ui/index/view/index_trending.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/screen_size.dart';
-import './provider/trending_provider.dart';
 import '../../widget/loyout.dart';
 import './view/index_story.dart';
 import './view/index_explore.dart';
+import 'index_trending/index_trending.dart';
 
 class IndexScreen extends StatefulWidget {
   final int initPage;
@@ -35,94 +34,91 @@ class _IndexScreenState extends State<IndexScreen>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => TrendingProvider(),
-      child: Layout(
-        child: Scaffold(
-          // appBar: AppBar(
-          //   elevation: 0.0,
-          //   backgroundColor: Colors.transparent,
-          //   title: SizedBox(
-          //     height: 40.0,
-          //     child: ListView.builder(
-          //       padding: EdgeInsets.only(left: 12.0),
-          //       shrinkWrap: true,
-          //       scrollDirection: Axis.horizontal,
-          //       itemCount: _titles.length,
-          //       itemBuilder: (context, index) {
-          //         return GestureDetector(
-          //           onTap: () {
-          //             setState(() {
-          //               _currentIndex = index;
-          //             });
-          //           },
-          //           child: Container(
-          //             margin: EdgeInsets.only(right: 12.0),
-          //             child: Text(
-          //               _titles[index],
-          //               style: _currentIndex == index
-          //                   ? Styles.subTitle
-          //                   : Styles.subTitle
-          //                       .copyWith(fontWeight: FontWeight.w100),
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          //   actions: <Widget>[
-          //     IconButton(
-          //       tooltip: 'Search',
-          //       icon: const Icon(Icons.search),
-          //       onPressed: () {
-          //         showSearch(context: context, delegate: AppSearchDelegate());
-          //       },
-          //     ),
-          //     IconButton(
-          //       tooltip: 'Setting',
-          //       icon: const Icon(Icons.settings),
-          //       onPressed: () {
-          //         Navigator.of(context).pushNamed(SettingScreen.routeName);
-          //       },
-          //     ),
-          //   ],
-          // ),
-          body: SizedBox(
-            height: screenHeightExcludingToolbar(context),
-            child: PageView(
-              children: _contents,
-              controller: _pageController,
-              physics: NeverScrollableScrollPhysics(),
-            ),
+    return Layout(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   elevation: 0.0,
+        //   backgroundColor: Colors.transparent,
+        //   title: SizedBox(
+        //     height: 40.0,
+        //     child: ListView.builder(
+        //       padding: EdgeInsets.only(left: 12.0),
+        //       shrinkWrap: true,
+        //       scrollDirection: Axis.horizontal,
+        //       itemCount: _titles.length,
+        //       itemBuilder: (context, index) {
+        //         return GestureDetector(
+        //           onTap: () {
+        //             setState(() {
+        //               _currentIndex = index;
+        //             });
+        //           },
+        //           child: Container(
+        //             margin: EdgeInsets.only(right: 12.0),
+        //             child: Text(
+        //               _titles[index],
+        //               style: _currentIndex == index
+        //                   ? Styles.subTitle
+        //                   : Styles.subTitle
+        //                       .copyWith(fontWeight: FontWeight.w100),
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        //   actions: <Widget>[
+        //     IconButton(
+        //       tooltip: 'Search',
+        //       icon: const Icon(Icons.search),
+        //       onPressed: () {
+        //         showSearch(context: context, delegate: AppSearchDelegate());
+        //       },
+        //     ),
+        //     IconButton(
+        //       tooltip: 'Setting',
+        //       icon: const Icon(Icons.settings),
+        //       onPressed: () {
+        //         Navigator.of(context).pushNamed(SettingScreen.routeName);
+        //       },
+        //     ),
+        //   ],
+        // ),
+        body: SizedBox(
+          height: screenHeightExcludingToolbar(context),
+          child: PageView(
+            children: _contents,
+            controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
           ),
-          backgroundColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.transparent,
 
-          bottomNavigationBar: BottomNavigationBar(
-            elevation: 0.0,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _currentTabIndex,
-            backgroundColor: Colors.transparent,
-            onTap: (int index) {
-              setState(() {
-                _currentTabIndex = index;
-                _pageController.jumpToPage(index);
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                title: Text('trending'),
-                icon: Icon(Icons.trending_up),
-              ),
-              BottomNavigationBarItem(
-                title: Text('explore'),
-                icon: Icon(Icons.explore),
-              ),
-              BottomNavigationBarItem(
-                title: Text('story'),
-                icon: Icon(Icons.person),
-              ),
-            ],
-          ),
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 0.0,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _currentTabIndex,
+          backgroundColor: Colors.transparent,
+          onTap: (int index) {
+            setState(() {
+              _currentTabIndex = index;
+              _pageController.jumpToPage(index);
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              title: Text('trending'),
+              icon: Icon(Icons.trending_up),
+            ),
+            BottomNavigationBarItem(
+              title: Text('explore'),
+              icon: Icon(Icons.explore),
+            ),
+            BottomNavigationBarItem(
+              title: Text('story'),
+              icon: Icon(Icons.person),
+            ),
+          ],
         ),
       ),
     );

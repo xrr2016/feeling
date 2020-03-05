@@ -4,7 +4,9 @@ import 'package:Feeling/service/tmdb.dart';
 import '../../../model/movie.dart';
 
 class TrendingProvider extends ChangeNotifier {
-  String _message = 'loading';
+  bool init = true;
+
+  String _message = '';
   String get message => _message;
 
   String _time = 'day';
@@ -62,7 +64,6 @@ class TrendingProvider extends ChangeNotifier {
 
   Future getTrendingMovies() async {
     setLoading(true);
-    setMessage('loading...');
 
     final result = await Tmdb.getTrendingMovies(
       time: _time,
@@ -75,6 +76,7 @@ class TrendingProvider extends ChangeNotifier {
       setMessage(result);
     }
     setLoading(false);
+    init = false;
     notifyListeners();
   }
 }

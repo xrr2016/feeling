@@ -33,7 +33,7 @@ class MovieItemVertical extends StatelessWidget {
                 shape: BoxShape.rectangle,
                 fit: BoxFit.fitWidth,
                 width: double.infinity,
-                height: 360.0,
+                height: 420.0,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(4.0),
                   topRight: Radius.circular(4.0),
