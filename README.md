@@ -7,12 +7,13 @@
 
 ## Screenshots
 
-
+<div style="display: flex;">
 <img width="375" style="width: 120px;" src="./screenshots/trending.jpg" alt="trending">
 <img width="375" style="width: 120px;" src="./screenshots/explore.jpg" alt="explore">
 <img width="375" style="width: 120px;" src="./screenshots/story.jpg" alt="story">
 <img width="375" style="width: 120px;" src="./screenshots/movie.jpg" alt="movie">
 <img width="375" style="width: 120px;" src="./screenshots/edit.jpg" alt="edit">
+</div>
 
 ## Api
 
