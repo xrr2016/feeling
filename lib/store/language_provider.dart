@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LocaleProvider extends ChangeNotifier {
+class LanguageProvider extends ChangeNotifier {
   static List _languages = ['zh-CN', 'en-US'];
 
   String _language = _languages[0];

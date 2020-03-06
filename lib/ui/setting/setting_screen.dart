@@ -1,10 +1,8 @@
-import 'package:Feeling/provider/background_provider.dart';
+import 'package:Feeling/store/background_provider.dart';
+import 'package:Feeling/store/theme_provider.dart';
 import 'package:Feeling/widget/loyout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../provider/theme_provider.dart';
-// import '../../styles.dart';
 
 class SettingScreen extends StatefulWidget {
   static String routeName = '/setting-screen';

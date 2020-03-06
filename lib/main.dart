@@ -1,7 +1,8 @@
+import 'package:Feeling/const/app_info.dart';
 import 'package:Feeling/data/box/setting_box.dart';
-import 'package:Feeling/provider/background_provider.dart';
-import 'package:Feeling/provider/theme_provider.dart';
 import 'package:Feeling/service/tmdb.dart';
+import 'package:Feeling/store/background_provider.dart';
+import 'package:Feeling/store/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,12 +37,8 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, theme, child) {
           return MaterialApp(
-            title: 'Feeling',
-            theme: ThemeData(
-              fontFamily: 'AlibabaSans',
-              // primarySwatch: theme.color,
-              // brightness: theme.brightness,
-            ),
+            title: AppInfo.title,
+            theme: ThemeData(fontFamily: 'AlibabaSans'),
             debugShowCheckedModeBanner: false,
             home: child,
             routes: routes,

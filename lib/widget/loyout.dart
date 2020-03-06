@@ -1,4 +1,4 @@
-import 'package:Feeling/provider/background_provider.dart';
+import 'package:Feeling/store/background_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
