@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../utils/screen_size.dart';
 import '../../widget/loyout.dart';
-import './view/index_story.dart';
-import './view/index_explore.dart';
+import 'index_explore/index_explore.dart';
+import 'index_story/index_story.dart';
 import 'index_trending/index_trending.dart';
 
 class IndexScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
-import 'package:Feeling/ui/index/widget/movie_item_vertical.dart';
+import 'package:Feeling/ui/index/widget/movie_item_trending.dart';
 import 'package:Feeling/ui/search/search_delegate.dart';
-import 'package:extended_image/extended_image.dart';
+import 'package:Feeling/widget/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -75,47 +75,36 @@ class _IndexTrendingState extends State<IndexTrending>
               ),
               SizedBox(height: 12.0),
               Expanded(
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Scrollbar(
-                      child: SmartRefresher(
-                        enablePullDown: true,
-                        enablePullUp: true,
-                        controller: _refreshController,
-                        onRefresh: () async {
-                          await trending.refreshTrendingMovies();
-                          _refreshController.refreshCompleted();
-                        },
-                        onLoading: () async {
-                          await trending.loadMoreMovies();
-                          _refreshController.loadComplete();
-                        },
-                        child: trending.movies.isEmpty
-                            ? Center(
-                                child: ExtendedImage.asset(
-                                  'assets/images/logo_trans.png',
-                                  width: 32.0,
-                                  height: 32.0,
+                child: Scrollbar(
+                  child: SmartRefresher(
+                    enablePullDown: true,
+                    enablePullUp: true,
+                    controller: _refreshController,
+                    onRefresh: () async {
+                      await trending.refreshTrendingMovies();
+                      _refreshController.refreshCompleted();
+                    },
+                    onLoading: () async {
+                      await trending.loadMoreMovies();
+                      _refreshController.loadComplete();
+                    },
+                    child: trending.movies.isEmpty
+                        ? Center(child: AssetLogo())
+                        : ListView.builder(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
+                            itemCount: trending.movies.length,
+                            itemBuilder: (_, int index) => Column(
+                              children: <Widget>[
+                                MovieItemTrennding(
+                                  movie: trending.movies[index],
                                 ),
-                              )
-                            : ListView.builder(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0,
-                                ),
-                                itemCount: trending.movies.length,
-                                itemBuilder: (_, int index) => Column(
-                                  children: <Widget>[
-                                    MovieItemVertical(
-                                      movie: trending.movies[index],
-                                    ),
-                                    SizedBox(height: 12.0),
-                                  ],
-                                ),
-                              ),
-                      ),
-                    ),
-                  ],
+                                SizedBox(height: 12.0),
+                              ],
+                            ),
+                          ),
+                  ),
                 ),
               ),
             ],

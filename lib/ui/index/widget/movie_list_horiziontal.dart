@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../styles.dart';
-import './movie_item_vertical.dart';
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
 

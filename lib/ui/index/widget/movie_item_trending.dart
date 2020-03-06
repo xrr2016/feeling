@@ -5,11 +5,11 @@ import 'package:extended_image/extended_image.dart';
 import '../../../model/movie.dart';
 import '../../movie/movie_screen.dart';
 
-class MovieItemVertical extends StatelessWidget {
+class MovieItemTrennding extends StatelessWidget {
   final Movie movie;
   final String label;
 
-  const MovieItemVertical({this.movie, this.label});
+  const MovieItemTrennding({this.movie, this.label});
 
   @override
   Widget build(BuildContext context) {
