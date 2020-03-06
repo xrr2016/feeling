@@ -10,7 +10,7 @@ class IndexExplore extends StatefulWidget {
 
 class _IndexExploreState extends State<IndexExplore>
     with SingleTickerProviderStateMixin {
-  List<String> _titles = ['Popular', 'Playing', 'Upcoming', 'Toprate'];
+  List<String> _titles = ['Popular', 'Playing', 'Upcoming', 'Top'];
 
   TabController _tabController;
 

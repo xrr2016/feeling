@@ -6,7 +6,6 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../../styles.dart';
 import '../../../const/feel_emoji.dart';
-import '../../../utils/screen_size.dart';
 import '../../../model/story.dart';
 import '../../../const/api_const.dart';
 import '../../../model/movie.dart';
@@ -28,13 +27,23 @@ class _IndexStoryState extends State<IndexStory>
     super.build(context);
     final int storyIndex = ModalRoute.of(context).settings.arguments ?? 0;
     final storys = Hive.box<Story>(StoryBox.name).values.toList().reversed;
-    double _height = screenHeight(context, dividedBy: 1.8);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        AppBar(
+          title: Text('Story'),
+          elevation: 0.0,
+          centerTitle: false,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        SizedBox(height: 80.0),
         SizedBox(
-          height: _height,
+          height: 600.0,
           child: storys.isNotEmpty
               ? Swiper(
                   loop: false,
@@ -53,17 +62,6 @@ class _IndexStoryState extends State<IndexStory>
                     final svg = asset['svg'];
                     final label = asset['label'];
 
-                    final image = ExtendedImage.network(
-                      IMG_PREFIX_HD + poster,
-                      fit: BoxFit.cover,
-                      cache: true,
-                      height: 250.0,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                    );
-
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
@@ -72,20 +70,47 @@ class _IndexStoryState extends State<IndexStory>
                           ),
                         );
                       },
-                      child: Stack(
-                        fit: StackFit.expand,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          image,
-                          Positioned(
-                            top: 12.0,
-                            right: 12.0,
-                            child: Container(
-                              width: 32.0,
-                              height: 32.0,
-                              child:
-                                  SvgPicture.asset(svg, semanticsLabel: label),
+                          SizedBox(
+                            height: 500.0,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: <Widget>[
+                                ExtendedImage.network(
+                                  IMG_PREFIX_HD + poster,
+                                  fit: BoxFit.cover,
+                                  cache: true,
+                                  height: 250.0,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 12.0,
+                                  right: 12.0,
+                                  child: Container(
+                                    width: 32.0,
+                                    height: 32.0,
+                                    child: SvgPicture.asset(
+                                      svg,
+                                      semanticsLabel: label,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          SizedBox(height: 12.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(story.movie.title),
+                              Text(story.createDate),
+                            ],
+                          )
                         ],
                       ),
                     );
