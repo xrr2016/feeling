@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/screen_size.dart';
 import '../../widget/loyout.dart';
 import 'index_explore/index_explore.dart';
 import 'index_story/index_story.dart';
