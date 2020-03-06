@@ -1,5 +1,7 @@
-import 'package:Feeling/ui/index/index_explore/popular_movies.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import 'explore_movie_list.dart';
 
 class IndexExplore extends StatefulWidget {
   @override
@@ -8,7 +10,7 @@ class IndexExplore extends StatefulWidget {
 
 class _IndexExploreState extends State<IndexExplore>
     with SingleTickerProviderStateMixin {
-  List<String> _titles = ['Popular', 'Playing', 'Upcoming', 'Top'];
+  List<String> _titles = ['Popular', 'Playing', 'Upcoming', 'Toprate'];
 
   TabController _tabController;
 
@@ -24,8 +26,6 @@ class _IndexExploreState extends State<IndexExplore>
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -34,6 +34,8 @@ class _IndexExploreState extends State<IndexExplore>
         title: TabBar(
           isScrollable: true,
           controller: _tabController,
+          dragStartBehavior: DragStartBehavior.start,
+          indicatorSize: TabBarIndicatorSize.label,
           labelStyle:
               TextStyle(fontSize: Theme.of(context).textTheme.title.fontSize),
           tabs: _titles.map((String name) => Tab(text: name)).toList(),
@@ -42,15 +44,12 @@ class _IndexExploreState extends State<IndexExplore>
       body: TabBarView(
         controller: _tabController,
         children: [
-          PopularMovies(),
-          PopularMovies(),
-          PopularMovies(),
-          PopularMovies(),
+          ExploreMovieList(movieType: 'popular'),
+          ExploreMovieList(movieType: 'now_playing'),
+          ExploreMovieList(movieType: 'upcoming'),
+          ExploreMovieList(movieType: 'top_rated'),
         ],
       ),
     );
   }
-
-  // @override
-  // bool get wantKeepAlive => true;
 }

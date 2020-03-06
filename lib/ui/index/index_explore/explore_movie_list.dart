@@ -5,12 +5,16 @@ import 'package:Feeling/widget/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class PopularMovies extends StatefulWidget {
+class ExploreMovieList extends StatefulWidget {
+  final String movieType;
+
+  const ExploreMovieList({@required this.movieType});
+
   @override
-  _PopularMoviesState createState() => _PopularMoviesState();
+  _ExploreMovieListState createState() => _ExploreMovieListState();
 }
 
-class _PopularMoviesState extends State<PopularMovies>
+class _ExploreMovieListState extends State<ExploreMovieList>
     with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController = RefreshController(
     initialRefresh: true,
@@ -21,9 +25,16 @@ class _PopularMoviesState extends State<PopularMovies>
   int _totalPage = 1;
   List<Movie> _movies = [];
 
-  Future _getPopularMovies() async {
+  void _clear() {
+    _currentPage = 1;
+    _totalPage = 1;
+    _movies.clear();
+    _isLoading = false;
+  }
+
+  Future _getMovies() async {
     Map result = await Tmdb.getMovies(
-      type: 'popular',
+      type: widget.movieType,
       query: {'page': _currentPage},
     );
 
@@ -37,7 +48,7 @@ class _PopularMoviesState extends State<PopularMovies>
     _currentPage++;
 
     if (_currentPage < _totalPage && !_isLoading) {
-      await _getPopularMovies();
+      await _getMovies();
     }
   }
 
@@ -54,7 +65,8 @@ class _PopularMoviesState extends State<PopularMovies>
               enablePullUp: true,
               controller: _refreshController,
               onRefresh: () async {
-                await _getPopularMovies();
+                _clear();
+                await _getMovies();
                 _refreshController.refreshCompleted();
               },
               onLoading: () async {
