@@ -4,6 +4,8 @@ import 'package:Feeling/widget/loyout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+enum SingingCharacter { lafayette, jefferson }
+
 class SettingScreen extends StatefulWidget {
   static String routeName = '/setting-screen';
 
@@ -15,6 +17,10 @@ class _SettingScreenState extends State<SettingScreen> {
   int _currentIndex = 0;
 
   int _bgIndex = 0;
+
+// ...
+
+  SingingCharacter _character = SingingCharacter.lafayette;
 
   @override
   void initState() {
@@ -133,12 +139,35 @@ class _SettingScreenState extends State<SettingScreen> {
                     'Language setting',
                   ),
                 ),
-                ListTile(
-                  title: Text(
-                    'Dark mode',
-                  ),
+                Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: const Text('Lafayette'),
+                      leading: Radio(
+                        value: SingingCharacter.lafayette,
+                        groupValue: _character,
+                        onChanged: (SingingCharacter value) {
+                          setState(() {
+                            _character = value;
+                          });
+                        },
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text('Thomas Jefferson'),
+                      leading: Radio(
+                        value: SingingCharacter.jefferson,
+                        groupValue: _character,
+                        onChanged: (SingingCharacter value) {
+                          setState(() {
+                            _character = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                // AboutDialog(),
+                AboutListTile(),
               ],
             ),
           ),

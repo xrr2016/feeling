@@ -35,68 +35,18 @@ class _IndexScreenState extends State<IndexScreen>
   Widget build(BuildContext context) {
     return Layout(
       child: Scaffold(
-        // appBar: AppBar(
-        //   elevation: 0.0,
-        //   backgroundColor: Colors.transparent,
-        //   title: SizedBox(
-        //     height: 40.0,
-        //     child: ListView.builder(
-        //       padding: EdgeInsets.only(left: 12.0),
-        //       shrinkWrap: true,
-        //       scrollDirection: Axis.horizontal,
-        //       itemCount: _titles.length,
-        //       itemBuilder: (context, index) {
-        //         return GestureDetector(
-        //           onTap: () {
-        //             setState(() {
-        //               _currentIndex = index;
-        //             });
-        //           },
-        //           child: Container(
-        //             margin: EdgeInsets.only(right: 12.0),
-        //             child: Text(
-        //               _titles[index],
-        //               style: _currentIndex == index
-        //                   ? Styles.subTitle
-        //                   : Styles.subTitle
-        //                       .copyWith(fontWeight: FontWeight.w100),
-        //             ),
-        //           ),
-        //         );
-        //       },
-        //     ),
-        //   ),
-        //   actions: <Widget>[
-        //     IconButton(
-        //       tooltip: 'Search',
-        //       icon: const Icon(Icons.search),
-        //       onPressed: () {
-        //         showSearch(context: context, delegate: AppSearchDelegate());
-        //       },
-        //     ),
-        //     IconButton(
-        //       tooltip: 'Setting',
-        //       icon: const Icon(Icons.settings),
-        //       onPressed: () {
-        //         Navigator.of(context).pushNamed(SettingScreen.routeName);
-        //       },
-        //     ),
-        //   ],
-        // ),
-        body: SizedBox(
-          height: screenHeightExcludingToolbar(context),
-          child: PageView(
-            children: _contents,
-            controller: _pageController,
-            physics: NeverScrollableScrollPhysics(),
-          ),
+        body: PageView(
+          children: _contents,
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
         ),
         backgroundColor: Colors.transparent,
-
         bottomNavigationBar: BottomNavigationBar(
           elevation: 0.0,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentTabIndex,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black38,
           backgroundColor: Colors.transparent,
           onTap: (int index) {
             setState(() {

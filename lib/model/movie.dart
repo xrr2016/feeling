@@ -75,7 +75,7 @@ class Movie {
         adult: json["adult"],
         overview: json["overview"],
         posterPath: json["poster_path"],
-        popularity: json["popularity"].toDouble(),
+        popularity: json["popularity"]?.toDouble() ?? 0.0,
         mediaType: json["media_type"],
       );
 

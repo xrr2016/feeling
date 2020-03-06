@@ -14,8 +14,7 @@ class Layout extends StatelessWidget {
         return DecoratedBox(
           child: child,
           decoration: BoxDecoration(
-            // gradient: background.values[1],
-            color: Colors.grey[200],
+            gradient: background.values[0],
           ),
         );
       },

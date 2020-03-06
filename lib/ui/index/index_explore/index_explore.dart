@@ -1,3 +1,4 @@
+import 'package:Feeling/utils/screen_size.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -26,30 +27,60 @@ class _IndexExploreState extends State<IndexExplore>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        elevation: 0.0,
-        titleSpacing: 0.0,
-        title: TabBar(
-          isScrollable: true,
-          controller: _tabController,
-          dragStartBehavior: DragStartBehavior.start,
-          indicatorSize: TabBarIndicatorSize.label,
-          labelStyle:
-              TextStyle(fontSize: Theme.of(context).textTheme.title.fontSize),
-          tabs: _titles.map((String name) => Tab(text: name)).toList(),
+    return Column(
+      children: <Widget>[
+        AppBar(
+          elevation: 0.0,
+          titleSpacing: 0.0,
+          backgroundColor: Colors.transparent,
+          title: TabBar(
+            isScrollable: true,
+            controller: _tabController,
+            dragStartBehavior: DragStartBehavior.start,
+            indicatorSize: TabBarIndicatorSize.label,
+            labelStyle:
+                TextStyle(fontSize: Theme.of(context).textTheme.title.fontSize),
+            tabs: _titles.map((String name) => Tab(text: name)).toList(),
+          ),
         ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          ExploreMovieList(movieType: 'popular'),
-          ExploreMovieList(movieType: 'now_playing'),
-          ExploreMovieList(movieType: 'upcoming'),
-          ExploreMovieList(movieType: 'top_rated'),
-        ],
-      ),
+        SizedBox(
+          height: screenHeightExcludingToolbar(context) - 131.0,
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              ExploreMovieList(movieType: 'popular'),
+              ExploreMovieList(movieType: 'now_playing'),
+              ExploreMovieList(movieType: 'upcoming'),
+              ExploreMovieList(movieType: 'top_rated'),
+            ],
+          ),
+        ),
+      ],
     );
+    // Scaffold(
+    //   appBar: AppBar(
+    //     elevation: 0.0,
+    //     titleSpacing: 0.0,
+    //     backgroundColor: Colors.transparent,
+    //     title: TabBar(
+    //       isScrollable: true,
+    //       controller: _tabController,
+    //       dragStartBehavior: DragStartBehavior.start,
+    //       indicatorSize: TabBarIndicatorSize.label,
+    //       labelStyle:
+    //           TextStyle(fontSize: Theme.of(context).textTheme.title.fontSize),
+    //       tabs: _titles.map((String name) => Tab(text: name)).toList(),
+    //     ),
+    //   ),
+    //   body: TabBarView(
+    //     controller: _tabController,
+    //     children: [
+    //       ExploreMovieList(movieType: 'popular'),
+    //       ExploreMovieList(movieType: 'now_playing'),
+    //       ExploreMovieList(movieType: 'upcoming'),
+    //       ExploreMovieList(movieType: 'top_rated'),
+    //     ],
+    //   ),
+    // );
   }
 }

@@ -2,6 +2,7 @@ import 'package:Feeling/const/app_info.dart';
 import 'package:Feeling/data/box/setting_box.dart';
 import 'package:Feeling/service/tmdb.dart';
 import 'package:Feeling/store/background_provider.dart';
+import 'package:Feeling/store/language_provider.dart';
 import 'package:Feeling/store/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,8 +18,8 @@ void main() async {
   await DotEnv().load('.env');
   await StoryBox().init();
   await SettingBox().init();
+  await Tmdb.init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  Tmdb.init();
   runApp(MyApp());
 }
 
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<BackgroundProvider>(
           create: (_) => BackgroundProvider(),
+        ),
+        ChangeNotifierProvider<LanguageProvider>(
+          create: (_) => LanguageProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(

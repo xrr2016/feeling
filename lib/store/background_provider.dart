@@ -14,8 +14,8 @@ LinearGradient sharpBlues = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xff005bea),
     Color(0xff00c6fb),
+    Color(0xff005bea),
   ],
 );
 

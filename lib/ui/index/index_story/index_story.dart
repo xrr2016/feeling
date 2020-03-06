@@ -34,11 +34,14 @@ class _IndexStoryState extends State<IndexStory>
           title: Text('Story'),
           elevation: 0.0,
           centerTitle: false,
+          backgroundColor: Colors.transparent,
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {},
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.settings),
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, SettingScreen.routeName);
+            //   },
+            // ),
           ],
         ),
         SizedBox(height: 80.0),
@@ -100,17 +103,34 @@ class _IndexStoryState extends State<IndexStory>
                                     ),
                                   ),
                                 ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    height: 60.0,
+                                    width: double.infinity,
+                                    color: Colors.black12,
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        Text(
+                                          story.movie.title,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Text(
+                                          story.createDate,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                          SizedBox(height: 12.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(story.movie.title),
-                              Text(story.createDate),
-                            ],
-                          )
                         ],
                       ),
                     );

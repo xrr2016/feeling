@@ -20,6 +20,7 @@ class _ExploreMovieListState extends State<ExploreMovieList>
     initialRefresh: true,
   );
 
+  String _message = '';
   bool _isLoading = false;
   int _currentPage = 1;
   int _totalPage = 1;
@@ -33,15 +34,21 @@ class _ExploreMovieListState extends State<ExploreMovieList>
   }
 
   Future _getMovies() async {
-    Map result = await Tmdb.getMovies(
+    var result = await Tmdb.getMovies(
       type: widget.movieType,
-      query: {'page': _currentPage},
+      page: _currentPage,
     );
 
-    setState(() {
-      _movies.addAll(result['movies']);
-      _totalPage = result['total'];
-    });
+    if (result is Map) {
+      setState(() {
+        _movies.addAll(result['movies']);
+        _totalPage = result['total'];
+      });
+    } else {
+      setState(() {
+        _message = result;
+      });
+    }
   }
 
   Future _loadMoreMovies() async {
@@ -73,16 +80,18 @@ class _ExploreMovieListState extends State<ExploreMovieList>
                 await _loadMoreMovies();
                 _refreshController.loadComplete();
               },
-              child: _movies.isEmpty
+              child: _isLoading
                   ? Center(child: AssetLogo())
-                  : ListView.builder(
-                      itemExtent: 280.0,
-                      padding: const EdgeInsets.all(12.0),
-                      itemCount: _movies.length,
-                      itemBuilder: (_, int index) => MovieItemExplore(
-                        _movies[index],
-                      ),
-                    ),
+                  : _movies.isEmpty
+                      ? Center(child: Text(_message))
+                      : ListView.builder(
+                          itemExtent: 270.0,
+                          padding: const EdgeInsets.all(12.0),
+                          itemCount: _movies.length,
+                          itemBuilder: (_, int index) => MovieItemExplore(
+                            _movies[index],
+                          ),
+                        ),
             ),
           ),
         ),

@@ -37,6 +37,7 @@ class _IndexTrendingState extends State<IndexTrending>
               AppBar(
                 elevation: 0.0,
                 centerTitle: false,
+                backgroundColor: Colors.transparent,
                 title: PopupMenuButton(
                   child: Text(
                     trending.time == 'week' ? 'Weekily' : 'Daily',
@@ -88,22 +89,24 @@ class _IndexTrendingState extends State<IndexTrending>
                       await trending.loadMoreMovies();
                       _refreshController.loadComplete();
                     },
-                    child: trending.movies.isEmpty
+                    child: trending.isLoading
                         ? Center(child: AssetLogo())
-                        : ListView.builder(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                            ),
-                            itemCount: trending.movies.length,
-                            itemBuilder: (_, int index) => Column(
-                              children: <Widget>[
-                                MovieItemTrennding(
-                                  movie: trending.movies[index],
+                        : trending.movies.isEmpty
+                            ? Center(child: Text(trending.message))
+                            : ListView.builder(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0,
                                 ),
-                                SizedBox(height: 12.0),
-                              ],
-                            ),
-                          ),
+                                itemCount: trending.movies.length,
+                                itemBuilder: (_, int index) => Column(
+                                  children: <Widget>[
+                                    MovieItemTrennding(
+                                      movie: trending.movies[index],
+                                    ),
+                                    SizedBox(height: 12.0),
+                                  ],
+                                ),
+                              ),
                   ),
                 ),
               ),
