@@ -99,7 +99,7 @@ class _StoryScreenState extends State<StoryScreen> {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.black12,
-                    Colors.black26,
+                    Colors.black45,
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -129,6 +129,7 @@ class _StoryScreenState extends State<StoryScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Styles.subTitle.copyWith(
+                            color: Colors.white,
                             fontStyle: FontStyle.italic,
                             decoration: TextDecoration.underline,
                           ),
@@ -142,7 +143,12 @@ class _StoryScreenState extends State<StoryScreen> {
                       children: <Widget>[
                         SizedBox(
                           width: 70.0,
-                          child: Text('Feel:', style: Styles.normal),
+                          child: Text(
+                            'Feel:',
+                            style: Styles.normal.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                         SizedBox(width: 6.0),
                         Container(
@@ -225,9 +231,24 @@ class StoryInfoItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(width: 80.0, child: Text(labal, style: Styles.normal)),
+          SizedBox(
+            width: 80.0,
+            child: Text(
+              labal,
+              style: Styles.normal.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ),
           SizedBox(width: 12.0),
-          Expanded(child: Text(content, style: Styles.subTitle)),
+          Expanded(
+            child: Text(
+              content,
+              style: Styles.subTitle.copyWith(
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
       ),
     );

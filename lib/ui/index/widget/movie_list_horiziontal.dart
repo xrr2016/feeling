@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../styles.dart';
-import './movie_item_vertical.dart';
 import '../../../model/movie.dart';
 import '../../../widget/loading.dart';
 
@@ -22,11 +21,11 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
     final _movies = widget.movies;
 
     return Padding(
-      padding: const EdgeInsets.only(left: 24.0, top: 12.0, bottom: 12.0),
+      padding: const EdgeInsets.only(left: 16.0, top: 12.0, bottom: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(label, style: Styles.subTitle.copyWith(color: Colors.white)),
+          Text(label, style: Styles.subTitle),
           SizedBox(height: 24.0),
           SizedBox(
             height: 350.0,
@@ -37,9 +36,7 @@ class _MovieListHorizontalState extends State<MovieListHorizontal> {
                       itemExtent: 192.0,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (_, index) {
-                        final Movie movie = _movies[index];
-
-                        return MovieItemVertical(movie, label);
+                        return Container();
                       },
                       itemCount: _movies.length,
                     ),

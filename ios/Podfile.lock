@@ -1,8 +1,12 @@
 PODS:
+  - devicelocale (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_device_locale (0.0.1):
     - Flutter
   - flutter_webview_plugin (0.0.1):
+    - Flutter
+  - fluttertoast (0.0.2):
     - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -14,9 +18,11 @@ PODS:
     - FMDB (~> 2.7.2)
 
 DEPENDENCIES:
+  - devicelocale (from `.symlinks/plugins/devicelocale/ios`)
   - Flutter (from `Flutter`)
   - flutter_device_locale (from `.symlinks/plugins/flutter_device_locale/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
@@ -25,25 +31,31 @@ SPEC REPOS:
     - FMDB
 
 EXTERNAL SOURCES:
+  devicelocale:
+    :path: ".symlinks/plugins/devicelocale/ios"
   Flutter:
     :path: Flutter
   flutter_device_locale:
     :path: ".symlinks/plugins/flutter_device_locale/ios"
   flutter_webview_plugin:
     :path: ".symlinks/plugins/flutter_webview_plugin/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
+  devicelocale: feebbe5e7a30adb8c4f83185de1b50ff19b44f00
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_device_locale: bd88cfdfdcae58b2a9d5ec05389fd99631c9dca7
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
+  fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
 
 PODFILE CHECKSUM: 27436e8212b5ce63f0f1f3b280598436e06dfee7
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.0

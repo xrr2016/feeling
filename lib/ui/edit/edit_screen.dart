@@ -52,18 +52,29 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 50.0),
-        Text(StoryQuestion.watchDate, style: Styles.subTitle),
+        Text(
+          StoryQuestion.watchDate,
+          style: Styles.subTitle.copyWith(
+            color: Colors.white,
+          ),
+        ),
         SizedBox(height: 50.0),
         Text(
           _watchDate.toString(),
-          style: Styles.title.copyWith(fontSize: 36.0),
+          style: Styles.title.copyWith(
+            fontSize: 36.0,
+            color: Colors.white,
+          ),
         ),
         SizedBox(height: 24.0),
         FlatButton(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             'Change',
-            style: Styles.normal.copyWith(decoration: TextDecoration.underline),
+            style: Styles.normal.copyWith(
+              decoration: TextDecoration.underline,
+              color: Colors.white,
+            ),
           ),
           onPressed: () async {
             DateTime selectedDate = await showDatePicker(
@@ -88,7 +99,12 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 50.0),
-        Text(StoryQuestion.feeling, style: Styles.subTitle),
+        Text(
+          StoryQuestion.feeling,
+          style: Styles.subTitle.copyWith(
+            color: Colors.white,
+          ),
+        ),
         SizedBox(height: 50.0),
         SizedBox(
           width: double.infinity,
@@ -124,7 +140,12 @@ class _EditScreenState extends State<EditScreen> {
                         child: SvgPicture.asset(svg, semanticsLabel: label),
                       ),
                       SizedBox(height: 12.0),
-                      Text(asset['label'], style: Styles.normal),
+                      Text(
+                        asset['label'],
+                        style: Styles.normal.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -140,11 +161,16 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 50.0),
-        Text(StoryQuestion.rate, style: Styles.subTitle),
+        Text(
+          StoryQuestion.rate,
+          style: Styles.subTitle.copyWith(
+            color: Colors.white,
+          ),
+        ),
         SizedBox(height: 50.0),
         Text(
           _rate.toStringAsFixed(1),
-          style: Styles.title.copyWith(fontSize: 36.0),
+          style: Styles.title.copyWith(fontSize: 36.0, color: Colors.white),
         ),
         SizedBox(height: 24.0),
         Slider(
@@ -167,7 +193,8 @@ class _EditScreenState extends State<EditScreen> {
     return Column(
       children: <Widget>[
         SizedBox(height: 60.0),
-        Text(StoryQuestion.review, style: Styles.subTitle),
+        Text(StoryQuestion.review,
+            style: Styles.subTitle.copyWith(color: Colors.white)),
         SizedBox(height: 50.0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),

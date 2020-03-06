@@ -4,11 +4,20 @@ default_platform(:android)
 
 platform :android do
 
+  lane :screenshots do
+    capture_android_screenshots
+    upload_to_play_store
+  end
+
   lane :beta do
-    gradle(
-      task: 'assemble',
-      build_type: 'Release'
-    )
+    # gradle(
+    #   task: "clean"
+    # )
+
+    # gradle(
+    #   task: 'assemble',
+    #   build_type: 'Release'
+    # )
 
     upload_to_play_store(
       rollout: "0.5",
@@ -19,11 +28,6 @@ platform :android do
 
   desc "Submit a new build to Internal Track on Play"
   lane :internal do
-    gradle(
-      task: 'assemble',
-      build_type: 'Test'
-    )
-
     upload_to_play_store(
       rollout: "0.5",
       track: "internal",

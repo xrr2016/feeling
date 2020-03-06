@@ -32,7 +32,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "fun.coldstone.Feeling"
         minSdkVersion 16
         targetSdkVersion 28
@@ -42,12 +41,19 @@ android {
     }
 
     signingConfigs {
-        // release {
-        //     storeFile file(RELEASE_STORE_FILE)
-        //     storePassword RELEASE_STORE_PASSWORD
-        //     keyAlias RELEASE_KEY_ALIAS
-        //     keyPassword RELEASE_KEY_PASSWORD
-        // }
+        release {
+            if (System.getenv()["CI"]) { // CI=true is exported by Codemagic
+                storeFile file(System.getenv()["FCI_BUILD_DIR"] + "/keystore.jks")
+                storePassword System.getenv()["FCI_KEYSTORE_PASSWORD"]
+                keyAlias System.getenv()["FCI_KEY_ALIAS"]
+                keyPassword System.getenv()["FCI_KEY_PASSWORD"]
+            } else {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
+        }
     }
 
     buildTypes {
@@ -55,8 +61,9 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            signingConfig signingConfigs.debug
-            // signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
+
+            minifyEnabled true
         }
     }
 }

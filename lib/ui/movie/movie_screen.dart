@@ -1,7 +1,9 @@
+import 'package:Feeling/widget/loyout.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 
 import '../../data/box/story_box.dart';
@@ -150,8 +152,7 @@ class _MovieScreenState extends State<MovieScreen> {
     Movie movie = widget.movie;
     String poster = movie.posterPath ?? movie.backdropPath;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(gradient: Styles.background),
+    return Layout(
       child: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
@@ -189,7 +190,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     _movieDetail == null
                         ? SizedBox(
                             height: 36.0,
-                            child: CircularProgressIndicator(strokeWidth: 1.0),
+                            child: PlatformCircularProgressIndicator(),
                           )
                         : MovieGenres(_movieDetail.genres),
                     SizedBox(height: 24.0),
@@ -289,7 +290,8 @@ class MovieMeta extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(movie.releaseDate, style: Styles.info),
+            Text(movie.releaseDate,
+                style: Styles.info.copyWith(color: Colors.white)),
           ],
         ),
       ],
@@ -335,6 +337,7 @@ class MovieCompanies extends StatelessWidget {
                   c.name,
                   style: Styles.normal.copyWith(
                     fontStyle: FontStyle.italic,
+                    color: Colors.white,
                   ),
                 ),
               ),
