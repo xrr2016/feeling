@@ -8,11 +8,11 @@
 ## Screenshots
 
 <div style="display: flex;">
-<img width="200" style="width: 120px;" src="./screenshots/trending.jpg" alt="trending">
-<img width="200" style="width: 120px;" src="./screenshots/explore.jpg" alt="explore">
-<img width="200" style="width: 120px;" src="./screenshots/story.jpg" alt="story">
-<img width="200" style="width: 120px;" src="./screenshots/movie.jpg" alt="movie">
-<img width="200" style="width: 120px;" src="./screenshots/edit.jpg" alt="edit">
+<img width="180" style="width: 120px;" src="./screenshots/trending.jpg" alt="trending">
+<img width="180" style="width: 120px;" src="./screenshots/explore.jpg" alt="explore">
+<img width="180" style="width: 120px;" src="./screenshots/story.jpg" alt="story">
+<img width="180" style="width: 120px;" src="./screenshots/movie.jpg" alt="movie">
+<img width="180" style="width: 120px;" src="./screenshots/edit.jpg" alt="edit">
 </div>
 
 ## Api
