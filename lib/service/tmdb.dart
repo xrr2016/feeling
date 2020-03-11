@@ -47,12 +47,12 @@ class Tmdb {
     );
 
     // Proxy
-    (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.findProxy = (uri) {
-        return "PROXY 127.0.0.1:1087";
-      };
-    };
+    // (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    //     (HttpClient client) {
+    //   client.findProxy = (uri) {
+    //     return "PROXY 127.0.0.1:1087";
+    //   };
+    // };
 
     client.interceptors.add(
       DioCacheManager(CacheConfig(baseUrl: baseUrl)).interceptor,

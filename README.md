@@ -2,17 +2,16 @@
 
 [![Codemagic build status](https://api.codemagic.io/apps/5e382b98cb1395ce61fb0fec/5e382b98cb1395ce61fb0feb/status_badge.svg)](https://codemagic.io/apps/5e382b98cb1395ce61fb0fec/5e382b98cb1395ce61fb0feb/latest_build)
 
-
-<img width="200" src="./google-play-badge.png" alt="get on google play" />
+<a href='https://play.google.com/store/apps/details?id=fun.coldstone.Feeling&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="200" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 ## Screenshots
 
 <div style="display: flex;">
-<img width="180" style="width: 120px;" src="./screenshots/trending.jpg" alt="trending">
-<img width="180" style="width: 120px;" src="./screenshots/explore.jpg" alt="explore">
-<img width="180" style="width: 120px;" src="./screenshots/story.jpg" alt="story">
-<img width="180" style="width: 120px;" src="./screenshots/movie.jpg" alt="movie">
-<img width="180" style="width: 120px;" src="./screenshots/edit.jpg" alt="edit">
+<img width="160" style="width: 120px;" src="./screenshots/trending.jpg" alt="trending">
+<img width="160" style="width: 120px;" src="./screenshots/explore.jpg" alt="explore">
+<img width="160" style="width: 120px;" src="./screenshots/story.jpg" alt="story">
+<img width="160" style="width: 120px;" src="./screenshots/movie.jpg" alt="movie">
+<img width="160" style="width: 120px;" src="./screenshots/edit.jpg" alt="edit">
 </div>
 
 ## Api
