@@ -2,7 +2,7 @@
 
 [![Codemagic build status](https://api.codemagic.io/apps/5e382b98cb1395ce61fb0fec/5e382b98cb1395ce61fb0feb/status_badge.svg)](https://codemagic.io/apps/5e382b98cb1395ce61fb0fec/5e382b98cb1395ce61fb0feb/latest_build)
 
-<a href='https://play.google.com/store/apps/details?id=fun.coldstone.Feeling&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="200" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://play.google.com/store/apps/details?id=fun.coldstone.Feeling&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' target="_blank"><img alt='Get it on Google Play' width="200" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 ## Screenshots
 
