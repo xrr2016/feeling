@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:devicelocale/devicelocale.dart';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
